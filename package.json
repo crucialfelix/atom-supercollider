@@ -1,0 +1,19 @@
+{
+  "name": "supercollider",
+  "version": "0.0.0",
+  "description": "SuperCollider development environment for Atom",
+  "repository": "https://github.com/supercollider/supercollider",
+  "homepage": "https://github.com/supercollider/supercollider",
+  "license": "MIT",
+  "engines": {
+    "atom": ">0.50.0"
+  },
+  "dependencies": {
+    "underscore": "1.5.x",
+    "supercolliderjs": "0.3.x"
+  },
+  "main": "./lib/supercollider",
+  "activationEvents": [
+    "supercollider:eval"
+  ]
+}
