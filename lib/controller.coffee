@@ -53,12 +53,17 @@ class Controller
       if fn
         promise.done(fn)
 
+  editorIsSC: ->
+    editor = atom.workspace.getActiveEditor()
+    editor and editor.getGrammar().scopeName is 'source.supercollider'
+
   currentExpression: ->
     editor = atom.workspace.getActiveEditor()
     return unless editor?
     editor.getSelectedText() or editor.getText()
 
   eval: ->
+    return unless @editorIsSC()
     expression = @currentExpression()
 
     doEval = =>
