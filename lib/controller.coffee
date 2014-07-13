@@ -87,3 +87,8 @@ class Controller
 
   # clear
   # recompile
+
+  getPreferences: ->
+    RcFinder = require('rcfinder')
+    prefsFinder = new RcFinder('.supercolliderjs', {})
+    prefsFinder.find(@directory) || {}
