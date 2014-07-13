@@ -95,8 +95,10 @@ class Controller
 
     doEval = =>
       bus = @busForURI(@activeURI)
-      # bus.push "<span class='prompt'>=></span> <pre><code>#{expression}</code></pre>"
-      bus.push "<span class='prompt'>=></span> #{expression}"
+      bus.push "<span class='prompt'>=&gt;</span> <pre><code>#{expression}</code></pre>"
+      # bus.push "<span class='prompt'>=></span> #{expression}"
+      sclang = @sclangs[@activeURI]
+      sclang.write expression
 
     if @activeURI
       doEval()
