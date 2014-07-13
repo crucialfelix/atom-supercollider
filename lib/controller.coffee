@@ -31,6 +31,7 @@ class Controller
         delete @repls[uri]
 
       repl = new Repl(uri, @projectRoot, onClose)
+      @activeRepl = repl
       @repls[uri] = repl
       repl.startSCLang()
       # and must return the window
