@@ -10,10 +10,12 @@
   },
   "dependencies": {
     "underscore": "1.5.x",
-    "supercolliderjs": "0.3.x"
+    "supercolliderjs": "0.3.x",
+    "baconjs": "~0.7.18"
   },
   "main": "./lib/supercollider",
   "activationEvents": [
-    "supercollider:eval"
+    "supercollider:eval",
+    "supercollider:open-post-window"
   ]
 }
