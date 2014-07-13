@@ -24,9 +24,11 @@ class PostWindow extends ScrollView
   getTitle: ->
     "#{@uri}"
 
+  getModel: ->
+
   @content: ->
     @div class: 'post-window', tabindex: -1, =>
-      @div class:"scroll-view", =>
+      @div class:"scroll-view editor editor-colors", =>
         @div outlet:"posts", class:"lines"
 
   addMessage: (text) ->
