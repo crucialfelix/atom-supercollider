@@ -1,16 +1,17 @@
 PostWindow = require './post-window'
 Bacon = require('baconjs')
 url = require('url')
-# SuperColliderJS = require 'supercolliderjs'
-# Session = require './session'
+SuperColliderJS = require 'supercolliderjs'
 
 
 module.exports =
 class Controller
 
   constructor: (@workspaceView, directory) ->
+    @directory = directory.path
     @postWindows = {}
     @busses = {}
+    @sclangs = {}
     @activeURI = null
     @defaultURI = "sclang://localhost:57120"
 
@@ -26,6 +27,8 @@ class Controller
       catch error
         return
       return unless protocol is 'sclang:'
+
+      @startSCLang(uriToOpen)
 
       # returns it
       @createPostWindow(uriToOpen)
@@ -66,6 +69,21 @@ class Controller
       bus = new Bacon.Bus()
       @busses[uri] = bus
     bus
+
+  startSCLang: (uri) ->
+    opts = @getPreferences()
+    opts.stdin = false
+    opts.echo = false
+    sclang = new SuperColliderJS.sclang(opts)
+    sclang.boot()
+
+    bus = @busForURI(uri)
+    sclang.on 'stdout', (d)->
+      bus.push("<pre>#{d}</pre>")
+    sclang.on 'stderr', (d)->
+      bus.push("<pre class='error'>#{d}</pre>")
+
+    @sclangs[uri] = sclang
 
   currentExpression: ->
     editor = atom.workspace.getActiveEditor()
