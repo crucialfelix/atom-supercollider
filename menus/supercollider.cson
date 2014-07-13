@@ -1,0 +1,17 @@
+# See https://atom.io/docs/latest/creating-a-package#menus for more details
+'context-menu':
+  '.overlayer':
+    'SuperCollider: Evaluate selection': 'supercollider:eval'
+
+'menu': [
+  {
+    'label': 'Packages'
+    'submenu': [
+      'label': 'SuperCollider'
+      'submenu': [
+        { 'label': 'Open post window', 'command': 'supercollider:open-post-window' }
+        { 'label': 'Evaluate selection', 'command': 'supercollider:eval' }
+      ]
+    ]
+  }
+]
