@@ -8,14 +8,17 @@ class PostWindow extends ScrollView
   constructor: (@uri, @bus) ->
     super
 
-    # will get a bus
     @bus?.onValue (msg) =>
-      @addMessage(msg)
+      if @destroyed
+        Bacon.More
+      else
+        @addMessage(msg)
 
   serialize: ->
 
   destroy: ->
     @unsubscribe()
+    @destroyed = true
 
   getTitle: ->
     "#{@uri}"
@@ -27,10 +30,6 @@ class PostWindow extends ScrollView
 
   addMessage: (text) ->
     @posts.append "<div>#{text}</div>"
-
-  # showError: (result) ->
-  #   failureMessage = result?.message
-  #   @messages.append "<div class='error'>#{failureMessage}</div>"
 
 # handleEvents: ->
   # @subscribe this, 'core:move-up', => @scrollUp()
