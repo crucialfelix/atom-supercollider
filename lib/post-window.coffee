@@ -10,7 +10,7 @@ class PostWindow extends ScrollView
 
     @bus?.onValue (msg) =>
       if @destroyed
-        Bacon.More
+        Bacon.NoMore
       else
         @addMessage(msg)
 
