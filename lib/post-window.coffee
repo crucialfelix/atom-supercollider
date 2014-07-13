@@ -5,7 +5,7 @@
 module.exports =
 class PostWindow extends ScrollView
 
-  constructor: (@uri, @bus) ->
+  constructor: (@uri, @bus, @onClose) ->
     super
 
     @bus?.onValue (msg) =>
@@ -19,6 +19,7 @@ class PostWindow extends ScrollView
   destroy: ->
     @unsubscribe()
     @destroyed = true
+    @onClose()
 
   getTitle: ->
     "#{@uri}"
