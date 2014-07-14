@@ -1,0 +1,25 @@
+{
+  "name": "supercollider",
+  "version": "0.1.0",
+  "description": "SuperCollider development environment for Atom",
+  "repository": "https://github.com/crucialfelix/atom-supercollider",
+  "homepage": "https://github.com/crucialfelix/atom-supercollider",
+  "license": "MIT",
+  "engines": {
+    "atom": ">0.50.0"
+  },
+  "dependencies": {
+    "underscore": "1.5.x",
+    "supercolliderjs": "0.3.3",
+    "baconjs": "~0.7.18",
+    "rcfinder": "~0.1.8"
+  },
+  "main": "./lib/supercollider",
+  "activationEvents": [
+    "supercollider:eval",
+    "supercollider:open-post-window",
+    "supercollider:open-help-file",
+    "supercollider:recompile",
+    "supercollider:cmd-period"
+  ]
+}

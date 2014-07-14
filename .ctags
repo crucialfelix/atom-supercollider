@@ -1,0 +1,10 @@
+# add this to your ~/.ctags to enable ctag support for supercollider classes and methods
+# symlink quarks and SCClassLibrary into your project directory
+# Install symbol-gen package to easily generate tags with cmd-alt-g
+# then shift-cmd-r will find all classes and methods
+
+--langdef=supercollider
+--langmap=supercollider:.sc
+--regex-supercollider=/^([A-Z]{1}[a-zA-Z0-9_]*) /\1/c,class/
+--regex-supercollider=/^[[:space:]]*(\*[a-z]{1}[a-zA-Z0-9_]*) \{/\1/m,method/
+--regex-supercollider=/^[[:space:]]*([a-z]{1}[a-zA-Z0-9_]*) \{/\1/m,method/
