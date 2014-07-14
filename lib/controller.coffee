@@ -79,7 +79,8 @@ class Controller
       @openPostWindow @defaultURI, doEval
 
   openHelpFile: ->
-    return unless @editorIsSC()
+    unless @editorIsSC()
+      return false
     expression = @currentExpression()
 
     base = null
