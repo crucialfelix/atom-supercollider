@@ -36,7 +36,7 @@ https://supercollider.github.io
 
 Unless you've installed it in a non-standard place, it should find sclang and scsynth and just work.
 
-Open an .scd file in an Atom project and then open a post window (cmd-k)
+Open an .scd file in an Atom project and then open a post window (shift-cmd-k)
 
 See preferences below to set a custom path or to switch between SuperCollider versions
 
@@ -44,15 +44,15 @@ See preferences below to set a custom path or to switch between SuperCollider ve
 
 ### REPL
 
-`cmd-\`       Open post window, boot the language interpreter
+`cmd-\`           Open post window, boot the language interpreter
 
-`cmd-k`       Compile library (open window if needed)
+`shift-cmd-k`     Compile library (open window if needed)
 
-`shift-enter`  Evaluate selection
+`shift-enter`     Evaluate selection
 
-`shift-cmd-k`  Clear post window
+`(not assigned)`  Clear post window
 
-`ctrl-alt-cmd-.`  Panic ! Stop all music
+`cmd-.`           Panic ! Stop all music
 
 You may customize these in your own Keymap file.
 
