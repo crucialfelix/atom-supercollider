@@ -2,6 +2,7 @@
 'context-menu':
   '.overlayer':
     'SuperCollider: Evaluate selection': 'supercollider:eval'
+    'SuperCollider: Open help file': 'supercollider:open-help-file'
 
 'menu': [
   {
