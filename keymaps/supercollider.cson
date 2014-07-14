@@ -8,5 +8,5 @@
 # For more detailed documentation see
 # https://atom.io/docs/latest/advanced/keymaps
 '.workspace':
-  'shift-cmd-p': 'supercollider:open-post-window'
+  'cmd-\\': 'supercollider:open-post-window'
   'shift-enter': 'supercollider:eval'
