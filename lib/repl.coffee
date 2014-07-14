@@ -2,6 +2,8 @@ PostWindow = require './post-window'
 Bacon = require('baconjs')
 url = require('url')
 SuperColliderJS = require 'supercolliderjs'
+RcFinder = require('rcfinder')
+os = require('os')
 
 
 module.exports =
@@ -56,6 +58,15 @@ class Repl
     @postWindow.clearPostWindow()
 
   getPreferences: ->
-    RcFinder = require('rcfinder')
-    prefsFinder = new RcFinder('.supercolliderjs', {})
-    prefsFinder.find(@projectRoot) || {}
+    prefsFinder = new RcFinder('.supercolliderrc', {})
+    opts = prefsFinder.find(@projectRoot)
+    unless opts
+      opts = {}
+      switch os.platform()
+        when 'win32'
+          opts.path = ''
+        when 'darwin'
+          opts.path = "/Applications/SuperCollider/SuperCollider.app/Contents/Resources"
+        else
+          opts.path = '/usr/local/bin'
+    opts
