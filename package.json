@@ -2,7 +2,7 @@
   "name": "supercollider",
   "version": "0.1.0",
   "description": "SuperCollider development environment for Atom",
-  "repository": "https://github.com/crucialfelix/atom-supercollider",
+  "repository": "https://github.com/crucialfelix/atom-supercollider.git",
   "homepage": "https://github.com/crucialfelix/atom-supercollider",
   "license": "MIT",
   "engines": {
