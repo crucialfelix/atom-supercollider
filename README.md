@@ -30,11 +30,15 @@ The latest official release (3.6.6) has some issues still.
 
 ### Installation
 
+Install atom-supercollider
+
+    apm install atom-supercollider
+
 Download and install SuperCollider:
 
 https://supercollider.github.io
 
-Unless you've installed it in a non-standard place, it should find sclang and scsynth and just work.
+Unless you've installed SuperCollider in a non-standard place, then atom-supercollider should find sclang and scsynth and just work.
 
 Open an .scd file in an Atom project and then open a post window (shift-cmd-k)
 
