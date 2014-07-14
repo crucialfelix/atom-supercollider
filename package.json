@@ -17,6 +17,7 @@
   "main": "./lib/supercollider",
   "activationEvents": [
     "supercollider:eval",
-    "supercollider:open-post-window"
+    "supercollider:open-post-window",
+    "supercollider:open-help-file"
   ]
 }

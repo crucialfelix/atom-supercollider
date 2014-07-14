@@ -16,6 +16,8 @@ class Controller
       @openPostWindow(@defaultURI)
     @workspaceView.command "supercollider:eval", =>
       @eval()
+    @workspaceView.command "supercollider:open-help-file", =>
+      @openHelpFile()
 
     # open a REPL for sclang on this host/port
     atom.workspace.registerOpener (uri) =>
@@ -64,7 +66,9 @@ class Controller
 
   eval: ->
     return unless @editorIsSC()
-    expression = @currentExpression()
+    @evalWithRepl(@currentExpression())
+
+  evalWithRepl: (expression) ->
 
     doEval = =>
       @activeRepl.eval(expression)
@@ -73,3 +77,31 @@ class Controller
       doEval()
     else
       @openPostWindow @defaultURI, doEval
+
+  openHelpFile: ->
+    return unless @editorIsSC()
+    expression = @currentExpression()
+
+    base = null
+
+    # Klass.openHelpFile
+    klassy = /^([A-Z]{1}[a-zA-Z0-9\_]*)$/
+    match = expression.match(klassy)
+    if match
+      base = expression
+    else
+      # 'someMethod'.openHelpFile
+      # starts with lowercase has no punctuation, wrap in ''
+      methody = /^([a-zA-Z0-9\_]*)$/
+      match = expression.match(methody)
+      if match
+        base = "'#{expression}'"
+      else
+        # anything else just do a search
+        stringy = /^([^"]+)$/
+        match = expression.match(stringy)
+        if match
+          base = '"' + expression + '"'
+
+    if base
+      @evalWithRepl("#{base}.openHelpFile")

@@ -10,3 +10,9 @@
 '.workspace':
   'cmd-\\': 'supercollider:open-post-window'
   'shift-enter': 'supercollider:eval'
+  # you may add this to your personal keymaps
+  # scope dependant keymaps are an upcoming atom feature
+  # cmd-D is far too popular
+  # cmd-shift-h conflicts with git-plus
+  # cmd-? would be great but cuts off atom's own help system
+  # 'cmd-shift-h': 'supercollider:open-help-file'

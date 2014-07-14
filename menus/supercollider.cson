@@ -10,7 +10,8 @@
       'label': 'SuperCollider'
       'submenu': [
         { 'label': 'Open post window', 'command': 'supercollider:open-post-window' }
-        { 'label': 'Evaluate selection', 'command': 'supercollider:eval' }
+        { 'label': 'Evaluate selection', 'command': 'supercollider:eval' },
+        { 'label': 'Open help file', 'command': 'supercollider:open-help-file' }
       ]
     ]
   }
