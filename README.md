@@ -102,7 +102,7 @@ The help browser will open in a new window.
 To set a custom path to sclang and scsynth create a JSON file in ~/.supercolliderrc
 
     {
-      "path": "/path/to/SuperCollider.app"
+      "path": "/path/to/SuperCollider.app/Contents/Resources"
     }
 
 It will look up the directory tree starting with the current Atom project root. So you can open separate projects that specify different SuperColliders.
@@ -111,7 +111,7 @@ It will look up the directory tree starting with the current Atom project root. 
 
 **OS X**
 
-"/Applications/SuperCollider/SuperCollider.app/Contents/Resources/"
+"/Applications/SuperCollider/SuperCollider.app/Contents/Resources"
 
 **Linux**
 
