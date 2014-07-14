@@ -1,5 +1,5 @@
 {
-  "name": "atom-supercollider",
+  "name": "supercollider",
   "version": "0.0.0",
   "description": "SuperCollider development environment for Atom",
   "repository": "https://github.com/crucialfelix/atom-supercollider.git",
