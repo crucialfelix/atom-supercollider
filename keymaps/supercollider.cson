@@ -10,6 +10,8 @@
 '.workspace':
   'cmd-\\': 'supercollider:open-post-window'
   'shift-enter': 'supercollider:eval'
+  'cmd-k': 'supercollider:recompile'
+  'shift-cmd-k': 'supercollider:clear-post-window'
   # you may add this to your personal keymaps
   # scope dependant keymaps are an upcoming atom feature
   # cmd-D is far too popular

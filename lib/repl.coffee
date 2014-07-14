@@ -44,8 +44,12 @@ class Repl
     @bus.push "<div class='pre in'>#{expression}</div>"
     @sclang.write expression
 
-  # clear
-  # recompile
+  recompile: ->
+    @sclang?.quit()
+    @startSCLang()
+
+  clearPostWindow: ->
+    @postWindow.clearPostWindow()
 
   getPreferences: ->
     RcFinder = require('rcfinder')

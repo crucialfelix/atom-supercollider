@@ -14,6 +14,10 @@ class Controller
   start: ->
     @workspaceView.command "supercollider:open-post-window", =>
       @openPostWindow(@defaultURI)
+    @workspaceView.command "supercollider:clear-post-window", =>
+      @clearPostWindow()
+    @workspaceView.command "supercollider:recompile", =>
+      @recompile()
     @workspaceView.command "supercollider:eval", =>
       @eval()
     @workspaceView.command "supercollider:open-help-file", =>
@@ -54,6 +58,15 @@ class Controller
       promise = atom.workspace.open(uri, split: 'right', searchAllPanes: true)
       if fn
         promise.done(fn)
+
+  clearPostWindow: ->
+    @activeRepl?.clearPostWindow()
+
+  recompile: ->
+    if @activeRepl
+      @activeRepl.recompile()
+    else
+      @openPostWindow(@defaultURI)
 
   editorIsSC: ->
     editor = atom.workspace.getActiveEditor()

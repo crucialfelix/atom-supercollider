@@ -34,3 +34,6 @@ class PostWindow extends ScrollView
 
   addMessage: (text) ->
     @posts.append "<div>#{text}</div>"
+
+  clearPostWindow: ->
+    @posts.empty()

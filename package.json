@@ -18,6 +18,7 @@
   "activationEvents": [
     "supercollider:eval",
     "supercollider:open-post-window",
-    "supercollider:open-help-file"
+    "supercollider:open-help-file",
+    "supercollider:recompile"
   ]
 }
