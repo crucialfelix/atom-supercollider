@@ -18,6 +18,8 @@ class Controller
       @clearPostWindow()
     @workspaceView.command "supercollider:recompile", =>
       @recompile()
+    @workspaceView.command "supercollider:cmd-period", =>
+      @cmdPeriod()
     @workspaceView.command "supercollider:eval", =>
       @eval()
     @workspaceView.command "supercollider:open-help-file", =>
@@ -67,6 +69,9 @@ class Controller
       @activeRepl.recompile()
     else
       @openPostWindow(@defaultURI)
+
+  cmdPeriod: ->
+    @activeRepl?.cmdPeriod()
 
   editorIsSC: ->
     editor = atom.workspace.getActiveEditor()

@@ -48,6 +48,10 @@ class Repl
     @sclang?.quit()
     @startSCLang()
 
+  cmdPeriod: ->
+    # aka panic !
+    @eval("CmdPeriod.run;")
+
   clearPostWindow: ->
     @postWindow.clearPostWindow()
 
