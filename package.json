@@ -10,7 +10,7 @@
   },
   "dependencies": {
     "underscore": "1.5.x",
-    "supercolliderjs": "0.3.x",
+    "supercolliderjs": "0.3.3",
     "baconjs": "~0.7.18",
     "rcfinder": "~0.1.8"
   },
