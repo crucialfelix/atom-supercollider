@@ -30,33 +30,32 @@ The latest official release (3.6.6) has some issues still.
 
 ### Installation
 
-Install atom-supercollider
+Install atom supercollider
 
-    apm install atom-supercollider
+    apm install supercollider
 
 Download and install SuperCollider:
 
 https://supercollider.github.io
 
-Unless you've installed SuperCollider in a non-standard place, then atom-supercollider should find sclang and scsynth and just work.
-
-Open an .scd file in an Atom project and then open a post window (shift-cmd-k)
+Unless you've installed SuperCollider in a non-standard place, then atom supercollider should find sclang and scsynth and just work.
 
 See preferences below to set a custom path or to switch between SuperCollider versions
+
+Open an .scd file in an Atom project and then open a post window (shift-cmd-k)
 
 ---
 
 ### REPL
 
-`cmd-\`           Open post window, boot the language interpreter
+| key              | command                                         |
+| ---------------- | ----------------------------------------------- |
+| `cmd-\`          | Open post window, boot the language interpreter |
+| `shift-cmd-k`    | Compile library (open window if needed)         |
+| `shift-enter`    | Evaluate selection                              |
+|                  | Clear post window                               |
+| `cmd-.`          | Panic ! Stop all music                          |
 
-`shift-cmd-k`     Compile library (open window if needed)
-
-`shift-enter`     Evaluate selection
-
-`(not assigned)`  Clear post window
-
-`cmd-.`           Panic ! Stop all music
 
 You may customize these in your own Keymap file.
 
@@ -105,17 +104,17 @@ To set a custom path to sclang and scsynth create a JSON file in ~/.supercollide
       "path": "/path/to/SuperCollider.app/Contents/Resources"
     }
 
-It will look up the directory tree starting with the current Atom project root. So you can open separate projects that specify different SuperColliders.
+It will search upwards starting with the current Atom project root. So you can set your current project to a custom SuperCollider by placing a .supercolliderrc there
 
 ##### Default paths:
 
 **OS X**
 
-"/Applications/SuperCollider/SuperCollider.app/Contents/Resources"
+`"/Applications/SuperCollider/SuperCollider.app/Contents/Resources"`
 
 **Linux**
 
-"/usr/local/bin"
+`"/usr/local/bin"`
 
 **Windows**
 
