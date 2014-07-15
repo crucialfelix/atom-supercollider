@@ -80,7 +80,12 @@ class Controller
   currentExpression: ->
     editor = atom.workspace.getActiveEditor()
     return unless editor?
-    editor.getSelectedText() or editor.getText()
+    expression = editor.getSelectedText()
+    unless expression
+      row = editor.getCursorScreenRow()
+      if row?
+        expression = editor.lineForBufferRow(row)
+    expression
 
   eval: ->
     return unless @editorIsSC()
