@@ -2,10 +2,17 @@
 
 ## 0.1.0 - it works !
 
-REPL works very well with 3.7
-3.6.6 is a bit janky
+- REPL
+  + works very well with 3.7
+  + 3.6.6 is a bit janky
+- Post window
+- GUI
+- Help browser
+- ctags, lookup symbols
 
-REPL, Post window
-GUI
-Help browser
-ctags, lookup symbols
+
+## 0.1.2
+
+Fixed 3.6.6 repl issues. Some sclang versions seem to need stripping all \n and always appending a \n at the end of the command
+
+Fixed evaluate current line if nothing is selected
