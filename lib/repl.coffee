@@ -42,9 +42,16 @@ class Repl
       @bus.push("<div class='pre error'>#{d}</div>")
 
   eval: (expression) ->
+    if expression.length > 80
+      echo = expression.substr(0, 80) + '...'
+    else
+      echo = expression
     # <span class='prompt'>=&gt;</span>
-    @bus.push "<div class='pre in'>#{expression}</div>"
-    @sclang.write expression
+    @bus.push "<div class='pre in'>#{echo}</div>"
+
+    trimmed = (line.trim() for line in expression.split('\n'))
+    escaped = trimmed.join(' ') + '\n'
+    @sclang.write escaped
 
   recompile: ->
     @sclang?.quit()
