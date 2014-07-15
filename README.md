@@ -22,27 +22,30 @@ SuperCollider Atom is an alternative to the IDE. Atom is free, open source and v
 
 **Status: Beta**
 
-Working splendidly with SuperCollider 3.7 (development build)
-
-The latest official release (3.6.6) has some issues still.
+Working splendidly with SuperCollider 3.7 (development build) and 3.6.6 (latest stable release)
 
 ---
 
 ### Installation
 
-Install atom supercollider
+##### 1. Install this package:
 
     apm install supercollider
 
-Download and install SuperCollider:
+    or do it using Atom's 'Install Packages'
+
+
+##### 2. Download and install SuperCollider:
 
 https://supercollider.github.io
 
-Unless you've installed SuperCollider in a non-standard place, then atom supercollider should find sclang and scsynth and just work.
+##### 3. It should work
 
-See preferences below to set a custom path or to switch between SuperCollider versions
+If you've installed SuperCollider in a non-standard place or have a development build, then create a .supercolliderrc file to specify the path
 
-Open an .scd file in an Atom project and then open a post window (shift-cmd-k)
+See "Preferences" below.
+
+##### 4. Open an .scd file in an Atom project and then open a post window (shift-cmd-k)
 
 ---
 
@@ -52,7 +55,7 @@ Open an .scd file in an Atom project and then open a post window (shift-cmd-k)
 | ---------------- | ----------------------------------------------- |
 | `cmd-\`          | Open post window, boot the language interpreter |
 | `shift-cmd-k`    | Compile library (open window if needed)         |
-| `shift-enter`    | Evaluate selection                              |
+| `shift-enter`    | Evaluate selection or current line              |
 |                  | Clear post window                               |
 | `cmd-.`          | Panic ! Stop all music                          |
 
@@ -62,11 +65,13 @@ You may customize these in your own Keymap file.
 
 ### Lookup classes and methods with `shift-cmd-r`
 
+Lookup is done using Atom's Symbol View which is powered by the venerable ctags
+
 Install ctags if you need to:
 
     brew install ctags
 
-Add this to your ~/.ctags
+Add this support for supercollider to your ~/.ctags
 
     --langdef=supercollider
     --langmap=supercollider:.sc
@@ -78,6 +83,8 @@ Add this to your ~/.ctags
 - Install `symbol-gen` package
 - Regenerate tags with `cmd-alt-g`
 - `shift-cmd-r` will now be able to find all classes and methods
+
+Best practice is to symlink the Extensions and SCClassLibrary into your current project directory. Then all Classes will be indexed and easy to look up.
 
 ### GUI
 
