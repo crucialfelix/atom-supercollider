@@ -92,6 +92,7 @@ class Controller
     @evalWithRepl(@currentExpression())
 
   evalWithRepl: (expression) ->
+    return unless expression
 
     doEval = =>
       @activeRepl.eval(expression)
