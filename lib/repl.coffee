@@ -49,9 +49,10 @@ class Repl
     # <span class='prompt'>=&gt;</span>
     @bus.push "<div class='pre in'>#{echo}</div>"
 
-    trimmed = (line.trim() for line in expression.split('\n'))
-    escaped = trimmed.join(' ') + '\n'
-    @sclang.write escaped
+    escaped = expression.replace(/[\n\r]/g, '__NL__')
+                        .replace(/\"/g, '\\"')
+    command = "\"#{escaped}\".replace(\"__NL__\", Char.nl).interpret;\n"
+    @sclang.write command
 
   recompile: ->
     @sclang?.quit()
