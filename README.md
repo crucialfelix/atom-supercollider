@@ -32,7 +32,7 @@ Working splendidly with SuperCollider 3.7 (development build) and 3.6.6 (latest 
 
     apm install supercollider
 
-    or do it using Atom's 'Install Packages'
+or do it using Atom's 'Install Packages'
 
 
 ##### 2. Download and install SuperCollider:
@@ -83,8 +83,11 @@ Add this support for supercollider to your ~/.ctags
 - Install `symbol-gen` package
 - Regenerate tags with `cmd-alt-g`
 - `shift-cmd-r` will now be able to find all classes and methods
+- Select a classname, `alt-cmd-down_arrow` to go to the definition
 
 Best practice is to symlink the Extensions and SCClassLibrary into your current project directory. Then all Classes will be indexed and easy to look up.
+
+There is also a package called 'goto' that uses the language grammar to generate symbols rather than ctags.  If you do a lot of non-class development then this might be a useful approach. I find it tags too much junk, and I like having just classes and methods in my tags file.
 
 ### GUI
 
