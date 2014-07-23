@@ -41,13 +41,14 @@ class Repl
     @sclang.on 'stderr', (d) =>
       @bus.push("<div class='pre error'>#{d}</div>")
 
-  eval: (expression) ->
-    if expression.length > 80
-      echo = expression.substr(0, 80) + '...'
-    else
-      echo = expression
-    # <span class='prompt'>=&gt;</span>
-    @bus.push "<div class='pre in'>#{echo}</div>"
+  eval: (expression, noecho=false) ->
+    unless noecho
+      if expression.length > 80
+        echo = expression.substr(0, 80) + '...'
+      else
+        echo = expression
+      # <span class='prompt'>=&gt;</span>
+      @bus.push "<div class='pre in'>#{echo}</div>"
 
     escaped = expression.replace(/[\n\r]/g, '__NL__')
                         .replace(/\"/g, '\\"')
@@ -60,7 +61,7 @@ class Repl
 
   cmdPeriod: ->
     # aka panic !
-    @eval("CmdPeriod.run;")
+    @eval("CmdPeriod.run;", true)
 
   clearPostWindow: ->
     @postWindow.clearPostWindow()
