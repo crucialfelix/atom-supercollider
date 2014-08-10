@@ -5,6 +5,7 @@ os = require('os')
 Q = require('q')
 supercolliderjs = require('supercolliderjs')
 escape = require('escape-html')
+rendering = require './rendering'
 
 
 module.exports =
@@ -65,17 +66,17 @@ class Repl
 
     ok = (result) =>
       @bus.push "<div class='pre out'>#{result}</div>"
+
     err = (error) =>
-      msg = (error.error.errorString or error.type)
       stdout = escape(error.error.stdout.trim())
 
-      # msgh = "<div><strong>#{msg}</strong></div>"
-      msgh = ''
-      stdouth = "<div class='pre'>#{stdout}</div>"
+      if classic
+        @bus.push "<div class='error pre'>#{stdout}</div>"
+      else
+        @bus.push rendering.renderError(error, expression)
 
-      @bus.push "<div class='error error-#{error.type}'>#{msgh}#{stdouth}</div>"
-      # dbug = JSON.stringify(error, undefined, 2)
-      # @bus.push "<div class='pre debug'>#{dbug}</div>"
+        dbug = JSON.stringify(error, undefined, 2)
+        @bus.push "<div class='pre debug'>#{dbug}</div>"
 
     @ready.promise.then =>
       unless noecho
