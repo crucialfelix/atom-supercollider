@@ -12,7 +12,8 @@
     "underscore": "1.5.x",
     "supercolliderjs": "0.4.3",
     "baconjs": "~0.7.18",
-    "q": "1.0.x"
+    "q": "1.0.x",
+    "escape-html": "~1.0.1"
   },
   "main": "./lib/supercollider",
   "activationEvents": [

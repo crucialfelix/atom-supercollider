@@ -4,6 +4,7 @@ url = require('url')
 os = require('os')
 Q = require('q')
 supercolliderjs = require('supercolliderjs')
+escape = require('escape-html')
 
 
 module.exports =
@@ -64,10 +65,10 @@ class Repl
       @bus.push "<div class='pre out'>#{result}</div>"
     err = (error) =>
       msg = (error.error.errorString or error.type)
-      stdout = error.error.stdout.trim()
+      stdout = escape(error.error.stdout.trim())
 
-      msgh = "<div><strong>#{msg}</strong></div>"
-      # needs to escape html too
+      # msgh = "<div><strong>#{msg}</strong></div>"
+      msgh = ''
       stdouth = "<div class='pre'>#{stdout}</div>"
 
       @bus.push "<div class='error error-#{error.type}'>#{msgh}#{stdouth}</div>"
