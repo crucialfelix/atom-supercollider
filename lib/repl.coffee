@@ -59,7 +59,7 @@ class Repl
             @sclang.initInterpreter()
               .then(pass, fail)
 
-  eval: (expression, noecho=false, nowExecutingPath) ->
+  eval: (expression, noecho=false, nowExecutingPath=null) ->
 
     ok = (result) =>
       @bus.push "<div class='pre out'>#{result}</div>"

@@ -87,19 +87,24 @@ class Controller
         expression = editor.lineForBufferRow(row)
     expression
 
+  currentPath: ->
+    editor = atom.workspace.getActiveEditor()
+    return unless editor?
+    editor.getPath()
+
   eval: ->
     return unless @editorIsSC()
-    @evalWithRepl(@currentExpression())
+    @evalWithRepl(@currentExpression(), @currentPath())
 
-  evalWithRepl: (expression) ->
+  evalWithRepl: (expression, path) ->
     return unless expression
 
     if @activeRepl
-      @activeRepl.eval(expression)
+      @activeRepl.eval(expression, false, path)
     else
       @openPostWindow(@defaultURI)
         .then () =>
-          @activeRepl.eval(expression)
+          @activeRepl.eval(expression, false, path)
 
   openHelpFile: ->
     unless @editorIsSC()
