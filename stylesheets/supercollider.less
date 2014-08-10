@@ -27,12 +27,49 @@
   font-size: @font-size + 2;
   font-family: @font-family;
 
+  .in, .out, .error {
+    padding-left: 1em;
+    border-left: 2px solid transparent;
+  }
+
   .error {
     color: @text-color-error;
+    strong {
+      display: block;
+      font-size: 1.1em;
+      padding: 3px 0;
+    }
   }
   .in {
     color: @text-color-info;
+    // border-color: fadeout(@text-color-info, 80%);
   }
   .out {
+  }
+  .error {
+    border-color: fadeout(@background-color-error, 60%);
+    padding-left: 1em;
+    margin: 1px 0;
+    color: desaturate(@text-color-error, 60%);
+    strong {
+      color: @text-color-error;
+    }
+  }
+
+  .debug {
+    clear: both;
+    font-size: 11px;
+  }
+
+  .tr {
+    display: block;
+    clear: both;
+  }
+  .th,
+  .td {
+    float: left;
+  }
+  .th {
+    width: 10em;
   }
 }
