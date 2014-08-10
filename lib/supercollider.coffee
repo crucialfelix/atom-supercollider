@@ -2,6 +2,8 @@ Controller = require './controller'
 
 module.exports =
   controller: null
+  configDefaults:
+    classicRepl: true
 
   activate: (state) ->
     @controller = new Controller(

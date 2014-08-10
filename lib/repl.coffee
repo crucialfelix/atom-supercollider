@@ -61,6 +61,8 @@ class Repl
 
   eval: (expression, noecho=false, nowExecutingPath=null) ->
 
+    classic = atom.config.get 'supercollider.classicRepl'
+
     ok = (result) =>
       @bus.push "<div class='pre out'>#{result}</div>"
     err = (error) =>
@@ -85,7 +87,8 @@ class Repl
         @bus.push "<div class='pre in'>#{echo}</div>"
 
       # expression path asString postErrors
-      @sclang.interpret(expression, nowExecutingPath, true, false).then(ok, err)
+      @sclang.interpret(expression, nowExecutingPath, true, classic)
+        .then(ok, err)
 
   recompile: ->
     @sclang?.quit()
