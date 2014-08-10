@@ -1,9 +1,9 @@
-PostWindow = require './post-window'
+PostWindow = require('./post-window')
 Bacon = require('baconjs')
 url = require('url')
-SuperColliderJS = require 'supercolliderjs'
-RcFinder = require('rcfinder')
 os = require('os')
+Q = require('q')
+supercolliderjs = require('supercolliderjs')
 
 
 module.exports =
@@ -11,6 +11,7 @@ class Repl
 
   constructor: (@uri="sclang://localhost:57120", projectRoot, @onClose) ->
     @projectRoot = projectRoot
+    @ready = Q.defer()
 
   stop: ->
     @sclang?.quit()
@@ -30,52 +31,67 @@ class Repl
     @bus = new Bacon.Bus()
 
   startSCLang: () ->
-    opts = @getPreferences()
-    opts.stdin = false
-    opts.echo = false
-    @sclang = new SuperColliderJS.sclang(opts)
-    @sclang.boot()
+    opts =
+      stdin: false
+      echo: false
 
-    @sclang.on 'stdout', (d) =>
-      @bus.push("<div class='pre out'>#{d}</div>")
-    @sclang.on 'stderr', (d) =>
-      @bus.push("<div class='pre error'>#{d}</div>")
+    pass = () =>
+      @ready.resolve()
 
-  eval: (expression, noecho=false) ->
-    unless noecho
-      if expression.length > 80
-        echo = expression.substr(0, 80) + '...'
-      else
-        echo = expression
-      # <span class='prompt'>=&gt;</span>
-      @bus.push "<div class='pre in'>#{echo}</div>"
+    fail = (error) =>
+      @ready.reject()
+      state = @sclang.state
+      @bus.push("<div class='error'>ERROR: #{state}</div>")
 
-    escaped = expression.replace(/[\n\r]/g, '__NL__')
-                        .replace(/\"/g, '\\"')
-    command = "\"#{escaped}\".replace(\"__NL__\", Char.nl).interpret;\n"
-    @sclang.write command
+    # returns a promise chain
+    supercolliderjs.resolveOptions(null, opts)
+      .then (options) =>
+        @sclang = new supercolliderjs.sclang(options)
+
+        @sclang.on 'stdout', (d) =>
+          @bus.push("<div class='pre out'>#{d}</div>")
+        @sclang.on 'stderr', (d) =>
+          @bus.push("<div class='pre error'>#{d}</div>")
+
+        @sclang.boot()
+          .then () =>
+            @sclang.initInterpreter()
+              .then(pass, fail)
+
+  eval: (expression, noecho=false, nowExecutingPath) ->
+
+    ok = (result) =>
+      @bus.push "<div class='pre out'>#{result}</div>"
+    err = (error) =>
+      msg = (error.error.errorString or error.type)
+      stdout = error.error.stdout.trim()
+
+      msgh = "<div><strong>#{msg}</strong></div>"
+      # needs to escape html too
+      stdouth = "<div class='pre'>#{stdout}</div>"
+
+      @bus.push "<div class='error error-#{error.type}'>#{msgh}#{stdouth}</div>"
+      # dbug = JSON.stringify(error, undefined, 2)
+      # @bus.push "<div class='pre debug'>#{dbug}</div>"
+
+    @ready.promise.then =>
+      unless noecho
+        if expression.length > 80
+          echo = expression.substr(0, 80) + '...'
+        else
+          echo = expression
+        # <span class='prompt'>=&gt;</span>
+        @bus.push "<div class='pre in'>#{echo}</div>"
+
+      # expression path asString postErrors
+      @sclang.interpret(expression, nowExecutingPath, true, false).then(ok, err)
 
   recompile: ->
     @sclang?.quit()
     @startSCLang()
 
   cmdPeriod: ->
-    # aka panic !
     @eval("CmdPeriod.run;", true)
 
   clearPostWindow: ->
     @postWindow.clearPostWindow()
-
-  getPreferences: ->
-    prefsFinder = new RcFinder('.supercolliderrc', {})
-    opts = prefsFinder.find(@projectRoot)
-    unless opts
-      opts = {}
-      switch os.platform()
-        when 'win32'
-          opts.path = ''
-        when 'darwin'
-          opts.path = "/Applications/SuperCollider/SuperCollider.app/Contents/Resources"
-        else
-          opts.path = '/usr/local/bin'
-    opts

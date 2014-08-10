@@ -41,9 +41,9 @@ class Controller
       repl = new Repl(uri, @projectRoot, onClose)
       @activeRepl = repl
       @repls[uri] = repl
+      window = repl.createPostWindow()
       repl.startSCLang()
-      # and must return the window
-      repl.createPostWindow()
+      window
 
   stop: ->
     for repl in @repls
@@ -51,15 +51,15 @@ class Controller
     @activeRepl = null
     @repls = {}
 
-  openPostWindow: (uri, fn) ->
+  openPostWindow: (uri) ->
     repl = @repls[uri]
 
     if repl
       @activeRepl = repl
     else
-      promise = atom.workspace.open(uri, split: 'right', searchAllPanes: true)
-      if fn
-        promise.done(fn)
+      atom.workspace.open(uri, split: 'right', searchAllPanes: true)
+        .then () =>
+          @activeRepl = @repls[uri]
 
   clearPostWindow: ->
     @activeRepl?.clearPostWindow()
@@ -94,13 +94,12 @@ class Controller
   evalWithRepl: (expression) ->
     return unless expression
 
-    doEval = =>
-      @activeRepl.eval(expression)
-
     if @activeRepl
-      doEval()
+      @activeRepl.eval(expression)
     else
-      @openPostWindow @defaultURI, doEval
+      @openPostWindow(@defaultURI)
+        .then () =>
+          @activeRepl.eval(expression)
 
   openHelpFile: ->
     unless @editorIsSC()
