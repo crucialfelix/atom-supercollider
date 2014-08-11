@@ -62,7 +62,7 @@ class Repl
 
   eval: (expression, noecho=false, nowExecutingPath=null) ->
 
-    classic = atom.config.get 'supercollider.classicRepl'
+    classic = atom.config.get 'atom-supercollider.classicRepl'
 
     ok = (result) =>
       @bus.push "<div class='pre out'>#{result}</div>"
