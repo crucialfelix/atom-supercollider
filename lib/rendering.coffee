@@ -57,55 +57,68 @@ formatFile = (obj) ->
   else
     ''
 
+errorClassRe = /^Meta_[a-zA-Z]+Error$/
+
+shouldSkipFrame = (frame) ->
+  if frame.type is 'Method' and frame.method is 'new'
+    if errorClassRe.exec(frame.class)
+      return true
+  return false
+
 formatBacktrace = (bt) ->
   lines = []
   for frame in bt
-    if frame.type is "Method"
-      method = formatMethod(frame)
-      file = formatFile(frame)
-      line = """
-        <div class="bt-name">
-          #{method} <span class="frame-address">#{frame.address}</span>
-        </div>
-        <div class="bt-link">#{file}</div>
-      """
-    else
-
-      line = """
-        <div class="bt-name">
-          a Function <span class="frame-address">#{frame.address}</span>
-        </div>
-      """
-      if frame.context
-        method = formatMethod(frame.context)
-        file = formatFile(frame.context)
-        line += """
-          <div>defined in #{method}</div>
+    unless shouldSkipFrame(frame)
+      if frame.type is "Method"
+        method = formatMethod(frame)
+        file = formatFile(frame)
+        line = """
+          <div class="bt-name">
+            #{method} <span class="frame-address">#{frame.address}</span>
+          </div>
           <div class="bt-link">#{file}</div>
         """
-      # else it in the intepreter context
-      # either the file you ran it from
-      # or another nowExecutingPath
+      else
 
-      if frame.source
-        line += """<div class="pre source-code">#{frame.source}</div>"""
+        line = """
+          <div class="bt-name">
+            a Function <span class="frame-address">#{frame.address}</span>
+          </div>
+        """
+        if frame.context
+          method = formatMethod(frame.context)
+          file = formatFile(frame.context)
+          line += """
+            <div>defined in #{method}</div>
+            <div class="bt-link">#{file}</div>
+          """
+        # else
+        #   line += "<div>in path #{nowExecutingPath}</div>"
+        # else it in the intepreter context
+        # either the file you ran it from
+        # or another nowExecutingPath
 
-    if frame.args
-      line += """<h5>Args</h5>"""
-      argCss = "variable parameter function supercollider"
-      for arg in frame.args
-        line += row("<span class='#{argCss}'>#{arg.name}</span>",
-          formatObj(arg.value))
+        if frame.source
+          srcCss = "pre supercollider source source-code"
+          line += """<div class="#{srcCss}">#{frame.source}</div>"""
 
-    if frame.vars
-      line += """<h5>Vars</h5>"""
-      varCss = "keyword control supercollider"
-      for arg in frame.vars
-        line += row("<span class='#{varCss}'>#{arg.name}</span>",
-          formatObj(arg.value))
+      if frame.args
+        line += """<h5>Args</h5>"""
+        argCss = "variable parameter function supercollider"
+        for arg in frame.args
+          line += row("<span class='#{argCss}'>#{arg.name}</span>",
+            formatObj(arg.value))
 
-    ll = "<div class='bt-line'>#{line}</div>"
-    lines.push(ll)
+      if frame.vars
+        line += """<h5>Vars</h5>"""
+        varCss = "keyword control supercollider"
+        for arg in frame.vars
+          line += row("<span class='#{varCss}'>#{arg.name}</span>",
+            formatObj(arg.value))
+
+      ll = "<div class='bt-line'>#{line}</div>"
+      lines.push(ll)
+
   joined = lines.join('')
   "<div class='bt'><h3>Backtrace</h3>#{joined}</div>"
 
