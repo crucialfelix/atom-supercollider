@@ -87,8 +87,8 @@ class Repl
         # <span class='prompt'>=&gt;</span>
         @bus.push "<div class='pre in'>#{echo}</div>"
 
-      # expression path asString postErrors
-      @sclang.interpret(expression, nowExecutingPath, true, classic)
+      # expression path asString postErrors getBacktrace
+      @sclang.interpret(expression, nowExecutingPath, true, classic, !classic)
         .then(ok, err)
 
   recompile: ->
