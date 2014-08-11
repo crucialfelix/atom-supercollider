@@ -15,6 +15,7 @@ cssClass =
   True: "keyword control"
   False: "keyword control"
   Nil: "keyword control"
+  Class: "entity name class"
 
 noShowClasses = [
   'True'
@@ -23,7 +24,12 @@ noShowClasses = [
 ]
 
 showClass = (obj) ->
+  # skip if
+  # class in Nil False True
+  # if "an Interpreter"
   if obj.class in noShowClasses
+    return false
+  if isMetaClass(obj.class)
     return false
   re = new RegExp("(a|an) #{obj.class}")
   if re.exec(obj.asString)
@@ -31,13 +37,12 @@ showClass = (obj) ->
   return true
 
 formatObj = (obj) ->
-  # if class Nil False True then skip class
-  # if an Interpreter then skip class
   if showClass obj
     klass = formatClass(obj.class)
   else
     klass = ''
-  css = cssClass[obj.class] or ''
+  classAs = if isMetaClass(obj.class) then 'Class' else obj.class
+  css = cssClass[classAs] or ''
   if css
     css += " supercollider"
   """
@@ -49,13 +54,17 @@ formatClass = (className) ->
 
 formatMethod = (obj) ->
   klass = formatClass(obj.class)
-  """#{klass}:<span class="method">#{obj.method}</span>"""
+  star = if isMetaClass(obj.class) then '*' else ''
+  """#{klass}:<span class="method">#{star}#{obj.method}</span>"""
 
 formatFile = (obj) ->
   if obj.file
     """<span class="file">#{obj.file}:#{obj.charPos}</span>"""
   else
     ''
+
+isMetaClass = (className) ->
+  return /Meta_/.exec(className)
 
 errorClassRe = /^Meta_[a-zA-Z]+Error$/
 
@@ -99,15 +108,23 @@ formatBacktrace = (bt) ->
         # or another nowExecutingPath
 
         if frame.source
-          srcCss = "pre supercollider source source-code"
+          srcCss = "supercollider source"
           line += """<div class="#{srcCss}">#{frame.source}</div>"""
 
       if frame.args
         line += """<h5>Args</h5>"""
         argCss = "variable parameter function supercollider"
         for arg in frame.args
+          formattedVal = formatObj(arg.value)
+          if arg.value.class is "Function"
+            # append sourceCode and context
+            formattedVal = "<div>#{formattedVal}</div>"
+            if arg.value.sourceCode
+              formattedVal += """
+                <div class="pre source">#{arg.value.sourceCode}</div>
+              """
           line += row("<span class='#{argCss}'>#{arg.name}</span>",
-            formatObj(arg.value))
+            formattedVal)
 
       if frame.vars
         line += """<h5>Vars</h5>"""
@@ -120,7 +137,7 @@ formatBacktrace = (bt) ->
       lines.push(ll)
 
   joined = lines.join('')
-  "<div class='bt'><h3>Backtrace</h3>#{joined}</div>"
+  "<div class='bt'>#{joined}</div>"
 
 renderError = (err, expression) ->
   error = err.error
