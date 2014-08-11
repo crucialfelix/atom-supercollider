@@ -4,7 +4,7 @@
 // for a full listing of what's available.
 @import "ui-variables";
 
-@bt-background:  @tool-panel-background-color;
+@bt-background:  fadeout(@tool-panel-background-color, 80%);
 @bt-border-color: @base-border-color;
 
 //@pane-item-border-color;
@@ -69,8 +69,8 @@
   .error-Error,
   .error-SyntaxError {
     border: 1px solid fadeout(@background-color-error, 80%);
-    border-radius: @component-border-radius;
-    padding-bottom: @component-padding;
+    border-radius: @component-border-radius + 2;
+    // padding-bottom: @component-padding;
   }
 
   .debug {
@@ -93,6 +93,7 @@
   .bt {
     margin: 10px 10px 10px 0;
     padding: 4px 15px;
+    font-size: @font-size;
 
     background: @bt-background;
     box-shadow: inset 0px 0px 2px 0px @bt-border-color;
@@ -131,9 +132,10 @@
   }
   .bt-name {
     font-weight: bold;
-    font-size: 1.1em;
+    font-size: 1.2em;
   }
   .bt-link {
+    display: none;
     font-size: 9px;
     color: transparent;
   }
