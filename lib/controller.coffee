@@ -1,5 +1,6 @@
 url = require('url')
 Repl = require('./repl')
+{$} = require 'atom'
 
 
 module.exports =
@@ -57,9 +58,20 @@ class Controller
     if repl
       @activeRepl = repl
     else
+      fileOpener = (event) =>
+        target = event.originalEvent.target
+        return unless target
+        $target = $(target)
+        if not $target.is('.open-file')
+          $target = $target.parents('.open-file').eq(0)
+          return unless $target.length
+        link = $target.attr('open-file')
+        @openFileLink(link)
+
       atom.workspace.open(uri, split: 'right', searchAllPanes: true)
         .then () =>
           @activeRepl = @repls[uri]
+          $('.post-window').on 'click', fileOpener
 
   clearPostWindow: ->
     @activeRepl?.clearPostWindow()
@@ -134,3 +146,27 @@ class Controller
 
     if base
       @evalWithRepl("#{base}.openHelpFile")
+
+  openFileLink: (link)->
+    [uri, pos] = link.split(':')
+    line = 0
+    col = 0
+    options =
+      initialLine: line
+      initialColumn: col
+      split: 'left'
+      activatePane: false
+      searchAllPanes: true
+
+    atom.workspace.open(uri, options)
+      .then (editor)->
+        text = editor.getText()
+        cursor = 0
+        li = 0
+        for line in text.split('\n')
+          cursor += (line.length + 1)
+          if cursor > pos
+            editor.setCursorBufferPosition([li, 0])
+            # editor.markBufferRange
+            return
+          li += 1

@@ -78,6 +78,8 @@ formatBacktrace = (bt) ->
   lines = []
   for frame in bt
     unless shouldSkipFrame(frame)
+      sourcePath = frame.file
+      sourceCharPos = frame.charPos
       if frame.type is "Method"
         method = formatMethod(frame)
         file = formatFile(frame)
@@ -88,17 +90,22 @@ formatBacktrace = (bt) ->
           <div class="bt-link">#{file}</div>
         """
       else
-
-        line = """
-          <div class="bt-name">
-            a Function <span class="frame-address">#{frame.address}</span>
-          </div>
-        """
         if frame.context
           method = formatMethod(frame.context)
           file = formatFile(frame.context)
+          dfn = "defined in #{method}"
+          sourcePath = frame.context.file
+          sourceCharPos = frame.context.charPos
+        else
+          dfn = ''
+
+        line = """
+          <div class="bt-name">
+            a Function #{dfn}<span class="frame-address">#{frame.address}</span>
+          </div>
+        """
+        if frame.context
           line += """
-            <div>defined in #{method}</div>
             <div class="bt-link">#{file}</div>
           """
         # else
@@ -133,7 +140,16 @@ formatBacktrace = (bt) ->
           line += row("<span class='#{varCss}'>#{arg.name}</span>",
             formatObj(arg.value))
 
-      ll = "<div class='bt-line'>#{line}</div>"
+      if sourcePath
+        link = """ open-file="#{sourcePath}:#{sourceCharPos}" """
+        ll = """
+          <div class='bt-line open-file' #{link}>
+            #{line}
+          </div>
+        """
+      else
+        ll = """<div class='bt-line'>#{line}</div>"""
+
       lines.push(ll)
 
   joined = lines.join('')
