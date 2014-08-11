@@ -4,10 +4,24 @@
 // for a full listing of what's available.
 @import "ui-variables";
 
+@bt-background:  @tool-panel-background-color;
+@bt-border-color: @base-border-color;
+
+//@pane-item-border-color;
+// fadeout(#eee, 70%);
+//@base-background-color; // @pane-item-background-color;
+
+
 .post-window {
   overflow: scroll;
   box-sizing: border-box;
   background: @tool-panel-background-color;
+
+  .clearfix{
+    zoom:1;
+    &:before, &:after{ content:""; display:table; }
+    &:after{ clear: both; }
+  }
 
   .lines {
     overflow: scroll;
@@ -32,14 +46,6 @@
     border-left: 2px solid transparent;
   }
 
-  .error {
-    color: @text-color-error;
-    strong {
-      display: block;
-      font-size: 1.1em;
-      padding: 3px 0;
-    }
-  }
   .in {
     color: @text-color-info;
     // border-color: fadeout(@text-color-info, 80%);
@@ -47,13 +53,24 @@
   .out {
   }
   .error {
+    color: desaturate(@text-color-error, 100%);
     border-color: fadeout(@background-color-error, 60%);
     padding-left: 1em;
     margin: 1px 0;
-    color: desaturate(@text-color-error, 60%);
+
     strong {
       color: @text-color-error;
+      display: block;
+      font-size: 1.2em;
+      padding: @component-line-height/2 0;
     }
+  }
+
+  .error-Error,
+  .error-SyntaxError {
+    border: 1px solid fadeout(@background-color-error, 80%);
+    border-radius: @component-border-radius;
+    padding-bottom: @component-padding;
   }
 
   .debug {
@@ -62,14 +79,69 @@
   }
 
   .tr {
-    display: block;
-    clear: both;
+    display: table;
   }
   .th,
   .td {
-    float: left;
+    display: table-cell;
   }
   .th {
-    width: 10em;
+    width: 12em;
   }
+
+  // backtrace
+  .bt {
+    margin: 10px 10px 10px 0;
+    padding: 4px 15px;
+
+    background: @bt-background;
+    box-shadow: inset 0px 0px 2px 0px @bt-border-color;
+    word-break: break-all;
+
+    h5 {
+      font-size: @font-size - 1;
+      color: @text-color-subtle;
+      margin-bottom: 2px;
+      text-decoration: underline;
+    }
+    .source-code {
+      background: lighten(@bt-background, 10%);
+      border: 1px solid fadeout(@inset-panel-border-color, 80%);
+      padding: 5px 1em;
+      margin: 4px;
+      font-size: 12px;
+      word-break: normal;
+      overflow: auto;
+    }
+  }
+  .bt-line {
+    padding: 10px 0;
+    border-bottom: 1px solid fadeout(@text-color-subtle, 80%);
+    &:hover {
+      .bt-link,
+      .frame-address {
+        color: @text-color-subtle;
+      }
+    }
+    .tr,
+    h5 {
+      margin-left: 4px;
+    }
+  }
+  .bt-name {
+    font-weight: bold;
+    font-size: 1.1em;
+  }
+  .bt-link {
+    font-size: 9px;
+    color: transparent;
+  }
+  .bt-line:last-child {
+    border-bottom: 0;
+  }
+  .frame-address {
+    font-size: 9px;
+    color: transparent;
+  }
+
 }

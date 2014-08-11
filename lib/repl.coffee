@@ -75,8 +75,8 @@ class Repl
       else
         @bus.push rendering.renderError(error, expression)
 
-        dbug = JSON.stringify(error, undefined, 2)
-        @bus.push "<div class='pre debug'>#{dbug}</div>"
+        # dbug = JSON.stringify(error, undefined, 2)
+        # @bus.push "<div class='pre debug'>#{dbug}</div>"
 
     @ready.promise.then =>
       unless noecho
