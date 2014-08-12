@@ -151,5 +151,22 @@
     cursor: pointer;
     background: fadeout(@ui-site-color-2, 98%);
   }
+}
 
+// gutter
+
+
+.editor .line {
+  // &.line-green {
+  //   background-color: @green-color;
+  // }
+  //
+  // &.line-blue {
+  //   background-color: @blue-color;
+  // }
+
+  &.line-error {
+    background-color: fadeout(@background-color-error, 95%);
+    border: 1px solid fadeout(@background-color-error, 50%);
+  }
 }
