@@ -92,12 +92,22 @@ class Controller
   currentExpression: ->
     editor = atom.workspace.getActiveEditor()
     return unless editor?
-    expression = editor.getSelectedText()
-    unless expression
+
+    selection = editor.getLastSelection()
+    expression = selection.getText()
+    if expression
+      range = selection.getBufferRange()
+    else
+      # execute the line you are on
+      pos = editor.getCursorBufferPosition()
       row = editor.getCursorScreenRow()
       if row?
+        range = new Range([row, 0], [row + 1, 0])
         expression = editor.lineForBufferRow(row)
-    expression
+      else
+        range = null
+        expression = null
+    [expression, range]
 
   currentPath: ->
     editor = atom.workspace.getActiveEditor()
@@ -106,9 +116,12 @@ class Controller
 
   eval: ->
     return unless @editorIsSC()
-    @evalWithRepl(@currentExpression(), @currentPath())
+    [expression, range] = @currentExpression()
+    @evalWithRepl(expression, @currentPath(), range)
 
-  evalWithRepl: (expression, path) ->
+  evalWithRepl: (expression, path, range) ->
+    @destroyMarkers()
+
     return unless expression
 
     if @activeRepl
@@ -121,7 +134,7 @@ class Controller
   openHelpFile: ->
     unless @editorIsSC()
       return false
-    expression = @currentExpression()
+    [expression, range] = @currentExpression()
 
     base = null
 
