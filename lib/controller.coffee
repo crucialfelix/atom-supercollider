@@ -11,6 +11,7 @@ class Controller
     @projectRoot = directory.path
     @repls = {}
     @activeRepl = null
+    @markers = []
 
   start: ->
     @workspaceView.command "supercollider:open-post-window", =>
@@ -66,7 +67,8 @@ class Controller
           $target = $target.parents('.open-file').eq(0)
           return unless $target.length
         link = $target.attr('open-file')
-        @openFileLink(link)
+        [path, charPos] = link.split(':')
+        @openFile(path, charPos)
 
       atom.workspace.open(uri, split: 'right', searchAllPanes: true)
         .then () =>
@@ -160,26 +162,40 @@ class Controller
     if base
       @evalWithRepl("#{base}.openHelpFile")
 
-  openFileLink: (link)->
-    [uri, pos] = link.split(':')
-    line = 0
-    col = 0
+  openFile: (uri, charPos, row, col)->
     options =
-      initialLine: line
+      initialLine: row
       initialColumn: col
       split: 'left'
       activatePane: false
       searchAllPanes: true
 
     atom.workspace.open(uri, options)
-      .then (editor)->
+      .then (editor) =>
+
+        setMark = (point) =>
+          editor.setCursorBufferPosition(point)
+          expression = editor.lineForBufferRow(point[0])
+          range = [point, [point[0], expression.length - 1]]
+          marker = editor.markBufferRange(range, invalidate: 'touch')
+          decoration = editor.decorateMarker(marker,
+            type: 'line',
+            class: 'line-error')
+          @markers.push marker
+
+        if row isnt null
+          return setMark([row, col])
+
         text = editor.getText()
         cursor = 0
         li = 0
-        for line in text.split('\n')
-          cursor += (line.length + 1)
-          if cursor > pos
-            editor.setCursorBufferPosition([li, 0])
-            # editor.markBufferRange
-            return
+        for ll in text.split('\n')
+          cursor += (ll.length + 1)
+          if cursor > charPos
+            return setMark([li, cursor - charPos])
           li += 1
+
+  destroyMarkers: () ->
+    @markers.forEach (m) ->
+      m.destroy()
+    @markers = []
