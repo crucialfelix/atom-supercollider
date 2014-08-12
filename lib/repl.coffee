@@ -62,21 +62,23 @@ class Repl
 
   eval: (expression, noecho=false, nowExecutingPath=null) ->
 
+    deferred = Q.defer()
+
     classic = atom.config.get 'atom-supercollider.classicRepl'
 
     ok = (result) =>
       @bus.push "<div class='pre out'>#{result}</div>"
+      deferred.resolve(result)
 
     err = (error) =>
-      stdout = escape(error.error.stdout.trim())
-
       if classic
+        stdout = escape(error.error.stdout.trim())
         @bus.push "<div class='error pre'>#{stdout}</div>"
       else
         @bus.push rendering.renderError(error, expression)
-
         # dbug = JSON.stringify(error, undefined, 2)
         # @bus.push "<div class='pre debug'>#{dbug}</div>"
+      deferred.reject(error)
 
     @ready.promise.then =>
       unless noecho
@@ -90,6 +92,8 @@ class Repl
       # expression path asString postErrors getBacktrace
       @sclang.interpret(expression, nowExecutingPath, true, classic, !classic)
         .then(ok, err)
+
+    deferred.promise
 
   recompile: ->
     @sclang?.quit()
