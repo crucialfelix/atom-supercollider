@@ -126,12 +126,26 @@ class Controller
 
     return unless expression
 
+    onError = (error) =>
+      if error.type is 'SyntaxError'
+        if path
+          # offset syntax error by position of selected text in file
+          row = range.getRows()[0] + error.error.syntaxErrors.line - 1
+          col = error.error.syntaxErrors.charPos
+          @openFile(path, null, row, col)
+
+      # dbug = JSON.stringify(error, undefined, 2)
+      # console.log dbug
+      # @bus.push "<div class='pre debug'>#{dbug}</div>"
+
     if @activeRepl
       @activeRepl.eval(expression, false, path)
+        .then(null, onError)
     else
       @openPostWindow(@defaultURI)
         .then () =>
           @activeRepl.eval(expression, false, path)
+            .then(null, onError)
 
   openHelpFile: ->
     unless @editorIsSC()
