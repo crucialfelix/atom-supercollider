@@ -37,11 +37,11 @@ class Controller
 
       onClose = =>
         if @activeRepl is repl
-          @activeRepl = null
+          @destoryRepl()
         delete @repls[uri]
 
       repl = new Repl(uri, @projectRoot, onClose)
-      @activeRepl = repl
+      @activateRepl repl
       @repls[uri] = repl
       window = repl.createPostWindow()
       repl.startSCLang()
@@ -50,14 +50,29 @@ class Controller
   stop: ->
     for repl in @repls
       repl.stop()
-    @activeRepl = null
+    @destroyRepl()
     @repls = {}
+
+  activateRepl: (repl) ->
+    @activeRepl = repl
+    console.log repl
+    @activeRepl.unsubscriber = repl.emit.subscribe (event) =>
+      @handleReplEvent(event)
+
+  destroyRepl: () ->
+    @activeRepl?.unsubscriber()
+    @activeRepl = null
+
+  handleReplEvent: (event) ->
+    error = event.value()
+    if error.index == 0
+      @openToSyntaxError(error.file, error.line, error.char)
 
   openPostWindow: (uri) ->
     repl = @repls[uri]
 
     if repl
-      @activeRepl = repl
+      @activateRepl repl
     else
       fileOpener = (event) =>
         target = event.originalEvent.target
@@ -68,11 +83,15 @@ class Controller
           return unless $target.length
         link = $target.attr('open-file')
         [path, charPos] = link.split(':')
-        @openFile(path, charPos)
+        if ',' in charPos
+          [lineno, char] = charPos.split(',')
+          @openFile(path, null, parseInt(lineno), parseInt(char))
+        else
+          @openFile(path, parseInt(charPos))
 
       atom.workspace.open(uri, split: 'right', searchAllPanes: true)
         .then () =>
-          @activeRepl = @repls[uri]
+          @activateRepl @repls[uri]
           $('.post-window').on 'click', fileOpener
 
   clearPostWindow: ->
@@ -132,11 +151,7 @@ class Controller
           # offset syntax error by position of selected text in file
           row = range.getRows()[0] + error.error.syntaxErrors.line - 1
           col = error.error.syntaxErrors.charPos
-          @openFile(path, null, row, col)
-
-      # dbug = JSON.stringify(error, undefined, 2)
-      # console.log dbug
-      # @bus.push "<div class='pre debug'>#{dbug}</div>"
+          @openToSyntaxError(path, parseInt(row), parseInt(col))
 
     if @activeRepl
       # if stuck in compile error
@@ -151,6 +166,9 @@ class Controller
         .then () =>
           @activeRepl.eval(expression, false, path)
             .then(null, onError)
+
+  openToSyntaxError: (path, line, char) ->
+    @openFile(path, null, line, char)
 
   openHelpFile: ->
     unless @editorIsSC()
