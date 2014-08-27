@@ -139,6 +139,11 @@ class Controller
       # @bus.push "<div class='pre debug'>#{dbug}</div>"
 
     if @activeRepl
+      # if stuck in compile error
+      # then post warning and return
+      unless @activeRepl.isCompiled()
+        console.log 'not compiled'
+        return
       @activeRepl.eval(expression, false, path)
         .then(null, onError)
     else
