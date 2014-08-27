@@ -220,6 +220,25 @@ renderError = (err, expression) ->
   """
   ret
 
+renderParseError = (error) ->
+  msgh = "<div><strong>#{error.msg}</strong></div>"
+  # line,char
+  lineMinus = error.line - 1
+  uri = "#{error.file}:#{lineMinus},#{error.char}"
+  file = """
+    <div open-file="#{uri}" class="open-file">
+      in file #{error.file}:#{error.line},#{error.char}
+    </div>
+  """
+  ret = """
+    <div class='error error-ParseError'>
+      #{msgh}
+      #{file}
+    </div>
+  """
+  ret
+
 module.exports =
   renderError: renderError
+  renderParseError: renderParseError
   formatBacktrace: formatBacktrace

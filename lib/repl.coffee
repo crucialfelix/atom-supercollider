@@ -42,23 +42,42 @@ class Repl
 
     fail = (error) =>
       @ready.reject()
+
       state = @sclang.state
-      @bus.push("<div class='error'>ERROR: #{state}</div>")
+      switch state
+        when 'compileError'
+          # stdout
+          # dirs
+          for error in error.errors
+            @bus.push rendering.renderParseError(error)
+            # update any of these files that are open
+            # goto first error
+
+        # initFailure
+        # descrepency
+        # systemError
+        else
+          @bus.push("<div class='error'>ERROR: #{state}</div>")
+          @bus.push("<div class='pre error'>#{error}</div>")
 
     # returns a promise chain
     supercolliderjs.resolveOptions(null, opts)
       .then (options) =>
         @sclang = new supercolliderjs.sclang(options)
 
+        @sclang.on 'state', (state) =>
+          @bus.push("<div class='state'>#{state}</div>")
+
         @sclang.on 'stdout', (d) =>
           @bus.push("<div class='pre out'>#{d}</div>")
         @sclang.on 'stderr', (d) =>
           @bus.push("<div class='pre error'>#{d}</div>")
 
-        @sclang.boot()
-          .then () =>
-            @sclang.initInterpreter()
-              .then(pass, fail)
+        onBoot = () =>
+          @sclang.initInterpreter()
+                      .then(pass, fail)
+
+        @sclang.boot().then(onBoot, fail)
 
   eval: (expression, noecho=false, nowExecutingPath=null) ->
 
@@ -98,6 +117,9 @@ class Repl
   recompile: ->
     @sclang?.quit()
     @startSCLang()
+
+  isCompiled: ->
+    @sclang?.state is 'ready'
 
   cmdPeriod: ->
     @eval("CmdPeriod.run;", true)
