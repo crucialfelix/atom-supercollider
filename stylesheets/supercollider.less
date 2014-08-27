@@ -11,27 +11,25 @@
 // fadeout(#eee, 70%);
 //@base-background-color; // @pane-item-background-color;
 
-
 .post-window {
-  overflow: scroll;
+  overflow-y: scroll;
   box-sizing: border-box;
   background: @tool-panel-background-color;
+  .scroll-view {
+    min-height: 100%;
+    // overflow-y: scroll;
+  }
 
-  .clearfix{
+  .clearfix {
     zoom:1;
     &:before, &:after{ content:""; display:table; }
     &:after{ clear: both; }
   }
 
   .lines {
-    overflow: scroll;
-    box-sizing: border-box;
-    padding-bottom: @component-padding;
-    width: 100%;
-    > div {
-      width: 100%;
-      padding: 0 @component-padding;
-    }
+    // overflow-y: scroll;
+    min-height: 100%;
+    padding: @component-padding;
   }
 
   .pre {
@@ -42,7 +40,7 @@
   font-family: @font-family;
 
   .in, .out, .error {
-    padding-left: 1em;
+    // padding-left: 1em;
     border-left: 2px solid transparent;
   }
 
