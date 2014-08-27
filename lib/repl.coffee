@@ -14,14 +14,13 @@ class Repl
   constructor: (@uri="sclang://localhost:57120", projectRoot, @onClose) ->
     @projectRoot = projectRoot
     @ready = Q.defer()
+    @makeBus()
 
   stop: ->
     @sclang?.quit()
     @postWindow.destroy()
 
   createPostWindow: ->
-    unless @bus
-      @makeBus()
 
     onClose = () =>
       @sclang?.quit()
@@ -31,6 +30,7 @@ class Repl
 
   makeBus: ->
     @bus = new Bacon.Bus()
+    @emit = new Bacon.Bus()
 
   startSCLang: () ->
     opts =
@@ -48,15 +48,16 @@ class Repl
         when 'compileError'
           # stdout
           # dirs
+          i = 0
           for error in error.errors
             @bus.push rendering.renderParseError(error)
-            # update any of these files that are open
-            # goto first error
-
-        # initFailure
-        # descrepency
-        # systemError
+            error.index = i
+            @emit.push(error)
+            i += 1
         else
+          # initFailure
+          # descrepency
+          # systemError
           @bus.push("<div class='error'>ERROR: #{state}</div>")
           @bus.push("<div class='pre error'>#{error}</div>")
 
