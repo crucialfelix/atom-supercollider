@@ -233,7 +233,7 @@ class Controller
             class: 'line-error')
           @markers.push marker
 
-        if row isnt null
+        if row?
           return setMark([row, col])
 
         text = editor.getText()
@@ -242,7 +242,7 @@ class Controller
         for ll in text.split('\n')
           cursor += (ll.length + 1)
           if cursor > charPos
-            return setMark([li, cursor - charPos])
+            return setMark([li, cursor - charPos - ll.length])
           li += 1
 
   destroyMarkers: () ->
