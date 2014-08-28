@@ -1,6 +1,6 @@
 url = require('url')
 Repl = require('./repl')
-{$} = require 'atom'
+{$, Range} = require 'atom'
 
 
 module.exports =
@@ -98,6 +98,7 @@ class Controller
     @activeRepl?.clearPostWindow()
 
   recompile: ->
+    @destroyMarkers()
     if @activeRepl
       @activeRepl.recompile()
     else
@@ -209,11 +210,12 @@ class Controller
 
     atom.workspace.open(uri, options)
       .then (editor) =>
-
         setMark = (point) =>
           editor.setCursorBufferPosition(point)
           expression = editor.lineForBufferRow(point[0])
           range = [point, [point[0], expression.length - 1]]
+          @destroyMarkers()
+
           marker = editor.markBufferRange(range, invalidate: 'touch')
           decoration = editor.decorateMarker(marker,
             type: 'line',
