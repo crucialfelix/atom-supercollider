@@ -85,9 +85,21 @@ class Controller
         [path, charPos] = link.split(':')
         if ',' in charPos
           [lineno, char] = charPos.split(',')
-          @openFile(path, null, parseInt(lineno), parseInt(char))
+          @openFile(
+            path,
+            null,
+            parseInt(lineno),
+            parseInt(char),
+            'line',
+            'line-highlight')
         else
-          @openFile(path, parseInt(charPos))
+          @openFile(
+            path,
+            parseInt(charPos),
+            null,
+            null,
+            'line',
+            'line-highlight')
 
       atom.workspace.open(uri, split: 'right', searchAllPanes: true)
         .then () =>
@@ -211,7 +223,7 @@ class Controller
     if base
       @evalWithRepl("#{base}.openHelpFile")
 
-  openFile: (uri, charPos, row, col)->
+  openFile: (uri, charPos, row, col, markerType="line", cssClass="line-error")->
     options =
       initialLine: row
       initialColumn: col
@@ -229,8 +241,8 @@ class Controller
 
           marker = editor.markBufferRange(range, invalidate: 'touch')
           decoration = editor.decorateMarker(marker,
-            type: 'line',
-            class: 'line-error')
+            type: markerType,
+            class: cssClass)
           @markers.push marker
 
         if row?
