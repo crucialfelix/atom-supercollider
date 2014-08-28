@@ -155,6 +155,8 @@
 
 
 .editor .line {
+  transition:  background-color, color .8s ease-out;
+  -webkit-transition: background-color, color .8s ease-out;
   // &.line-green {
   //   background-color: @green-color;
   // }
@@ -166,5 +168,19 @@
   &.line-error {
     background-color: fadeout(@background-color-error, 95%);
     border: 1px solid fadeout(@background-color-error, 50%);
+  }
+
+  &.eval-flash {
+    color: @text-color-selected;
+    background-color: @background-color-selected;
+  }
+  &.eval-success {
+    color: @text-color-success;
+    background-color: fadeout(@background-color-success, 50%);
+  }
+  &.eval-error,
+  &.eval-syntax-error {
+    color: @text-color-error;
+    background-color: @background-color-error;
   }
 }

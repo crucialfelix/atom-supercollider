@@ -146,13 +146,27 @@ class Controller
 
     return unless expression
 
-    onError = (error) =>
-      if error.type is 'SyntaxError'
-        if path
-          # offset syntax error by position of selected text in file
-          row = range.getRows()[0] + error.error.syntaxErrors.line - 1
-          col = error.error.syntaxErrors.charPos
-          @openToSyntaxError(path, parseInt(row), parseInt(col))
+
+    doIt = () =>
+      unflash = @evalFlash(range)
+
+      onSuccess = () ->
+        unflash('eval-success')
+
+      onError = (error) =>
+        if error.type is 'SyntaxError'
+          unflash('eval-syntax-error')
+          if path
+            # offset syntax error by position of selected text in file
+            row = range.getRows()[0] + error.error.syntaxErrors.line - 1
+            col = error.error.syntaxErrors.charPos
+            @openToSyntaxError(path, parseInt(row), parseInt(col))
+        else
+          # runtime error
+          unflash('eval-error')
+
+      @activeRepl.eval(expression, false, path)
+        .then(onSuccess, onError)
 
     if @activeRepl
       # if stuck in compile error
@@ -160,13 +174,10 @@ class Controller
       unless @activeRepl.isCompiled()
         console.log 'not compiled'
         return
-      @activeRepl.eval(expression, false, path)
-        .then(null, onError)
+      doIt()
     else
       @openPostWindow(@defaultURI)
-        .then () =>
-          @activeRepl.eval(expression, false, path)
-            .then(null, onError)
+        .then doIt
 
   openToSyntaxError: (path, line, char) ->
     @openFile(path, null, line, char)
@@ -238,3 +249,16 @@ class Controller
     @markers.forEach (m) ->
       m.destroy()
     @markers = []
+
+  evalFlash: (range) ->
+    editor = atom.workspace.getActiveEditor()
+    marker = editor.markBufferRange(range, invalidate: 'touch')
+    decoration = editor.decorateMarker(marker,
+                    type: 'line',
+                    class: "eval-flash")
+    # return fn to flash error/success and destroy the flash
+    (cssClass) ->
+      decoration.update(type: 'line', class: cssClass)
+      destroy = ->
+        marker.destroy()
+      setTimeout(destroy, 100)
