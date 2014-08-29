@@ -78,24 +78,26 @@
   .out {
   }
   .error {
-    color: desaturate(@text-color-error, 100%);
-    border-color: fadeout(@background-color-error, 60%);
-    padding-left: 1em;
-    margin: 1px 0;
+    // color: desaturate(@text-color-error, 0%);
+    // border-color: fadeout(@background-color-error, 60%);
+    // padding-left: 1em;
+    // margin: 1px 0;
 
     strong {
       color: @text-color-error;
       display: block;
       font-size: 1.2em;
-      padding: @component-line-height/2 0;
+      padding: @component-line-height/4 0;
     }
   }
 
   .error-Error,
-  .error-SyntaxError {
-    border: 1px solid fadeout(@background-color-error, 80%);
-    border-radius: @component-border-radius + 2;
-    // padding-bottom: @component-padding;
+  .error-SyntaxError,
+  .error-ParseError {
+    &:hover {
+      // background: fadeout(desaturate(@background-color-error, 50%), 99%);
+      cursor: pointer;
+    }
   }
 
   .debug {
@@ -125,10 +127,10 @@
     word-break: break-all;
 
     h5 {
-      font-size: @font-size - 1;
+      font-size: @font-size - 2;
       color: @text-color-subtle;
-      margin-bottom: 2px;
-      text-decoration: underline;
+      margin: 2px;
+      font-style: italic;
     }
     .source {
       background: lighten(@bt-background, 10%);
@@ -143,7 +145,7 @@
   }
   .bt-line {
     padding: 10px 0;
-    border-bottom: 1px solid fadeout(@text-color-subtle, 80%);
+    border-bottom: 1px solid fadeout(@text-color-subtle, 60%);
     &:hover {
       .bt-link,
       .frame-address {
