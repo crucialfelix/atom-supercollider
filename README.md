@@ -41,7 +41,7 @@ https://supercollider.github.io
 
 ##### 3. It should work
 
-If you've installed SuperCollider in a non-standard place or have a development build, then create a .supercolliderrc file to specify the path
+If you've installed SuperCollider in a non-standard place or have a development build, then create a .supercollider file to specify the path
 
 See "Preferences" below.
 
@@ -54,9 +54,9 @@ See "Preferences" below.
 | key              | command                                         |
 | ---------------- | ----------------------------------------------- |
 | `cmd-\`          | Open post window, boot the language interpreter |
-| `shift-cmd-k`    | Compile library (open window if needed)         |
+| `shift-cmd-K`    | Compile library (open window if needed)         |
 | `shift-enter`    | Evaluate selection or current line              |
-|                  | Clear post window                               |
+| `shift-cmd-C`    | Clear post window                               |
 | `cmd-.`          | Panic ! Stop all music                          |
 
 
@@ -108,13 +108,10 @@ The help browser will open in a new window.
 
 ## Preferences
 
-To set a custom path to sclang and scsynth create a JSON file in ~/.supercolliderrc
+Configuration files are managed by supercollider.js and are documented here:
 
-    {
-      "path": "/path/to/SuperCollider.app/Contents/Resources"
-    }
+http://supercolliderjs.readthedocs.org/en/latest/configuration.html
 
-It will search upwards starting with the current Atom project root. So you can set your current project to a custom SuperCollider by placing a .supercolliderrc there
 
 ##### Default paths:
 
