@@ -17,7 +17,14 @@
   background: @tool-panel-background-color;
   .scroll-view {
     min-height: 100%;
-    // overflow-y: scroll;
+    &.editor {
+      // I'm claiming its an .editor
+      // for styling purposes
+      // but user select needs to be turned back on
+      // for native select + copy to work
+      -webkit-user-select: inherit;
+      -user-select: inherit;
+    }
   }
 
   .clearfix {

@@ -1,5 +1,5 @@
 
-{ScrollView} = require 'atom'
+{$, ScrollView} = require 'atom'
 
 
 module.exports =
@@ -7,6 +7,7 @@ class PostWindow extends ScrollView
 
   constructor: (@uri, @bus, @onClose) ->
     super
+    @handleEvents()
 
     @bus?.onValue (msg) =>
       if @destroyed
@@ -28,7 +29,7 @@ class PostWindow extends ScrollView
   getModel: ->
 
   @content: ->
-    @div class: 'post-window', tabindex: -1, =>
+    @div class: 'native-key-bindings post-window', tabindex: -1, =>
       @div outlet:"scroller", class:"scroll-view editor editor-colors", =>
         @div outlet:"posts", class:"lines"
 
@@ -37,3 +38,19 @@ class PostWindow extends ScrollView
 
   clearPostWindow: ->
     @posts.empty()
+
+  handleEvents: ->
+    @subscribe this, 'core:copy', =>
+      return false if @copyToClipboard()
+
+  copyToClipboard: ->
+    selection = window.getSelection()
+    selectedText = selection.toString()
+    selectedNode = selection.baseNode
+
+    # Use default copy event handler if there is selected text inside this view
+    hasSelection = selectedText and selectedNode? and (@[0] is selectedNode or $.contains(@[0], selectedNode))
+    return false if hasSelection
+
+    atom.clipboard.write(@[0].innerText)
+    true
