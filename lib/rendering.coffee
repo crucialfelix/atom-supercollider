@@ -1,4 +1,4 @@
-
+path = require('path')
 
 row = (caption, content) ->
   cap = if caption then "#{caption}" else "&nbsp;"
@@ -224,9 +224,10 @@ renderParseError = (error) ->
   msgh = "<div><strong>#{error.msg}</strong></div>"
   # line,char
   uri = "#{error.file}:#{error.line},#{error.char}"
+  abbrev = path.basename(error.file)
   file = """
     <div>
-      in file #{error.file}:#{error.line},#{error.char}
+      in file <span title="#{uri}">#{abbrev}:#{error.line},#{error.char}</span>
     </div>
   """
   ret = """
