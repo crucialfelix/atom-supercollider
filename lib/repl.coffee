@@ -70,9 +70,9 @@ class Repl
           @bus.push("<div class='state'>#{state}</div>")
 
         @sclang.on 'stdout', (d) =>
-          @bus.push("<div class='pre out'>#{d}</div>")
+          @bus.push("<div class='pre stdout'>#{d}</div>")
         @sclang.on 'stderr', (d) =>
-          @bus.push("<div class='pre error'>#{d}</div>")
+          @bus.push("<div class='pre stderr'>#{d}</div>")
 
         onBoot = () =>
           @sclang.initInterpreter()
