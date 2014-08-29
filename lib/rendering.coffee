@@ -226,12 +226,12 @@ renderParseError = (error) ->
   lineMinus = error.line - 1
   uri = "#{error.file}:#{lineMinus},#{error.char}"
   file = """
-    <div open-file="#{uri}" class="open-file">
+    <div>
       in file #{error.file}:#{error.line},#{error.char}
     </div>
   """
   ret = """
-    <div class='error error-ParseError'>
+    <div class='error error-ParseError open-file' open-file="#{uri}">
       #{msgh}
       #{file}
     </div>
