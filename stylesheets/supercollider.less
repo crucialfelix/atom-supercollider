@@ -42,6 +42,30 @@
   font-size: @font-size + 2;
   font-family: @font-family;
 
+  .state {
+    font-weight: bold;
+    background: #888;
+    color: #fff;
+    padding: 1px;
+    margin-bottom: 1px;
+    display: inline-block;
+    min-width: 200px;
+    text-align: center;
+    &.booting {
+      background: fadeout(@background-color-info, 40%);
+    }
+    &.ready {
+      background: fadeout(@background-color-success, 40%);
+    }
+    &.compileError {
+      background: @background-color-error;
+    }
+    &.compiled,
+    &.compiling,
+    &.null {
+      display: none;
+    }
+  }
   .in, .out, .error {
     // padding-left: 1em;
     border-left: 2px solid transparent;

@@ -67,7 +67,7 @@ class Repl
         @sclang = new supercolliderjs.sclang(options)
 
         @sclang.on 'state', (state) =>
-          @bus.push("<div class='state'>#{state}</div>")
+          @bus.push("<div class='state #{state}'>#{state}</div>")
 
         sc3 = /^sc3>$/mg
         @sclang.on 'stdout', (d) =>
