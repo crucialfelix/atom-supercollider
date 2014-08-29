@@ -101,7 +101,7 @@ formatBacktrace = (bt) ->
 
         line = """
           <div class="bt-name">
-            a Function #{dfn}<span class="frame-address">#{frame.address}</span>
+            a <span class="entity name class supercollider">Function</span> #{dfn}<span class="frame-address">#{frame.address}</span>
           </div>
         """
         if frame.context
