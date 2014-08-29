@@ -117,7 +117,8 @@ class Repl
 
   recompile: ->
     @sclang?.quit()
-    @startSCLang()
+      .then () =>
+        @startSCLang()
 
   isCompiled: ->
     @sclang?.state is 'ready'
