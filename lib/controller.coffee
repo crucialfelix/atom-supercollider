@@ -157,16 +157,16 @@ class Controller
 
     return unless expression
 
-
     doIt = () =>
-      unflash = @evalFlash(range)
+      if range?
+        unflash = @evalFlash(range)
 
       onSuccess = () ->
-        unflash('eval-success')
+        unflash?('eval-success')
 
       onError = (error) =>
         if error.type is 'SyntaxError'
-          unflash('eval-syntax-error')
+          unflash?('eval-syntax-error')
           if path
             # offset syntax error by position of selected text in file
             row = range.getRows()[0] + error.error.syntaxErrors.line
@@ -174,7 +174,7 @@ class Controller
             @openToSyntaxError(path, parseInt(row), parseInt(col))
         else
           # runtime error
-          unflash('eval-error')
+          unflash?('eval-error')
 
       @activeRepl.eval(expression, false, path)
         .then(onSuccess, onError)
@@ -208,7 +208,8 @@ class Controller
     else
       # 'someMethod'.openHelpFile
       # starts with lowercase has no punctuation, wrap in ''
-      methody = /^([a-zA-Z0-9\_]*)$/
+      # TODO match ops
+      methody = /^([a-z]{1}[a-zA-Z0-9\_]*)$/
       match = expression.match(methody)
       if match
         base = "'#{expression}'"
