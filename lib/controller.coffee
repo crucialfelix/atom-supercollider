@@ -55,7 +55,6 @@ class Controller
 
   activateRepl: (repl) ->
     @activeRepl = repl
-    console.log repl
     @activeRepl.unsubscriber = repl.emit.subscribe (event) =>
       @handleReplEvent(event)
 
@@ -170,7 +169,7 @@ class Controller
           unflash('eval-syntax-error')
           if path
             # offset syntax error by position of selected text in file
-            row = range.getRows()[0] + error.error.syntaxErrors.line - 1
+            row = range.getRows()[0] + error.error.syntaxErrors.line
             col = error.error.syntaxErrors.charPos
             @openToSyntaxError(path, parseInt(row), parseInt(col))
         else
@@ -246,7 +245,8 @@ class Controller
           @markers.push marker
 
         if row?
-          return setMark([row, col])
+          # mark is zero indexed
+          return setMark([row - 1, col])
 
         text = editor.getText()
         cursor = 0

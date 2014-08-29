@@ -223,8 +223,7 @@ renderError = (err, expression) ->
 renderParseError = (error) ->
   msgh = "<div><strong>#{error.msg}</strong></div>"
   # line,char
-  lineMinus = error.line - 1
-  uri = "#{error.file}:#{lineMinus},#{error.char}"
+  uri = "#{error.file}:#{error.line},#{error.char}"
   file = """
     <div>
       in file #{error.file}:#{error.line},#{error.char}
