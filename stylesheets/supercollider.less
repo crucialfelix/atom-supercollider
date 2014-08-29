@@ -6,6 +6,7 @@
 
 @bt-background:  fadeout(@tool-panel-background-color, 80%);
 @bt-border-color: @base-border-color;
+@vertical-padding: @component-line-height/4;
 
 //@pane-item-border-color;
 // fadeout(#eee, 70%);
@@ -54,7 +55,7 @@
     background: #888;
     color: #fff;
     padding: 1px;
-    margin-bottom: 1px;
+    margin:  @vertical-padding auto;
     display: inline-block;
     min-width: 200px;
     text-align: center;
@@ -94,7 +95,7 @@
       color: @text-color-error;
       display: block;
       font-size: 1.2em;
-      padding: @component-line-height/4 0;
+      padding: @vertical-padding 0;
     }
   }
 
@@ -125,12 +126,12 @@
 
   // backtrace
   .bt {
-    margin: 10px 10px 10px 0;
-    padding: 4px 15px;
+    margin: @vertical-padding 1em @vertical-padding 0;
+    // padding: 4px 15px;
     font-size: @font-size;
 
-    background: @bt-background;
-    box-shadow: inset 0px 0px 2px 0px @bt-border-color;
+    // background: @bt-background;
+    // box-shadow: inset 0px 0px 2px 0px fadeout(@bt-border-color, 80%);
     word-break: break-all;
 
     h5 {
@@ -141,8 +142,9 @@
     }
     .source {
       background: lighten(@bt-background, 10%);
-      border: 1px solid fadeout(@inset-panel-border-color, 80%);
-      padding: 5px 1em;
+      // border: 1px solid fadeout(@inset-panel-border-color, 80%);
+      box-shadow: inset 0px 0px 2px 0px fadeout(@bt-border-color, 80%);
+      padding: @vertical-padding/2 1em;
       margin: 4px;
       font-size: 12px;
       word-break: normal;
@@ -151,8 +153,8 @@
     }
   }
   .bt-line {
-    padding: 10px 0;
-    border-bottom: 1px solid fadeout(@text-color-subtle, 60%);
+    padding: @vertical-padding 0.5em;
+    border-bottom: 1px solid fadeout(@text-color-subtle, 80%);
     &:hover {
       .bt-link,
       .frame-address {
