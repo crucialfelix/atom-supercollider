@@ -69,12 +69,13 @@ class Repl
         @sclang.on 'state', (state) =>
           @bus.push("<div class='state #{state}'>#{state}</div>")
 
-        sc3 = /^sc3>$/mg
+        sc3 = /^sc3>\s*$/mg
         @sclang.on 'stdout', (d) =>
           d = d.replace(sc3, '')
           @bus.push("<div class='pre stdout'>#{d}</div>")
 
         @sclang.on 'stderr', (d) =>
+          d = d.replace(sc3, '')
           @bus.push("<div class='pre stderr'>#{d}</div>")
 
         onBoot = () =>
