@@ -8,7 +8,7 @@ class Controller
 
   constructor: (@workspaceView, directory) ->
     @defaultURI = "sclang://localhost:57120"
-    @projectRoot = directory.path
+    @projectRoot = if directory then directory.path else ''
     @repls = {}
     @activeRepl = null
     @markers = []
