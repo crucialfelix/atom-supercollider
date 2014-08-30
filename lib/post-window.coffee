@@ -1,6 +1,6 @@
 
 {$, ScrollView} = require 'atom'
-
+Bacon = require('baconjs')
 
 module.exports =
 class PostWindow extends ScrollView

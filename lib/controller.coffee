@@ -37,7 +37,7 @@ class Controller
 
       onClose = =>
         if @activeRepl is repl
-          @destoryRepl()
+          @destroyRepl()
         delete @repls[uri]
 
       repl = new Repl(uri, @projectRoot, onClose)
