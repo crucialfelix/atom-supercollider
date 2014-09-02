@@ -182,7 +182,7 @@ renderError = (err, expression) ->
   # lines.push "<strong>#{error.what}</strong>"
 
   if error.receiver
-    lines.push row('<em>Receiver</em>', formatObj(error.receiver))
+    lines.push row('Receiver', formatObj(error.receiver))
 
   if error.selector
     sel = """<span class="entity name symbol">#{error.selector}</span>"""
