@@ -61,9 +61,14 @@ class Repl
           @bus.push("<div class='error'>ERROR: #{state}</div>")
           @bus.push("<div class='pre error'>#{error}</div>")
 
-    # returns a promise chain
+    dir = process.cwd()
+    if @projectRoot
+      process.chdir(@projectRoot)
+
     supercolliderjs.resolveOptions(null, opts)
       .then (options) =>
+        process.chdir(dir)
+
         @sclang = new supercolliderjs.sclang(options)
 
         @sclang.on 'state', (state) =>
