@@ -83,6 +83,9 @@ class Repl
           d = d.replace(sc3, '')
           @bus.push("<div class='pre stderr'>#{d}</div>")
 
+        @sclang.on 'error', (err) =>
+          @bus.push rendering.renderError(err, null)
+
         onBoot = () =>
           @sclang.initInterpreter()
                       .then(pass, fail)
