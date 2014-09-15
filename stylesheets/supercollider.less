@@ -93,13 +93,20 @@
     // border-color: fadeout(@background-color-error, 60%);
     // padding-left: 1em;
     // margin: 1px 0;
-
-    strong {
-      color: desaturate(@text-color-error, 10%);
-      display: block;
-      font-size: 1.1em;
-      padding: @vertical-padding 0;
+    .title {
+      strong {
+        color: desaturate(@text-color-error, 10%);
+        font-size: 1.1em;
+        padding: @vertical-padding 0;
+      }
+      .time {
+        float: right;
+      }
     }
+  }
+  .time {
+    color: fadeout(@text-color-subtle, 70%);
+    font-size: 0.9em;
   }
 
   .error-Error,

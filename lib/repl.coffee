@@ -95,7 +95,7 @@ class Repl
 
         @sclang.on 'error', (err) =>
           errorTime = new Date()
-          err.time = errorTime
+          err.errorTime = errorTime
           @bus.push rendering.renderError(err, null)
           if atom.config.get 'atom-supercollider.growlOnError'
             show = true
@@ -126,6 +126,7 @@ class Repl
         stdout = escape(error.error.stdout.trim())
         @bus.push "<div class='error pre'>#{stdout}</div>"
       else
+        error.errorTime = new Date()
         @bus.push rendering.renderError(error, expression)
         # dbug = JSON.stringify(error, undefined, 2)
         # @bus.push "<div class='pre debug'>#{dbug}</div>"

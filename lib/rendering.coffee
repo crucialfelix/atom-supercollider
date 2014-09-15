@@ -1,4 +1,6 @@
 path = require('path')
+moment = require('moment')
+
 
 row = (caption, content) ->
   cap = if caption then "#{caption}" else "&nbsp;"
@@ -160,7 +162,14 @@ renderError = (err, expression) ->
   msg = error.errorString or err.type
   if err.type is 'SyntaxError'
     msg = "#{error.syntaxErrors.msg}"
-  msgh = "<div><strong>#{msg}</strong></div>"
+
+  errorTime = ""
+  if err.errorTime?
+    et = moment(err.errorTime).format("h:mm:ss.SSS")
+    errorTime = "<span class='time'>#{et}</span>"
+
+  msgh = "<div class='title'><strong>#{msg}</strong>#{errorTime}</div>"
+
   lines = []
 
   if err.type == 'SyntaxError'
@@ -221,7 +230,7 @@ renderError = (err, expression) ->
   ret
 
 renderParseError = (error) ->
-  msgh = "<div><strong>#{error.msg}</strong></div>"
+  msgh = "<div class='title'><strong>#{error.msg}</strong></div>"
   # line,char
   uri = "#{error.file}:#{error.line},#{error.char}"
   abbrev = path.basename(error.file)

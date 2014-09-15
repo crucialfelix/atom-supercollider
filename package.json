@@ -14,7 +14,8 @@
     "baconjs": "~0.7.18",
     "q": "1.0.x",
     "escape-html": "~1.0.1",
-    "growl": "~1.8.1"
+    "growl": "~1.8.1",
+    "moment": "~2.8.3"
   },
   "main": "./lib/supercollider",
   "activationEvents": [
