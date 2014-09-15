@@ -1,3 +1,15 @@
+## development
+
+- Runtime asynchronous errors can now be caught and full call stack shown.
+  Previously only errors that were a direct response to evaluated text were shown.
+  This requires the supercolliderjs quark to be installed. If its not installed then
+  errors are displayed exactly as supercollider posts them.
+
+- Growl notifications on error (optional)
+  https://github.com/visionmedia/node-growl
+  ox x / linux / windows
+  Useful if you are busy making music in another window and want the errors posted.
+
 ## 0.2.0
 
 - Using new supercollider.js, displays a full call stack for errors

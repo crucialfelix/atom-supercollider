@@ -6,6 +6,7 @@ Q = require('q')
 supercolliderjs = require('supercolliderjs')
 escape = require('escape-html')
 rendering = require './rendering'
+growl = require 'growl'
 
 
 module.exports =
@@ -67,6 +68,8 @@ class Repl
 
     supercolliderjs.resolveOptions(null, opts)
       .then (options) =>
+        lastErrorTime = null
+
         process.chdir(dir)
         @sclang = new supercolliderjs.sclang(options)
 
@@ -76,6 +79,8 @@ class Repl
 
         @sclang.on 'exit', () =>
           @bus.push("<div class='state dead'>sclang exited</div>")
+          if atom.config.get 'atom-supercollider.growlOnError'
+            growl("sclang exited", {title: "SuperCollider"})
           # how do you revive it ?
           # @sclang = null
 
@@ -89,8 +94,16 @@ class Repl
           @bus.push("<div class='pre stderr'>#{d}</div>")
 
         @sclang.on 'error', (err) =>
-          # console.log err
+          errorTime = new Date()
+          err.time = errorTime
           @bus.push rendering.renderError(err, null)
+          if atom.config.get 'atom-supercollider.growlOnError'
+            show = true
+            if lastErrorTime?
+              show = (lastErrorTime - errorTime) > 1000
+            if show
+              growl(err.error.errorString, { title: 'SuperCollider'})
+            lastErrorTime = errorTime
 
         onBoot = () =>
           @sclang.initInterpreter()
