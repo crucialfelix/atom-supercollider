@@ -58,8 +58,8 @@ class Repl
           # initFailure
           # descrepency
           # systemError
-          @bus.push("<div class='error'>ERROR: #{state}</div>")
-          @bus.push("<div class='pre error'>#{error}</div>")
+          @bus.push("<div class='error'>STATE: #{state}</div>")
+          # @bus.push("<div class='pre error'>#{error}</div>")
 
     dir = process.cwd()
     if @projectRoot
@@ -68,11 +68,16 @@ class Repl
     supercolliderjs.resolveOptions(null, opts)
       .then (options) =>
         process.chdir(dir)
-
         @sclang = new supercolliderjs.sclang(options)
 
         @sclang.on 'state', (state) =>
-          @bus.push("<div class='state #{state}'>#{state}</div>")
+          if state
+            @bus.push("<div class='state #{state}'>#{state}</div>")
+
+        @sclang.on 'exit', () =>
+          @bus.push("<div class='state dead'>sclang exited</div>")
+          # how do you revive it ?
+          # @sclang = null
 
         sc3 = /^sc3>\s*$/mg
         @sclang.on 'stdout', (d) =>
@@ -84,6 +89,7 @@ class Repl
           @bus.push("<div class='pre stderr'>#{d}</div>")
 
         @sclang.on 'error', (err) =>
+          # console.log err
           @bus.push rendering.renderError(err, null)
 
         onBoot = () =>
