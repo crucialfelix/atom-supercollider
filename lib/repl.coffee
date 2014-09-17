@@ -34,6 +34,8 @@ class Repl
     @emit = new Bacon.Bus()
 
   startSCLang: () ->
+    @recompiling = false
+
     opts =
       stdin: false
       echo: false
@@ -73,16 +75,21 @@ class Repl
         process.chdir(dir)
         @sclang = new supercolliderjs.sclang(options)
 
+        unlisten = (sclang) ->
+          for event in ['exit', 'stdout', 'stderr', 'error', 'state']
+            sclang.removeAllListeners(event)
+
         @sclang.on 'state', (state) =>
           if state
             @bus.push("<div class='state #{state}'>#{state}</div>")
 
         @sclang.on 'exit', () =>
           @bus.push("<div class='state dead'>sclang exited</div>")
-          if atom.config.get 'atom-supercollider.growlOnError'
-            growl("sclang exited", {title: "SuperCollider"})
-          # how do you revive it ?
-          # @sclang = null
+          unless @recompiling
+            if atom.config.get 'atom-supercollider.growlOnError'
+              growl("sclang exited", {title: "SuperCollider"})
+          unlisten(@sclang)
+          @sclang = null
 
         sc3 = /^sc3>\s*$/mg
         @sclang.on 'stdout', (d) =>
@@ -148,9 +155,13 @@ class Repl
     deferred.promise
 
   recompile: ->
-    @sclang?.quit()
-      .then () =>
-        @startSCLang()
+    @recompiling = true
+    if @sclang?
+      @sclang.quit()
+        .then () =>
+          @startSCLang()
+    else
+      @startSCLang()
 
   isCompiled: ->
     @sclang?.state is 'ready'
