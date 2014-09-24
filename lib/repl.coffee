@@ -107,9 +107,9 @@ class Repl
           if atom.config.get 'atom-supercollider.growlOnError'
             show = true
             if lastErrorTime?
-              show = (lastErrorTime - errorTime) > 1000
+              show = (errorTime - lastErrorTime) > 1000
             if show
-              growl(err.error.errorString, { title: 'SuperCollider'})
+              growl(err.error.errorString, {title: 'SuperCollider'})
             lastErrorTime = errorTime
 
         onBoot = () =>
