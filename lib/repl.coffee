@@ -94,6 +94,12 @@ class Repl
         sc3 = /^sc3>\s*$/mg
         @sclang.on 'stdout', (d) =>
           d = d.replace(sc3, '')
+          d = d.replace(/^ERROR\:/gm,
+            """<span class="error-label">ERROR:</span>""")
+          d = d.replace(/^WARNING\:/gm,
+            """<span class="warning-label">WARNING:</span>""")
+          d = d.replace(/^FAILURE IN SERVER\:/gm,
+            """<span class="error-label">FAILURE IN SERVER:</span>""")
           @bus.push("<div class='pre stdout'>#{d}</div>")
 
         @sclang.on 'stderr', (d) =>

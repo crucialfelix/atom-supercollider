@@ -104,6 +104,12 @@
       }
     }
   }
+  .error-label {
+    color: @text-color-error;
+  }
+  .warning-label {
+    color: @text-color-warning;
+  }
   .time {
     color: fadeout(@text-color-subtle, 70%);
     font-size: 0.9em;
@@ -112,6 +118,7 @@
   .error-Error,
   .error-SyntaxError,
   .error-ParseError {
+    margin-top: @vertical-padding;
     // border: 1px solid fadeout(@background-color-error, 80%);
   }
   .object-vars {
