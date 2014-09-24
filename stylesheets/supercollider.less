@@ -114,7 +114,13 @@
   .error-ParseError {
     // border: 1px solid fadeout(@background-color-error, 80%);
   }
-
+  .object-vars {
+    opacity: 0.8;
+    margin-left: 1em;
+    th {
+      white-space: nowrap;
+    }
+  }
   .debug {
     clear: both;
     font-size: 11px;
@@ -234,6 +240,43 @@
     background-color: @background-color-error;
   }
 }
+
+
+// unfolding in the stack trace
+.unfolder { display: none; }
+
+.toggle-label {
+	display: inline-block;
+	cursor: pointer;
+	font-size: 11px;
+	border-radius: 5px;
+	padding: 5px;
+}
+.unfold-icon,
+.fold-icon {
+  color: @text-color-subtle;
+  font-size: 9px;
+  width: 6px;
+  display: inline-block;
+}
+.unfolder ~ .fold {
+  display: none;
+}
+.unfolder ~ label .fold-icon {
+  display: none;
+}
+.unfolder:checked ~ .fold {
+  display: block;
+}
+.unfolder:checked ~ label .fold-icon {
+  display: inline-block;
+}
+.unfolder:checked ~ label .unfold-icon {
+  display: none;
+}
+
+
+
 
 // a hack for the syntax colors
 // because most syntax themes do not

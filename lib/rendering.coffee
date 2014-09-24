@@ -38,6 +38,22 @@ showClass = (obj) ->
     return false
   return true
 
+unfolder = (title, content) ->
+  # unfolder = """<span class="unfold" onclick="">&#9654;</span>"""
+  id = ('' + Math.random()).replace('0.', 'fold')
+  """
+    <div>
+      <input type="checkbox" id="#{id}" class="unfolder"/>
+      <label for="#{id}" class="toggle-label"><span class="unfold-icon">&#9654;</span><span class="fold-icon">&#9660;</span>
+         #{title}
+      </label>
+
+      <div class="fold">
+        #{content}
+       </div>
+    </div>
+  """
+
 formatObj = (obj) ->
   if showClass obj
     klass = formatClass(obj.class)
@@ -47,9 +63,21 @@ formatObj = (obj) ->
   css = cssClass[classAs] or ''
   if css
     css += " supercollider"
-  """
-    #{klass} <span class="#{css}">#{obj.asString}</span>
-  """
+
+  asString = obj.asString.replace("<", "&lt;").replace(">", "&gt;")
+  title = """#{klass} <span class="#{css}">#{asString}</span>"""
+
+  if obj.vars? and obj.vars.length
+    vsl = []
+    for v in obj.vars
+      fmtV = formatObj v.value
+      vsl.push("""<tr><th>#{v.name}</th><td> #{fmtV}</td></tr>""")
+    rows = vsl.join("")
+    vs = """<table class="object-vars">#{rows}</table>"""
+    unfolder(title, vs)
+  else
+    title
+
 
 formatClass = (className) ->
   """<span class="entity name class">#{className}</span>"""
