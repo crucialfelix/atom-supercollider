@@ -7,6 +7,9 @@ supercolliderjs = require('supercolliderjs')
 escape = require('escape-html')
 rendering = require './rendering'
 growl = require 'growl'
+yaml = require 'js-yaml'
+fs   = require 'fs'
+path = require 'path'
 
 
 module.exports =
@@ -33,12 +36,53 @@ class Repl
     @bus = new Bacon.Bus()
     @emit = new Bacon.Bus()
 
+  makeConf: (cb, scConfig) ->
+    # write opts as yaml to a file
+    # and return path
+    path = '/tmp/atom-supercollider-sc-config.yaml'
+    str = yaml.safeDump(scConfig, {indent: 4})
+    fs.writeFile path,
+      str,
+      (err) ->
+        if err
+          throw err
+        cb(path)
+
   startSCLang: () ->
     @recompiling = false
 
     opts =
       stdin: false
       echo: false
+
+    dir = process.cwd()
+    if @projectRoot
+      process.chdir(@projectRoot)
+
+    supercolliderjs.resolveOptions(null, opts)
+      .then (options) =>
+        unless atom.config.get 'atom-supercollider.classicRepl'
+          # add ./classes to compile path
+          addPath = path.resolve __dirname, '../scclasses'
+          scConfig = {}
+          includePaths = options.includePaths or []
+          includePaths.push(addPath)
+          scConfig.includePaths = includePaths
+          if options.excludePaths
+            scConfig.excludePaths = options.excludePaths
+          if options.postInlineWarnings
+            scConfig.postInlineWarnings = options.postInlineWarnings
+
+          bootIt = (confPath) =>
+            options.config = confPath
+            @bootProcess(dir, options)
+
+          @makeConf(bootIt, scConfig)
+        else
+          # just boot
+          @bootProcess(dir, options)
+
+  bootProcess: (dir, options) ->
 
     pass = () =>
       @ready.resolve()
@@ -64,68 +108,62 @@ class Repl
           @bus.push("<div class='error'>STATE: #{state}</div>")
           # @bus.push("<div class='pre error'>#{error}</div>")
 
-    dir = process.cwd()
-    if @projectRoot
-      process.chdir(@projectRoot)
+    lastErrorTime = null
 
-    supercolliderjs.resolveOptions(null, opts)
-      .then (options) =>
-        lastErrorTime = null
+    process.chdir(dir)
+    @sclang = new supercolliderjs.sclang(options)
 
-        process.chdir(dir)
-        @sclang = new supercolliderjs.sclang(options)
+    unlisten = (sclang) ->
+      for event in ['exit', 'stdout', 'stderr', 'error', 'state']
+        sclang.removeAllListeners(event)
 
-        unlisten = (sclang) ->
-          for event in ['exit', 'stdout', 'stderr', 'error', 'state']
-            sclang.removeAllListeners(event)
+    @sclang.on 'state', (state) =>
+      if state
+        @bus.push("<div class='state #{state}'>#{state}</div>")
 
-        @sclang.on 'state', (state) =>
-          if state
-            @bus.push("<div class='state #{state}'>#{state}</div>")
+    @sclang.on 'exit', () =>
+      @bus.push("<div class='state dead'>sclang exited</div>")
+      unless @recompiling
+        if atom.config.get 'atom-supercollider.growlOnError'
+          growl("sclang exited", {title: "SuperCollider"})
+      unlisten(@sclang)
+      @sclang = null
 
-        @sclang.on 'exit', () =>
-          @bus.push("<div class='state dead'>sclang exited</div>")
-          unless @recompiling
-            if atom.config.get 'atom-supercollider.growlOnError'
-              growl("sclang exited", {title: "SuperCollider"})
-          unlisten(@sclang)
-          @sclang = null
+    sc3 = /^sc3>\s*$/mg
+    @sclang.on 'stdout', (d) =>
+      d = d.replace(sc3, '')
+      d = d.replace(/^ERROR\:/gm,
+        """<span class="error-label">ERROR:</span>""")
+      d = d.replace(/^WARNING\:/gm,
+        """<span class="warning-label">WARNING:</span>""")
+      # server errors
+      d = d.replace(/^FAILURE IN SERVER\:?/gm,
+        """<span class="error-label scsynth">FAILURE IN SERVER:</span>""")
+      d = d.replace(/^\*\*\* ERROR/gm,
+        """<span class="error-label scsynth">*** ERROR</span>""")
+      @bus.push("<div class='pre stdout'>#{d}</div>")
 
-        sc3 = /^sc3>\s*$/mg
-        @sclang.on 'stdout', (d) =>
-          d = d.replace(sc3, '')
-          d = d.replace(/^ERROR\:/gm,
-            """<span class="error-label">ERROR:</span>""")
-          d = d.replace(/^WARNING\:/gm,
-            """<span class="warning-label">WARNING:</span>""")
-          # server errors
-          d = d.replace(/^FAILURE IN SERVER\:?/gm,
-            """<span class="error-label scsynth">FAILURE IN SERVER:</span>""")
-          d = d.replace(/^\*\*\* ERROR/gm,
-            """<span class="error-label scsynth">*** ERROR</span>""")
-          @bus.push("<div class='pre stdout'>#{d}</div>")
+    @sclang.on 'stderr', (d) =>
+      d = d.replace(sc3, '')
+      @bus.push("<div class='pre stderr'>#{d}</div>")
 
-        @sclang.on 'stderr', (d) =>
-          d = d.replace(sc3, '')
-          @bus.push("<div class='pre stderr'>#{d}</div>")
+    @sclang.on 'error', (err) =>
+      errorTime = new Date()
+      err.errorTime = errorTime
+      @bus.push rendering.renderError(err, null)
+      if atom.config.get 'atom-supercollider.growlOnError'
+        show = true
+        if lastErrorTime?
+          show = (errorTime - lastErrorTime) > 1000
+        if show
+          growl(err.error.errorString, {title: 'SuperCollider'})
+        lastErrorTime = errorTime
 
-        @sclang.on 'error', (err) =>
-          errorTime = new Date()
-          err.errorTime = errorTime
-          @bus.push rendering.renderError(err, null)
-          if atom.config.get 'atom-supercollider.growlOnError'
-            show = true
-            if lastErrorTime?
-              show = (errorTime - lastErrorTime) > 1000
-            if show
-              growl(err.error.errorString, {title: 'SuperCollider'})
-            lastErrorTime = errorTime
+    onBoot = () =>
+      @sclang.initInterpreter()
+                  .then(pass, fail)
 
-        onBoot = () =>
-          @sclang.initInterpreter()
-                      .then(pass, fail)
-
-        @sclang.boot().then(onBoot, fail)
+    @sclang.boot().then(onBoot, fail)
 
   eval: (expression, noecho=false, nowExecutingPath=null) ->
 
