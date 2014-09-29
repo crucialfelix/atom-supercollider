@@ -146,6 +146,7 @@ class Repl
       deferred.reject(error)
 
     @ready.promise.then =>
+      noecho = true
       unless noecho
         if expression.length > 80
           echo = expression.substr(0, 80) + '...'
