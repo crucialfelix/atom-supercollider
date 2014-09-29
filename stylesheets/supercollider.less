@@ -262,15 +262,19 @@
 	display: inline-block;
 	cursor: pointer;
 	font-size: 11px;
-	border-radius: 5px;
-	padding: 5px;
+	// border-radius: 5px;
+	// padding: 5px;
 }
 .unfold-icon,
 .fold-icon {
-  color: @text-color-subtle;
+  color: fadeout(@text-color-subtle, 50%);
   font-size: 9px;
   width: 6px;
   display: inline-block;
+
+  &:hover {
+    color: @text-color-subtle;
+  }
 }
 .unfolder ~ .fold {
   display: none;
