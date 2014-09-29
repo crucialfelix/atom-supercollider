@@ -98,8 +98,11 @@ class Repl
             """<span class="error-label">ERROR:</span>""")
           d = d.replace(/^WARNING\:/gm,
             """<span class="warning-label">WARNING:</span>""")
-          d = d.replace(/^FAILURE IN SERVER\:/gm,
-            """<span class="error-label">FAILURE IN SERVER:</span>""")
+          # server errors
+          d = d.replace(/^FAILURE IN SERVER\:?/gm,
+            """<span class="error-label scsynth">FAILURE IN SERVER:</span>""")
+          d = d.replace(/^\*\*\* ERROR/gm,
+            """<span class="error-label scsynth">*** ERROR</span>""")
           @bus.push("<div class='pre stdout'>#{d}</div>")
 
         @sclang.on 'stderr', (d) =>
