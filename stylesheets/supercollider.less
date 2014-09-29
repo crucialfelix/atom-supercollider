@@ -52,24 +52,30 @@
 
   .state {
     font-weight: bold;
-    background: #888;
-    color: #fff;
+    font-size: 1.1em;
+    // background: #888;
+    border-bottom: 1px solid fadeout(@background-color-info, 40%);
+    border-color: @panel-heading-border-color;
+    // background: @panel-heading-background-color;
+    // color: #fff;
     padding: 1px;
     margin:  @vertical-padding auto;
-    display: inline-block;
-    min-width: 200px;
-    text-align: center;
+    // width: 100%;
     &.booting {
-      background: fadeout(@background-color-info, 40%);
+      color: fadeout(@background-color-info, 40%);
+      border-bottom: 2px solid fadeout(@background-color-info, 80%);
     }
     &.ready {
-      background: fadeout(@background-color-success, 40%);
+      color: @background-color-success;
+      border-bottom: 2px solid fadeout(@background-color-success, 80%);
     }
     &.compileError {
-      background: @background-color-error;
+      color: fadeout(@background-color-error, 40%);
+      border-bottom: 1px solid fadeout(@background-color-error, 80%);
     }
     &.dead {
-      background: @background-color-error;
+      color: fadeout(@background-color-error, 40%);
+      border-bottom: 1px solid fadeout(@background-color-error, 80%);
     }
     &.compiled,
     &.compiling,
