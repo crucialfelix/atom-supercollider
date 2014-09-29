@@ -21,6 +21,7 @@
   "activationEvents": [
     "supercollider:eval",
     "supercollider:open-post-window",
+    "supercollider:clear-post-window",
     "supercollider:open-help-file",
     "supercollider:recompile",
     "supercollider:cmd-period"

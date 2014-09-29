@@ -64,6 +64,7 @@ class Controller
 
   handleReplEvent: (event) ->
     error = event.value()
+    # only expecting compile errors for now
     if error.index == 0
       @openToSyntaxError(error.file, error.line, error.char)
 
@@ -183,7 +184,7 @@ class Controller
       # if stuck in compile error
       # then post warning and return
       unless @activeRepl.isCompiled()
-        console.log 'not compiled'
+        console.log 'library is not compiled'
         return
       doIt()
     else

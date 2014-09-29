@@ -39,7 +39,6 @@ showClass = (obj) ->
   return true
 
 unfolder = (title, content) ->
-  # unfolder = """<span class="unfold" onclick="">&#9654;</span>"""
   id = ('' + Math.random()).replace('0.', 'fold')
   """
     <div>
