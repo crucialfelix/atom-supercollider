@@ -7,16 +7,16 @@
 
 # For more detailed documentation see
 # https://atom.io/docs/latest/advanced/keymaps
-'.workspace':
+'.platform-darwin .workspace':
+  'shift-cmd-C': 'supercollider:clear-post-window'
+'.workspace .editor:not(.mini)':
   'cmd-\\': 'supercollider:open-post-window'
   'shift-enter': 'supercollider:eval'
   'shift-cmd-k': 'supercollider:recompile'
   'cmd-.': 'supercollider:cmd-period'
-  'shift-cmd-c': 'supercollider:clear-post-window'
-
+  'shift-cmd-C': 'supercollider:clear-post-window'
   # you may add these to your personal keymaps
   # scope dependant keymaps are an upcoming atom feature
-
   # cmd-D is far too popular
   # cmd-shift-h conflicts with git-plus
   # cmd-? would be great but cuts off atom's own help system
