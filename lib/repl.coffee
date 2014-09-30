@@ -7,9 +7,6 @@ supercolliderjs = require('supercolliderjs')
 escape = require('escape-html')
 rendering = require './rendering'
 growl = require 'growl'
-yaml = require 'js-yaml'
-fs   = require 'fs'
-path = require 'path'
 
 
 module.exports =
@@ -36,18 +33,6 @@ class Repl
     @bus = new Bacon.Bus()
     @emit = new Bacon.Bus()
 
-  makeConf: (cb, scConfig) ->
-    # write opts as yaml to a file
-    # and return path
-    path = '/tmp/atom-supercollider-sc-config.yaml'
-    str = yaml.safeDump(scConfig, {indent: 4})
-    fs.writeFile path,
-      str,
-      (err) ->
-        if err
-          throw err
-        cb(path)
-
   startSCLang: () ->
     @recompiling = false
 
@@ -61,26 +46,9 @@ class Repl
 
     supercolliderjs.resolveOptions(null, opts)
       .then (options) =>
-        unless atom.config.get 'atom-supercollider.classicRepl'
-          # add ./classes to compile path
-          addPath = path.resolve __dirname, '../scclasses'
-          scConfig = {}
-          includePaths = options.includePaths or []
-          includePaths.push(addPath)
-          scConfig.includePaths = includePaths
-          if options.excludePaths
-            scConfig.excludePaths = options.excludePaths
-          if options.postInlineWarnings
-            scConfig.postInlineWarnings = options.postInlineWarnings
-
-          bootIt = (confPath) =>
-            options.config = confPath
-            @bootProcess(dir, options)
-
-          @makeConf(bootIt, scConfig)
-        else
-          # just boot
-          @bootProcess(dir, options)
+        options.errorsAsJSON =
+          !(atom.config.get 'atom-supercollider.classicRepl')
+        @bootProcess(dir, options)
 
   bootProcess: (dir, options) ->
 
