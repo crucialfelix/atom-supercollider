@@ -1,14 +1,21 @@
 ## development
 
+## 0.3.0
+
 - Runtime asynchronous errors can now be caught and full call stack shown.
   Previously only errors that were a direct response to evaluated text were shown.
-  This requires the supercolliderjs quark to be installed. If its not installed then
-  errors are displayed exactly as supercollider posts them.
+
+- Objects in callstacks have ▶ icons. Click to unfold a full variable
+  dump of each object. Very useful for debugging.
 
 - Growl notifications on error (optional)
+  see for install instructions if you need growl:
   https://github.com/visionmedia/node-growl
   ox x / linux / windows
-  Useful if you are busy making music in another window and want the errors posted.
+  Very useful if you are busy making music in another window and want to know why the music just stopped.
+
+- Server errors are colorized (eg. Node/SynthDef not found)
+
 
 ## 0.2.0
 
