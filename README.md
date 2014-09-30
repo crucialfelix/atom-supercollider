@@ -19,6 +19,42 @@ https://supercollider.github.io
 SuperCollider Atom is an alternative to the IDE. Atom is free, open source and very hackable.
 
 
+## Features
+
+### Lookup classes and methods using shift-cmd-R
+
+<img src="docs/images/lookup-classes-methods.png" style="max-width: 500px; margin:auto; display: block;" />
+
+### Clear readable call stacks for errors
+
+Clicking on one of the debug frames will open the source code in the left pane.
+
+![Call Stack](docs/images/callstack.png)
+
+#### Click to see contents of objects in Args or Vars
+
+<img src="docs/images/sc-atom-fold-out.gif" />
+
+### Syntax errors in your code are highlighted
+
+<img src="docs/images/scatom-syntax-error.png" />
+
+
+### System/Growl notifications on error
+
+<img src="docs/images/growl-notification.png" style="width: auto; max-width: 400px;" />
+
+Very useful if you are busy making music in another window and want to know why the music just stopped.
+
+Uses system notification on OS X 10.8+  Earlier OS X versions, Linux and Windows can install Growl:
+
+https://github.com/visionmedia/node-growl
+
+### REPL
+### SuperCollider's full Qt GUI
+### Open help files by right-clicking on the class/method name
+
+
 ---
 
 
@@ -34,7 +70,7 @@ https://supercollider.github.io
 
 ##### 3. It should work
 
-If you've installed SuperCollider in a non-standard place or have a development build, then create a .supercollider.yaml file to specify the path
+If you've installed SuperCollider in a non-standard place or have a development build, then create a .supercollider.yaml file to specify the path where sclang can be found.
 
 See "Preferences" below.
 
