@@ -61,6 +61,10 @@
     padding: 1px;
     margin:  @vertical-padding auto;
     // width: 100%;
+    &.config {
+      color: fadeout(@background-color-info, 40%);
+      border-bottom: 1px solid fadeout(@background-color-info, 80%);
+    }
     &.booting {
       color: fadeout(@background-color-info, 40%);
       border-bottom: 1px solid fadeout(@background-color-info, 80%);
@@ -144,10 +148,14 @@
   }
   .th,
   .td {
+    vertical-align: top;
     display: table-cell;
   }
   .th {
     width: 12em;
+  }
+  .config a {
+    text-decoration: underline;
   }
 
   // backtrace

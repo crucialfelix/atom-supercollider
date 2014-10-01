@@ -46,6 +46,7 @@ class Repl
 
     supercolliderjs.resolveOptions(null, opts)
       .then (options) =>
+        @bus.push rendering.displayOptions(options)
         options.errorsAsJSON =
           !(atom.config.get 'atom-supercollider.classicRepl')
         @bootProcess(dir, options)

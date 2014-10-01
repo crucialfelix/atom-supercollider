@@ -274,7 +274,33 @@ renderParseError = (error) ->
   """
   ret
 
+displayOptions = (options, configPath) ->
+
+  rows = [
+    '<div class="state config">config</div>'
+    '<table class="config">'
+  ]
+
+  rower = (key, value) ->
+    rows.push """<tr><th>#{key}:</th><td>#{value}</tr>"""
+
+  if options.configPath
+    rower "configFile",
+      """<a href="#{options.configPath}">#{options.configPath}</a>"""
+  else
+    rower "config",
+      "default"
+  rower("sclang", options.sclang)
+
+  rowsh = rows.join('')
+  """
+    <div>
+      <table>#{rowsh}</table>
+    </div>
+  """
+
 module.exports =
   renderError: renderError
   renderParseError: renderParseError
   formatBacktrace: formatBacktrace
+  displayOptions: displayOptions
