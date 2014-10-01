@@ -88,7 +88,8 @@ formatMethod = (obj) ->
 
 formatFile = (obj) ->
   if obj.file
-    """<span class="file">#{obj.file}:#{obj.charPos}</span>"""
+    uri = "#{obj.file}:#{obj.charPos}"
+    """<span class="file"><a href="scclass://#{uri}">#{uri}</a></span>"""
   else
     ''
 
@@ -112,10 +113,12 @@ formatBacktrace = (bt) ->
       if frame.type is "Method"
         method = formatMethod(frame)
         file = formatFile(frame)
-        line = """
+        title = """
           <div class="bt-name">
             #{method} <span class="frame-address">#{frame.address}</span>
           </div>
+          """
+        line = """
           <div class="bt-link">#{file}</div>
         """
       else
@@ -128,11 +131,14 @@ formatBacktrace = (bt) ->
         else
           dfn = ''
 
-        line = """
+        title = """
           <div class="bt-name">
             a <span class="entity name class supercollider">Function</span> #{dfn}<span class="frame-address">#{frame.address}</span>
           </div>
         """
+
+        line = ""
+
         if frame.context
           line += """
             <div class="bt-link">#{file}</div>
@@ -170,18 +176,15 @@ formatBacktrace = (bt) ->
             formatObj(arg.value))
 
       if sourcePath
-        link = """ open-file="#{sourcePath}:#{sourceCharPos}" """
-        ll = """
-          <div class='bt-line open-file' #{link}>
-            #{line}
-          </div>
-        """
-      else
-        ll = """<div class='bt-line'>#{line}</div>"""
+        uri = "#{sourcePath}:#{sourceCharPos}"
+        title = """<a href="scclass://#{uri}">#{title}</a>"""
+
+      ll = """<div class='bt-line'>#{title}#{line}</div>"""
 
       lines.push(ll)
 
   joined = lines.join('')
+
   "<div class='bt'>#{joined}</div>"
 
 renderError = (err, expression) ->
@@ -274,7 +277,7 @@ renderParseError = (error) ->
   """
   ret
 
-displayOptions = (options, configPath) ->
+displayOptions = (options) ->
 
   rows = [
     '<div class="state config">config</div>'

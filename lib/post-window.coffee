@@ -49,7 +49,10 @@ class PostWindow extends ScrollView
     selectedNode = selection.baseNode
 
     # Use default copy event handler if there is selected text inside this view
-    hasSelection = selectedText and selectedNode? and (@[0] is selectedNode or $.contains(@[0], selectedNode))
+    hasSelection = selectedText and
+      selectedNode? and
+      (@[0] is selectedNode or $.contains(@[0], selectedNode))
+
     return false if hasSelection
 
     atom.clipboard.write(@[0].innerText)

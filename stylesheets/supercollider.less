@@ -191,6 +191,9 @@
     padding: @vertical-padding 0.5em;
     border-bottom: 1px solid fadeout(@text-color-subtle, 80%);
     &:hover {
+      background: fadeout(desaturate(@ui-site-color-2, 80%), 98%);
+      box-shadow: 0px 0px 2px 2px fadeout(@bt-border-color, 90%);
+
       .bt-link,
       .frame-address {
         color: @text-color-subtle;
@@ -217,11 +220,6 @@
     font-size: 9px;
     color: transparent;
     display: none;
-  }
-  .open-file:hover {
-    cursor: pointer;
-    background: fadeout(desaturate(@ui-site-color-2, 80%), 98%);
-    box-shadow: 0px 0px 2px 2px fadeout(@bt-border-color, 90%);
   }
 }
 

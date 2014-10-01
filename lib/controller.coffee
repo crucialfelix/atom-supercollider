@@ -74,32 +74,43 @@ class Controller
     if repl
       @activateRepl repl
     else
+      # open links on click
       fileOpener = (event) =>
-        target = event.originalEvent.target
-        return unless target
-        $target = $(target)
-        if not $target.is('.open-file')
-          $target = $target.parents('.open-file').eq(0)
-          return unless $target.length
-        link = $target.attr('open-file')
-        [path, charPos] = link.split(':')
-        if ',' in charPos
-          [lineno, char] = charPos.split(',')
-          @openFile(
-            path,
-            null,
-            parseInt(lineno),
-            parseInt(char),
-            'line',
-            'line-highlight')
-        else
-          @openFile(
-            path,
-            parseInt(charPos),
-            null,
-            null,
-            'line',
-            'line-highlight')
+
+        # A or child of A
+        link = event.target.href
+        unless link
+          link = $(event.target).parents('a').attr('href')
+
+        return unless link
+
+        event.preventDefault()
+
+        if link.substr(0, 7) == 'file://'
+          path = link.substr(7)
+          atom.workspace.open(path, split: 'left', searchAllPanes: true)
+          return
+
+        if link.substr(0, 10) == 'scclass://'
+          link = link.substr(10)
+          [path, charPos] = link.split(':')
+          if ',' in charPos
+            [lineno, char] = charPos.split(',')
+            @openFile(
+              path,
+              null,
+              parseInt(lineno),
+              parseInt(char),
+              'line',
+              'line-highlight')
+          else
+            @openFile(
+              path,
+              parseInt(charPos),
+              null,
+              null,
+              'line',
+              'line-highlight')
 
       atom.workspace.open(uri, split: 'right', searchAllPanes: true)
         .then () =>
