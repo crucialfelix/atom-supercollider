@@ -496,3 +496,19 @@ describe "rendering an error", ->
   it "should render the backtrace", ->
     out = rendering.formatBacktrace(backtrace)
     expect(out).toBeTruthy()
+
+
+describe "stdout styling", ->
+
+  it "should remove prompts", ->
+    input = "\nsc3> \nsomething\n"
+    output = rendering.cleanStdout(input)
+    expect(output).not.toContain("sc3>")
+
+  it "should remove terminal escape sequences", ->
+    esc = String.fromCharCode(27)
+    input = "blahblah#{esc}[H#{esc}[2J"
+    output = rendering.cleanStdout(input)
+    expect(output).not.toContain(esc)
+    expect(output).not.toContain("H")
+    expect(output).not.toContain("2J")

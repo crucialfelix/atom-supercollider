@@ -98,22 +98,14 @@ class Repl
       unlisten(@sclang)
       @sclang = null
 
-    sc3 = /^sc3>\s*$/mg
     @sclang.on 'stdout', (d) =>
-      d = d.replace(sc3, '')
-      d = d.replace(/^ERROR\:/gm,
-        """<span class="error-label">ERROR:</span>""")
-      d = d.replace(/^WARNING\:/gm,
-        """<span class="warning-label">WARNING:</span>""")
-      # server errors
-      d = d.replace(/^FAILURE IN SERVER\:?/gm,
-        """<span class="error-label scsynth">FAILURE IN SERVER:</span>""")
-      d = d.replace(/^\*\*\* ERROR/gm,
-        """<span class="error-label scsynth">*** ERROR</span>""")
+      d = rendering.cleanStdout(d)
+      d = rendering.stylizeErrors(d)
       @bus.push("<div class='pre stdout'>#{d}</div>")
 
     @sclang.on 'stderr', (d) =>
-      d = d.replace(sc3, '')
+      d = rendering.cleanStdout(d)
+      d = rendering.stylizeErrors(d)
       @bus.push("<div class='pre stderr'>#{d}</div>")
 
     @sclang.on 'error', (err) =>
