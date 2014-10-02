@@ -191,7 +191,7 @@ renderError = (err, expression) ->
   error = err.error
   msg = error.errorString or err.type
   if err.type is 'SyntaxError'
-    msg = "#{error.syntaxErrors.msg}"
+    msg = "#{error.msg}"
 
   errorTime = ""
   if err.errorTime?
@@ -205,20 +205,16 @@ renderError = (err, expression) ->
   if err.type == 'SyntaxError'
     lines.push """
       <div class="bt">
-        <div class="pre source supercollider">#{error.syntaxErrors.code}</div>
+        <div class="pre source supercollider">#{error.code}</div>
       </div>
     """
-    if error.syntaxErrors.file != 'selected text'
-      uri = "#{error.syntaxErrors.file}:#{error.syntaxErrors.line}"
+    if error.file != 'selected text'
+      uri = "#{error.file}:#{error.line}"
       lines.push """
         <div open-file="#{uri}" class="open-file">
-          in file #{error.syntaxErrors.file
-        }</div>
+          in file #{error.file}
+        </div>
       """
-
-
-  # dup of errorString for now
-  # lines.push "<strong>#{error.what}</strong>"
 
   if error.receiver
     lines.push row('Receiver', formatObj(error.receiver))

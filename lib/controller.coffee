@@ -181,8 +181,8 @@ class Controller
           unflash?('eval-syntax-error')
           if path
             # offset syntax error by position of selected text in file
-            row = range.getRows()[0] + error.error.syntaxErrors.line
-            col = error.error.syntaxErrors.charPos
+            row = range.getRows()[0] + error.error.line
+            col = error.error.charPos
             @openToSyntaxError(path, parseInt(row), parseInt(col))
         else
           # runtime error

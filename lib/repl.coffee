@@ -137,15 +137,19 @@ class Repl
       deferred.resolve(result)
 
     err = (error) =>
+      deferred.reject(error)
       if classic
-        stdout = escape(error.error.stdout.trim())
+        stdout = error.error.stdout
+        if stdout
+          stdout = escape(stdout.trim())
+        else
+          stdout = "ERROR"
         @bus.push "<div class='error pre'>#{stdout}</div>"
       else
         error.errorTime = new Date()
         @bus.push rendering.renderError(error, expression)
         # dbug = JSON.stringify(error, undefined, 2)
         # @bus.push "<div class='pre debug'>#{dbug}</div>"
-      deferred.reject(error)
 
     @ready.promise.then =>
       noecho = true
@@ -154,7 +158,6 @@ class Repl
           echo = expression.substr(0, 80) + '...'
         else
           echo = expression
-        # <span class='prompt'>=&gt;</span>
         @bus.push "<div class='pre in'>#{echo}</div>"
 
       # expression path asString postErrors getBacktrace

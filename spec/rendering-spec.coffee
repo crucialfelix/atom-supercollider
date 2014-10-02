@@ -498,6 +498,20 @@ describe "rendering an error", ->
     expect(out).toBeTruthy()
 
 
+describe "rendering a SyntaxError", ->
+
+  error =
+    type: 'SyntaxError'
+    errorTime: new Date()
+    error:
+      code: "source code here"
+      file: "/Users/moi/supercollider/file.scd"
+
+  it "should render the error", ->
+    out = rendering.renderError(error)
+    expect(out).toBeTruthy()
+
+
 describe "stdout styling", ->
 
   it "should remove prompts", ->
