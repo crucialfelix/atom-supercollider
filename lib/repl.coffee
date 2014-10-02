@@ -183,6 +183,9 @@ class Repl
   isCompiled: ->
     @sclang?.state is 'ready'
 
+  warnIsNotCompiled: ->
+    @bus.push "<div class='error stderr'>Library is not compiled</div>"
+
   cmdPeriod: ->
     @eval("CmdPeriod.run;", true)
 
