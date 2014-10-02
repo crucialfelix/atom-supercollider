@@ -192,7 +192,6 @@ class Controller
         .then(onSuccess, onError)
 
     if @activeRepl
-      @activeRepl.warnIsNotCompiled()
       # if stuck in compile error
       # then post warning and return
       unless @activeRepl.isCompiled()
