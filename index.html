@@ -1,0 +1,284 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <title>Atom-supercollider by crucialfelix</title>
+
+    <link rel="stylesheet" href="stylesheets/styles.css">
+    <link rel="stylesheet" href="stylesheets/pygment_trac.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+  </head>
+  <body>
+    <div class="wrapper">
+      <header>
+        <h1>Atom-supercollider</h1>
+        <p>SuperCollider development environment for Atom.io</p>
+
+        <p class="view"><a href="https://github.com/crucialfelix/atom-supercollider">View the Project on GitHub <small>crucialfelix/atom-supercollider</small></a></p>
+
+
+        <ul>
+          <li><a href="https://github.com/crucialfelix/atom-supercollider/zipball/master">Download <strong>ZIP File</strong></a></li>
+          <li><a href="https://github.com/crucialfelix/atom-supercollider/tarball/master">Download <strong>TAR Ball</strong></a></li>
+          <li><a href="https://github.com/crucialfelix/atom-supercollider">View On <strong>GitHub</strong></a></li>
+        </ul>
+      </header>
+      <section>
+        <h1>
+<a name="supercollider-for-atom" class="anchor" href="#supercollider-for-atom"><span class="octicon octicon-link"></span></a>SuperCollider for Atom</h1>
+
+<p>A SuperCollider development environment for Atom.io</p>
+
+<hr>
+
+<p>SuperCollider is a programming language for real time audio synthesis and algorithmic composition.</p>
+
+<p><a href="https://supercollider.github.io">https://supercollider.github.io</a></p>
+
+<hr>
+
+<ol>
+<li><p>SuperCollider comes with a cross platform <strong>IDE</strong> (OS X/Linux/Windows) which communicates with the language interpreter.</p></li>
+<li><p>The language interpreter runs in a separate process (<strong>sclang</strong>) and includes comprehensive bindings for making Qt based GUIs. sclang compiles and executes SuperCollider code, manages event schedulers (for making music) and creates GUIs. It can also send and receive OSC (Open Sound Control) and MIDI.</p></li>
+<li><p>The SuperCollider synthesis server (<strong>scsynth</strong>) runs in a separate process or even on a separate machine so it is ideal for realtime networked music. It just makes music, its quite efficient and the audio quality is very high. Communication between sclang and scsynth is via OSC (Open Sound Control).</p></li>
+</ol>
+
+<p>SuperCollider Atom is an alternative to the IDE. Atom is free, open source and very hackable.</p>
+
+<h2>
+<a name="features" class="anchor" href="#features"><span class="octicon octicon-link"></span></a>Features</h2>
+
+<h3>
+<a name="lookup-classes-and-methods-using-shift-cmd-r" class="anchor" href="#lookup-classes-and-methods-using-shift-cmd-r"><span class="octicon octicon-link"></span></a>Lookup classes and methods using shift-cmd-R</h3>
+
+<p><img src="https://raw.githubusercontent.com/crucialfelix/atom-supercollider/master/docs/images/lookup-classes-methods.png"></p>
+
+<h3>
+<a name="clear-readable-call-stacks-for-errors" class="anchor" href="#clear-readable-call-stacks-for-errors"><span class="octicon octicon-link"></span></a>Clear readable call stacks for errors</h3>
+
+<p>Clicking on one of the debug frames will open the source code in the left pane.</p>
+
+<p><img src="https://raw.githubusercontent.com/crucialfelix/atom-supercollider/master/docs/images/callstack.png"></p>
+
+<h4>
+<a name="click-to-see-contents-of-objects-in-args-or-vars" class="anchor" href="#click-to-see-contents-of-objects-in-args-or-vars"><span class="octicon octicon-link"></span></a>Click to see contents of objects in Args or Vars</h4>
+
+<p><img src="https://raw.githubusercontent.com/crucialfelix/atom-supercollider/master/docs/images/sc-atom-fold-out.gif"></p>
+
+<h3>
+<a name="syntax-errors-in-your-code-are-highlighted" class="anchor" href="#syntax-errors-in-your-code-are-highlighted"><span class="octicon octicon-link"></span></a>Syntax errors in your code are highlighted</h3>
+
+<p><img src="https://raw.githubusercontent.com/crucialfelix/atom-supercollider/master/docs/images/scatom-syntax-error.png"></p>
+
+<h3>
+<a name="systemgrowl-notifications-on-error" class="anchor" href="#systemgrowl-notifications-on-error"><span class="octicon octicon-link"></span></a>System/Growl notifications on error</h3>
+
+<p><img src="https://raw.githubusercontent.com/crucialfelix/atom-supercollider/master/docs/images/growl-notification.png"></p>
+
+<p>Very useful if you are busy making music in another window and want to know why the music just stopped.</p>
+
+<p>Uses system notification on OS X 10.8+  Earlier OS X versions, Linux and Windows can install Growl:</p>
+
+<p><a href="https://github.com/visionmedia/node-growl">https://github.com/visionmedia/node-growl</a></p>
+
+<h3>
+<a name="repl" class="anchor" href="#repl"><span class="octicon octicon-link"></span></a>REPL</h3>
+
+<h3>
+<a name="supercolliders-full-qt-gui" class="anchor" href="#supercolliders-full-qt-gui"><span class="octicon octicon-link"></span></a>SuperCollider's full Qt GUI</h3>
+
+<h3>
+<a name="open-help-files-by-right-clicking-on-the-classmethod-name" class="anchor" href="#open-help-files-by-right-clicking-on-the-classmethod-name"><span class="octicon octicon-link"></span></a>Open help files by right-clicking on the class/method name</h3>
+
+<hr>
+
+<h3>
+<a name="installation" class="anchor" href="#installation"><span class="octicon octicon-link"></span></a>Installation</h3>
+
+<h5>
+<a name="1-install-this-package" class="anchor" href="#1-install-this-package"><span class="octicon octicon-link"></span></a>1. Install this package:</h5>
+
+<p>using Atom's 'Install Packages', search for "supercollider"</p>
+
+<h5>
+<a name="2-download-and-install-supercollider" class="anchor" href="#2-download-and-install-supercollider"><span class="octicon octicon-link"></span></a>2. Download and install SuperCollider:</h5>
+
+<p><a href="https://supercollider.github.io">https://supercollider.github.io</a></p>
+
+<h5>
+<a name="3-it-should-work" class="anchor" href="#3-it-should-work"><span class="octicon octicon-link"></span></a>3. It should work</h5>
+
+<p>If you've installed SuperCollider in a non-standard place or have a development build, then create a .supercollider.yaml file to specify the path where sclang can be found.</p>
+
+<p>See "Preferences" below.</p>
+
+<h5>
+<a name="4-open-an-scd-file-in-an-atom-project-and-then-open-a-post-window-shift-cmd-k" class="anchor" href="#4-open-an-scd-file-in-an-atom-project-and-then-open-a-post-window-shift-cmd-k"><span class="octicon octicon-link"></span></a>4. Open an .scd file in an Atom project, and then open a post window (shift-cmd-k)</h5>
+
+<hr>
+
+<h3>
+<a name="repl-1" class="anchor" href="#repl-1"><span class="octicon octicon-link"></span></a>REPL</h3>
+
+<table>
+<thead>
+<tr>
+<th>key</th>
+<th>command</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>shift-cmd-K</code></td>
+<td>Compile library (open window if needed)</td>
+</tr>
+<tr>
+<td><code>shift-enter</code></td>
+<td>Evaluate selection or current line</td>
+</tr>
+<tr>
+<td><code>shift-cmd-C</code></td>
+<td>Clear post window</td>
+</tr>
+<tr>
+<td><code>cmd-.</code></td>
+<td>Panic ! Stop all music</td>
+</tr>
+</tbody>
+</table>
+
+<p>You may customize these in your own Keymap file.</p>
+
+<h3>
+<a name="lookup-classes-and-methods-with-shift-cmd-r" class="anchor" href="#lookup-classes-and-methods-with-shift-cmd-r"><span class="octicon octicon-link"></span></a>Lookup classes and methods with <code>shift-cmd-r</code>
+</h3>
+
+<p>Lookup is done using Atom's Symbol View which is powered by the venerable ctags.
+Its quite fast and uses fuzzy finder. All sc classes and methods are tagged.</p>
+
+<p>Install ctags if you need to:</p>
+
+<p>os x</p>
+
+<pre><code>brew install ctags
+</code></pre>
+
+<p>ubuntu</p>
+
+<pre><code>sudo apt-get install exuberant-ctags
+</code></pre>
+
+<p>windows</p>
+
+<pre><code>http://ctags.sourceforge.net/
+</code></pre>
+
+<p>Add support for the supercollider language by making a file called ~/.ctags</p>
+
+<pre><code>--langdef=supercollider
+--langmap=supercollider:.sc
+--regex-supercollider=/^([A-Z]{1}[a-zA-Z0-9_]*) /\1/c,class/
+--regex-supercollider=/^[[:space:]]*(\*[a-z]{1}[a-zA-Z0-9_]*) \{/\1/m,method/
+--regex-supercollider=/^[[:space:]]*([a-z]{1}[a-zA-Z0-9_]*) \{/\1/m,method/
+</code></pre>
+
+<ul>
+<li>Symlink quarks and the SCClassLibrary into your project directory</li>
+<li>Install <code>symbol-gen</code> package</li>
+<li>Regenerate tags with <code>cmd-alt-g</code> or "Symbol Gen: Generate"</li>
+<li>
+<code>shift-cmd-r</code> will now be able to find all classes and methods</li>
+<li>Select a classname, <code>alt-cmd-down_arrow</code> to go to the definition</li>
+</ul>
+
+<p>Best practice is to symlink the Extensions and SCClassLibrary into your current project directory. Then all Classes will be indexed and easy to look up.
+I might find a way to pass the class paths to ctags later.</p>
+
+<p>There is also a package called 'goto' that uses the language grammar to generate symbols rather than ctags.  If you do a lot of non-class development then this might be a useful approach. I find it tags too much junk, and I like having just classes and methods in my tags file.</p>
+
+<h3>
+<a name="gui" class="anchor" href="#gui"><span class="octicon octicon-link"></span></a>GUI</h3>
+
+<p>SuperCollider has a comprehensive Qt based gui toolkit.  GUIs in SuperCollider Atom work just as they do with the SCIDE, they run in the separate language process:</p>
+
+<pre><code>Server.default.makeWindow
+</code></pre>
+
+<h3>
+<a name="help-files" class="anchor" href="#help-files"><span class="octicon octicon-link"></span></a>Help files:</h3>
+
+<p>cmd-shift-p  and type "open help file..."</p>
+
+<p>Or use the context menu (right-click) on the class name or method name to lookup.</p>
+
+<p>The help browser will open in a new window.</p>
+
+<p>(TODO: open help files directly in Atom)</p>
+
+<h2>
+<a name="preferences" class="anchor" href="#preferences"><span class="octicon octicon-link"></span></a>Preferences</h2>
+
+<p>Configuration files are managed by supercollider.js and are documented here:</p>
+
+<p><a href="http://supercolliderjs.readthedocs.org/en/latest/configuration.html">http://supercolliderjs.readthedocs.org/en/latest/configuration.html</a></p>
+
+<p>tldr: You create a .supercollider.yaml in your working directory or your home directory
+and specify paths to sclang and scsynth</p>
+
+<h5>
+<a name="default-paths" class="anchor" href="#default-paths"><span class="octicon octicon-link"></span></a>Default paths:</h5>
+
+<p><strong>OS X</strong></p>
+
+<p><code>"/Applications/SuperCollider/SuperCollider.app/Contents/Resources/sclang"</code></p>
+
+<p><strong>Linux</strong></p>
+
+<p><code>"/usr/local/bin/sclang"</code></p>
+
+<p><strong>Windows</strong></p>
+
+<p><code>"C:\Program Files\SuperCollider\sclang.exe"</code></p>
+
+<h2>
+<a name="missing-features" class="anchor" href="#missing-features"><span class="octicon octicon-link"></span></a>Missing Features</h2>
+
+<h4>
+<a name="built-in-server-window" class="anchor" href="#built-in-server-window"><span class="octicon octicon-link"></span></a>Built in server window</h4>
+
+<pre><code>s = Server.default;
+
+// but its easy to make a server window
+s.makeWindow
+</code></pre>
+
+<h4>
+<a name="native-auto-complete" class="anchor" href="#native-auto-complete"><span class="octicon octicon-link"></span></a>Native Auto-complete</h4>
+
+<p>There are many Atom packages for auto-complete. However they use text matching and not direct introspection.
+It would be possible to dump the class/method interface to a JSON file and then load that into auto-complete-plus.
+This would provide pretty good auto-complete with argument names and everything.</p>
+      </section>
+      <footer>
+        <p>This project is maintained by <a href="https://github.com/crucialfelix">crucialfelix</a></p>
+        <p><small>Hosted on GitHub Pages &mdash; Theme by <a href="https://github.com/orderedlist">orderedlist</a></small></p>
+      </footer>
+    </div>
+    <script src="javascripts/scale.fix.js"></script>
+              <script type="text/javascript">
+            var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+            document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+          </script>
+          <script type="text/javascript">
+            try {
+              var pageTracker = _gat._getTracker("UA-154147-9");
+            pageTracker._trackPageview();
+            } catch(err) {}
+          </script>
+
+  </body>
+</html>
