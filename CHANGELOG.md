@@ -1,5 +1,25 @@
 ## development
 
+
+## 0.3.5
+
+Fixed a bug with parsing \multiple \symbols in a line
+
+## 0.3.4
+
+Fixed SyntaxError display
+
+Newer versions of sc were posting different prompts, terminal escape sequences and different messages. This was breaking the state-change detection. I fixed the reg-ex to match those better and be less fragile.
+
+Stopped the ugly color commands intended for the terminal from ending up in the Atom console. (switched from color to chalk)
+
+Simplified config file loading: only .supercollider.yaml or ~/.supercollider.yaml
+Posts the config file that was used and a link to open it.
+Posts the path of sclang that was used (determined by config file)
+
+Windows: Home directory detection, config loading and default paths fixed.
+
+
 ## 0.3.0
 
 - Runtime asynchronous errors can now be caught and full call stack shown.
