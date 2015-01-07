@@ -1,5 +1,7 @@
 # SuperCollider for Atom
 
+[![Gitter](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/crucialfelix/atom-supercollider?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+
 A SuperCollider development environment for Atom.io
 
 ---
