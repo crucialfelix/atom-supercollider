@@ -6,16 +6,16 @@
   "homepage": "https://github.com/crucialfelix/atom-supercollider",
   "license": "MIT",
   "engines": {
-    "atom": ">0.50.0"
+    "atom": ">0.170.0"
   },
   "dependencies": {
-    "underscore": "1.5.x",
-    "supercolliderjs": "0.4.9",
-    "baconjs": "~0.7.18",
-    "q": "1.0.x",
+    "underscore": "1.7.x",
+    "supercolliderjs": "0.5.0",
+    "baconjs": "~0.7.49",
+    "q": "1.1.x",
     "escape-html": "~1.0.1",
     "growl": "~1.8.1",
-    "moment": "~2.8.3"
+    "moment": "~2.9.0"
   },
   "main": "./lib/supercollider",
   "activationEvents": [
