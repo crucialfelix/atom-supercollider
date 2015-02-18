@@ -186,3 +186,10 @@ and specify paths to sclang and scsynth
 There are many Atom packages for auto-complete. However they use text matching and not direct introspection.
 It would be possible to dump the class/method interface to a JSON file and then load that into auto-complete-plus.
 This would provide pretty good auto-complete with argument names and everything.
+
+
+## Support
+
+[![Gitter](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/crucialfelix/atom-supercollider?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+
+Issues and pull requests welcome.
