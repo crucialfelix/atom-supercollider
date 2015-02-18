@@ -115,7 +115,7 @@ Add support for the supercollider language by making a file called ~/.ctags
 
     --langdef=supercollider
     --langmap=supercollider:.sc
-    --regex-supercollider=/^([A-Z]{1}[a-zA-Z0-9_]*) /\1/c,class/
+    --regex-supercollider=/^([A-Z]{1}[a-zA-Z0-9_]*)[ \[]{1}/\1/c,class/
     --regex-supercollider=/^[[:space:]]*(\*[a-z]{1}[a-zA-Z0-9_]*) \{/\1/m,method/
     --regex-supercollider=/^[[:space:]]*([a-z]{1}[a-zA-Z0-9_]*) \{/\1/m,method/
 
