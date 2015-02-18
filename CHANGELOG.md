@@ -1,5 +1,14 @@
-## development
+## CHANGELOG
 
+## 0.4.0
+
+Reads the default SuperCollider sclang_conf.yaml and merges any includePaths.
+This enables support for the new Quarks system which uses includePaths instead of symlinks.
+Older versions of Quarks (with symlinks) should still work.
+
+- Update for newer Atom styling conventions
+- Fix some formatting errors when error is not a simple string
+- Updated example ctags grammar to match `Class : Array[slot] { }`
 
 ## 0.3.5
 
