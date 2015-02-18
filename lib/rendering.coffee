@@ -303,20 +303,22 @@ sc3 = /^sc3>\s*$/mg
 escapeSequences = /\u001b\[[0-9]?[A-Za-z]/mg
 
 cleanStdout = (s) ->
-  s = s.replace(sc3, '')
-  s = s.replace(escapeSequences, '')
+  if typeof s is 'string'
+    s = s.replace(sc3, '')
+    s = s.replace(escapeSequences, '')
   s
 
 stylizeErrors = (d) ->
-  d = d.replace(/^ERROR\:/gm,
-    """<span class="error-label">ERROR:</span>""")
-  d = d.replace(/^WARNING\:/gm,
-    """<span class="warning-label">WARNING:</span>""")
-  # server errors
-  d = d.replace(/^FAILURE IN SERVER\:?/gm,
-    """<span class="error-label scsynth">FAILURE IN SERVER:</span>""")
-  d = d.replace(/^\*\*\* ERROR/gm,
-    """<span class="error-label scsynth">*** ERROR</span>""")
+  if typeof d is 'string'
+    d = d.replace(/^ERROR\:/gm,
+      """<span class="error-label">ERROR:</span>""")
+    d = d.replace(/^WARNING\:/gm,
+      """<span class="warning-label">WARNING:</span>""")
+    # server errors
+    d = d.replace(/^FAILURE IN SERVER\:?/gm,
+      """<span class="error-label scsynth">FAILURE IN SERVER:</span>""")
+    d = d.replace(/^\*\*\* ERROR/gm,
+      """<span class="error-label scsynth">*** ERROR</span>""")
   d
 
 module.exports =
