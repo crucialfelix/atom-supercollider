@@ -1,21 +1,22 @@
 // The ui-variables file is provided by base themes provided by Atom.
 //
-// See https://github.com/atom/atom-dark-ui/blob/master/stylesheets/ui-variables.less
-// for a full listing of what's available.
+// See https://github.com/atom/atom-dark-ui
+// for an example of what variables are available.
 @import "ui-variables";
 
 @bt-background:  fadeout(@tool-panel-background-color, 80%);
 @bt-border-color: @base-border-color;
 @vertical-padding: @component-line-height/4;
 
-//@pane-item-border-color;
+// @pane-item-border-color;
 // fadeout(#eee, 70%);
-//@base-background-color; // @pane-item-background-color;
+// @base-background-color; // @pane-item-background-color;
 
 .post-window {
   overflow-y: scroll;
   box-sizing: border-box;
   background: @tool-panel-background-color;
+  color: @text-color;
   .scroll-view {
     min-height: 100%;
     &.editor {

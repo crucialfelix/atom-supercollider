@@ -7,9 +7,9 @@
 
 # For more detailed documentation see
 # https://atom.io/docs/latest/advanced/keymaps
-'.platform-darwin .workspace':
+'.platform-darwin atom-workspace':
   'shift-cmd-C': 'supercollider:clear-post-window'
-'.workspace .editor:not(.mini)':
+'atom-workspace atom-text-editor:not(.mini)':
   'cmd-\\': 'supercollider:open-post-window'
   'shift-enter': 'supercollider:eval'
   'shift-cmd-k': 'supercollider:recompile'
