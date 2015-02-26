@@ -9,12 +9,12 @@
     "atom": ">0.170.0"
   },
   "dependencies": {
+    "supercolliderjs": "^0.6.0",
     "baconjs": "^0.7.50",
     "escape-html": "~1.0.1",
     "growl": "~1.8.1",
     "moment": "~2.9.0",
     "q": "^1.2.0",
-    "supercolliderjs": "^0.5.1",
     "underscore": "^1.8.2"
   },
   "main": "./lib/supercollider",
