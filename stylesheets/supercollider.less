@@ -17,15 +17,15 @@
   box-sizing: border-box;
   background: @tool-panel-background-color;
   color: @text-color;
-  .scroll-view {
-    min-height: 100%;
-    &.editor {
-      // I'm claiming its an .editor
-      // for styling purposes
-      // but user select needs to be turned back on
-      // for native select + copy to work
-      -webkit-user-select: inherit;
-      -user-select: inherit;
+  atom-text-editor::shadow {
+    // I'm claiming its an atom-text-editor
+    // for styling purposes
+    // but user select needs to be enabled again
+    // for native select + copy to work
+    -webkit-user-select: inherit;
+    -user-select: inherit;
+    &.scroll-view {
+      min-height: 100%;
     }
   }
 
@@ -227,7 +227,7 @@
 // gutter
 
 
-.editor .line {
+atom-text-editor .line {
   transition:  background-color, color .8s ease-out;
   -webkit-transition: background-color, color .8s ease-out;
   // &.line-green {
