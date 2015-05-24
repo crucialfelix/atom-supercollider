@@ -1,10 +1,17 @@
 # See https://atom.io/docs/latest/creating-a-package#menus for more details
 'context-menu':
-  '.overlayer':
-    'SuperCollider: Evaluate selection': 'supercollider:eval'
-    'SuperCollider: Open help file': 'supercollider:open-help-file'
+  'atom-workspace': [
+    {
+      label: 'SuperCollider: Evaluate selection',
+      command: 'supercollider:eval'
+    },
+    {
+      label: 'SuperCollider: Open help file',
+      command: 'supercollider:open-help-file'
+    }
+  ]
 
-'menu': [
+'atom-workspace': [
   {
     'label': 'Packages'
     'submenu': [

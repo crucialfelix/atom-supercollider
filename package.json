@@ -18,12 +18,14 @@
     "underscore": "^1.8.2"
   },
   "main": "./lib/supercollider",
-  "activationEvents": [
-    "supercollider:eval",
-    "supercollider:open-post-window",
-    "supercollider:clear-post-window",
-    "supercollider:open-help-file",
-    "supercollider:recompile",
-    "supercollider:cmd-period"
-  ]
+  "activationCommands": {
+    "atom-workspace": [
+      "supercollider:eval",
+      "supercollider:open-post-window",
+      "supercollider:clear-post-window",
+      "supercollider:open-help-file",
+      "supercollider:recompile",
+      "supercollider:cmd-period"
+    ]
+  }
 }
