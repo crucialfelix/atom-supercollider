@@ -7,9 +7,7 @@ module.exports =
     growlOnError: false
 
   activate: (state) ->
-    @controller = new Controller(
-      atom.workspaceView,
-      atom.project.getRootDirectory())
+    @controller = new Controller(atom.project.getRootDirectory())
     @controller.start()
 
   deactivate: ->

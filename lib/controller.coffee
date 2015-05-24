@@ -6,7 +6,7 @@ Repl = require('./repl')
 module.exports =
 class Controller
 
-  constructor: (@workspaceView, directory) ->
+  constructor: (directory) ->
     @defaultURI = "sclang://localhost:57120"
     @projectRoot = if directory then directory.path else ''
     @repls = {}
@@ -14,18 +14,18 @@ class Controller
     @markers = []
 
   start: ->
-    @workspaceView.command "supercollider:open-post-window", =>
-      @openPostWindow(@defaultURI)
-    @workspaceView.command "supercollider:clear-post-window", =>
-      @clearPostWindow()
-    @workspaceView.command "supercollider:recompile", =>
-      @recompile()
-    @workspaceView.command "supercollider:cmd-period", =>
-      @cmdPeriod()
-    @workspaceView.command "supercollider:eval", =>
-      @eval()
-    @workspaceView.command "supercollider:open-help-file", =>
-      @openHelpFile()
+    atom.commands.add 'atom-workspace',
+      'supercollider:recompile', => @recompile()
+    atom.commands.add 'atom-workspace',
+      'supercollider:open-post-window', => @openPostWindow()
+    atom.commands.add 'atom-workspace',
+      'supercollider:clear-post-window', => @clearPostWindow()
+    atom.commands.add 'atom-workspace',
+      'supercollider:cmd-period', => @cmdPeriod()
+    atom.commands.add 'atom-workspace',
+      'supercollider:eval', => @eval()
+    atom.commands.add 'atom-workspace',
+      'supercollider:open-help-file', => @openHelpFile()
 
     # open a REPL for sclang on this host/port
     atom.workspace.registerOpener (uri) =>
