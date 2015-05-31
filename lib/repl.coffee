@@ -84,7 +84,7 @@ class Repl
 
     unlisten = (sclang) ->
       for event in ['exit', 'stdout', 'stderr', 'error', 'state']
-        sclang.removeAllListeners(event)
+        sclang?.removeAllListeners(event)
 
     @sclang.on 'state', (state) =>
       if state
