@@ -1,7 +1,7 @@
 url = require('url')
 Repl = require('./repl')
-{$, Range} = require 'atom'
-
+{Range} = require 'atom'
+$ = require 'jquery'
 
 module.exports =
 class Controller
