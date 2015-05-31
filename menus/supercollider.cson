@@ -11,15 +11,16 @@
     }
   ]
 
-'atom-workspace': [
+'menu': [
   {
     'label': 'Packages'
     'submenu': [
       'label': 'SuperCollider'
       'submenu': [
+        { 'label': 'Recompile', 'command': 'supercollider:recompile' }
         { 'label': 'Open post window', 'command': 'supercollider:open-post-window' }
-        { 'label': 'Evaluate selection', 'command': 'supercollider:eval' },
-        { 'label': 'Open help file', 'command': 'supercollider:open-help-file' }
+        { 'label': 'Clear post window', 'command': 'supercollider:clear-post-window' }
+        { 'label': 'Stop everything', 'command': 'supercollider:cmd-period' }
       ]
     ]
   }
