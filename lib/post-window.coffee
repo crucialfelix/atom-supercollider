@@ -1,5 +1,6 @@
 
-{$, ScrollView} = require 'atom'
+{ScrollView} = require 'atom'
+$ = require 'jquery'
 Bacon = require('baconjs')
 
 module.exports =
