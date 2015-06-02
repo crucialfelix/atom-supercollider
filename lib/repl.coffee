@@ -47,8 +47,7 @@ class Repl
     supercolliderjs.resolveOptions(null, opts)
       .then (options) =>
         @bus.push rendering.displayOptions(options)
-        options.errorsAsJSON =
-          !(atom.config.get 'atom-supercollider.classicRepl')
+        options.errorsAsJSON = true
         @bootProcess(dir, options)
 
   bootProcess: (dir, options) ->
@@ -130,26 +129,16 @@ class Repl
 
     deferred = Q.defer()
 
-    classic = atom.config.get 'atom-supercollider.classicRepl'
-
     ok = (result) =>
       @bus.push "<div class='pre out'>#{result}</div>"
       deferred.resolve(result)
 
     err = (error) =>
       deferred.reject(error)
-      if classic
-        stdout = error.error.stdout
-        if stdout
-          stdout = escape(stdout.trim())
-        else
-          stdout = "ERROR"
-        @bus.push "<div class='error pre'>#{stdout}</div>"
-      else
-        error.errorTime = new Date()
-        @bus.push rendering.renderError(error, expression)
-        # dbug = JSON.stringify(error, undefined, 2)
-        # @bus.push "<div class='pre debug'>#{dbug}</div>"
+      error.errorTime = new Date()
+      @bus.push rendering.renderError(error, expression)
+      # dbug = JSON.stringify(error, undefined, 2)
+      # @bus.push "<div class='pre debug'>#{dbug}</div>"
 
     @ready.promise.then =>
       noecho = true
@@ -161,7 +150,7 @@ class Repl
         @bus.push "<div class='pre in'>#{echo}</div>"
 
       # expression path asString postErrors getBacktrace
-      @sclang.interpret(expression, nowExecutingPath, true, classic, !classic)
+      @sclang.interpret(expression, nowExecutingPath, true, false, true)
         .then(ok, err)
 
     deferred.promise
