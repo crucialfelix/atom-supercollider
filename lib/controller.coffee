@@ -28,7 +28,7 @@ class Controller
       'supercollider:open-help-file', => @openHelpFile()
 
     # open a REPL for sclang on this host/port
-    atom.workspace.registerOpener (uri) =>
+    atom.workspace.addOpener (uri, options) =>
       try
         {protocol, hostname, port} = url.parse(uri)
       catch error
@@ -112,7 +112,10 @@ class Controller
               'line',
               'line-highlight')
 
-      atom.workspace.open(uri, split: 'right', searchAllPanes: true)
+      options =
+        split: 'right'
+        searchAllPanes: true
+      atom.workspace.open(uri, options)
         .then () =>
           @activateRepl @repls[uri]
           $('.post-window').on 'click', fileOpener

@@ -2,14 +2,15 @@ Controller = require './controller'
 
 module.exports =
   controller: null
-  configDefaults:
-    classicRepl: true
-    growlOnError: false
+  config:
+    growlOnError:
+      type: 'boolean'
+      default: false
 
   activate: (state) ->
     if @controller
       return
-    @controller = new Controller(atom.project.getRootDirectory())
+    @controller = new Controller(atom.project.getDirectories()[0])
     @controller.start()
 
   deactivate: ->
