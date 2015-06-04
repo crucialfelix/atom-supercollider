@@ -134,11 +134,11 @@ class Controller
     @activeRepl?.cmdPeriod()
 
   editorIsSC: ->
-    editor = atom.workspace.getActiveEditor()
+    editor = atom.workspace.getActiveTextEditor()
     editor and editor.getGrammar().scopeName is 'source.supercollider'
 
   currentExpression: ->
-    editor = atom.workspace.getActiveEditor()
+    editor = atom.workspace.getActiveTextEditor()
     return unless editor?
 
     selection = editor.getLastSelection()
@@ -148,17 +148,17 @@ class Controller
     else
       # execute the line you are on
       pos = editor.getCursorBufferPosition()
-      row = editor.getCursorScreenRow()
+      row = editor.getCursorScreenPosition().row
       if row?
         range = new Range([row, 0], [row + 1, 0])
-        expression = editor.lineForBufferRow(row)
+        expression = editor.lineTextForBufferRow(row)
       else
         range = null
         expression = null
     [expression, range]
 
   currentPath: ->
-    editor = atom.workspace.getActiveEditor()
+    editor = atom.workspace.getActiveTextEditor()
     return unless editor?
     editor.getPath()
 
@@ -250,7 +250,7 @@ class Controller
       .then (editor) =>
         setMark = (point) =>
           editor.setCursorBufferPosition(point)
-          expression = editor.lineForBufferRow(point[0])
+          expression = editor.lineTextForBufferRow(point[0])
           range = [point, [point[0], expression.length - 1]]
           @destroyMarkers()
 
@@ -279,14 +279,14 @@ class Controller
     @markers = []
 
   evalFlash: (range) ->
-    editor = atom.workspace.getActiveEditor()
+    editor = atom.workspace.getActiveTextEditor()
     marker = editor.markBufferRange(range, invalidate: 'touch')
     decoration = editor.decorateMarker(marker,
                     type: 'line',
                     class: "eval-flash")
     # return fn to flash error/success and destroy the flash
     (cssClass) ->
-      decoration.update(type: 'line', class: cssClass)
+      decoration.setProperties(type: 'line', class: cssClass)
       destroy = ->
         marker.destroy()
       setTimeout(destroy, 100)
