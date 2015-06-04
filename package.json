@@ -6,7 +6,7 @@
   "homepage": "https://github.com/crucialfelix/atom-supercollider",
   "license": "MIT",
   "engines": {
-    "atom": ">0.170.0"
+    "atom": ">0.200.0"
   },
   "dependencies": {
     "supercolliderjs": "^0.7.0",
