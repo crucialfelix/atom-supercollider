@@ -46,9 +46,11 @@ class Repl
       echo: false
       debug: @debug
 
-    dir = process.cwd()
+    # should not be doing this anyway
+    # sclang should have option to have its subprocess in a working dir
     if @projectRoot
       process.chdir(@projectRoot)
+    dir = process.cwd()
 
     supercolliderjs.resolveOptions(null, opts)
       .then (options) =>
