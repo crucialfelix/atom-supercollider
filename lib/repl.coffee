@@ -18,6 +18,7 @@ class Repl
     @projectRoot = projectRoot
     @ready = Q.defer()
     @makeBus()
+    @state = null
     @debug = atom.config.get 'supercollider.debug'
     if @debug
       console.log 'Supercollider REPL [DEBUG=true]'
@@ -72,8 +73,8 @@ class Repl
     fail = (error) =>
       @ready.reject(error)
 
-      state = @sclang.state
-      switch state
+      # state = @sclang.state
+      switch @state
         when 'compileError'
           # stdout
           # dirs
@@ -115,6 +116,7 @@ class Repl
         sclang?.removeAllListeners(event)
 
     sclang.on 'state', (state) =>
+      @state = state
       if state
         @bus.push("<div class='state #{state}'>#{state}</div>")
 
@@ -190,7 +192,8 @@ class Repl
       @startSCLang()
 
   isCompiled: ->
-    @sclang?.state is 'ready'
+    @state is 'ready'
+    # @sclang?.state is 'ready'
 
   warnIsNotCompiled: ->
     @bus.push "<div class='error stderr'>Library is not compiled</div>"
