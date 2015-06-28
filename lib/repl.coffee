@@ -8,6 +8,8 @@ escape = require('escape-html')
 rendering = require './rendering'
 growl = require 'growl'
 
+Q.longStackSupport = true;
+
 
 module.exports =
 class Repl
@@ -16,6 +18,9 @@ class Repl
     @projectRoot = projectRoot
     @ready = Q.defer()
     @makeBus()
+    @debug = atom.config.get 'supercollider.debug'
+    if @debug
+      console.log 'Supercollider REPL [DEBUG=true]'
 
   stop: ->
     @sclang?.quit()
@@ -39,6 +44,7 @@ class Repl
     opts =
       stdin: false
       echo: false
+      debug: @debug
 
     dir = process.cwd()
     if @projectRoot
@@ -46,13 +52,19 @@ class Repl
 
     supercolliderjs.resolveOptions(null, opts)
       .then (options) =>
+        if @debug
+          console.log 'resolvedOptions:', options
         @bus.push rendering.displayOptions(options)
         options.errorsAsJSON = true
         @bootProcess(dir, options)
 
   bootProcess: (dir, options) ->
+    if @debug
+      console.log 'bootProcess', dir, options
 
     pass = () =>
+      if @debug
+        console.log 'booted'
       @ready.resolve()
 
     fail = (error) =>

@@ -6,6 +6,9 @@ module.exports =
     growlOnError:
       type: 'boolean'
       default: false
+    debug:
+      type: 'boolean'
+      default: false
 
   activate: (state) ->
     if @controller
