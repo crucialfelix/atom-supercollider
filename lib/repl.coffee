@@ -68,7 +68,7 @@ class Repl
       @ready.resolve()
 
     fail = (error) =>
-      @ready.reject()
+      @ready.reject(error)
 
       state = @sclang.state
       switch state
@@ -85,45 +85,60 @@ class Repl
           # initFailure
           # descrepency
           # systemError
-          @bus.push("<div class='error'>STATE: #{state}</div>")
-          # @bus.push("<div class='pre error'>#{error}</div>")
+          @bus.push("<div class='error text'>FAILED TO BOOT: state=#{state}</div>")
+          errorString = String(error)
+          @bus.push("<div class='pre error text'>#{errorString}</div>")
 
     lastErrorTime = null
 
+    @sclang = this.makeSclang(options)
+
+    onBoot = () =>
+      @sclang.initInterpreter().then(pass, fail)
+
     process.chdir(dir)
-    @sclang = new supercolliderjs.sclang(options)
+    try
+      @sclang.boot().then(onBoot, fail)
+    catch error
+      console.error 'Failed to boot sclang:', error
+      console.trace()
+      fail(error, true)
+
+  makeSclang: (options) ->
+    # construct an SCLang interpreter
+    sclang = new supercolliderjs.sclang(options)
 
     unlisten = (sclang) ->
       for event in ['exit', 'stdout', 'stderr', 'error', 'state']
         sclang?.removeAllListeners(event)
 
-    @sclang.on 'state', (state) =>
+    sclang.on 'state', (state) =>
       if state
         @bus.push("<div class='state #{state}'>#{state}</div>")
 
-    @sclang.on 'exit', () =>
+    sclang.on 'exit', () =>
       @bus.push("<div class='state dead'>sclang exited</div>")
       unless @recompiling
-        if atom.config.get 'atom-supercollider.growlOnError'
+        if atom.config.get 'supercollider.growlOnError'
           growl("sclang exited", {title: "SuperCollider"})
-      unlisten(@sclang)
-      @sclang = null
+      unlisten(sclang)
+      sclang = null
 
-    @sclang.on 'stdout', (d) =>
+    sclang.on 'stdout', (d) =>
       d = rendering.cleanStdout(d)
       d = rendering.stylizeErrors(d)
       @bus.push("<div class='pre stdout'>#{d}</div>")
 
-    @sclang.on 'stderr', (d) =>
+    sclang.on 'stderr', (d) =>
       d = rendering.cleanStdout(d)
       d = rendering.stylizeErrors(d)
       @bus.push("<div class='pre stderr'>#{d}</div>")
 
-    @sclang.on 'error', (err) =>
+    sclang.on 'error', (err) =>
       errorTime = new Date()
       err.errorTime = errorTime
       @bus.push rendering.renderError(err, null)
-      if atom.config.get 'atom-supercollider.growlOnError'
+      if atom.config.get 'supercollider.growlOnError'
         show = true
         if lastErrorTime?
           show = (errorTime - lastErrorTime) > 1000
@@ -131,11 +146,7 @@ class Repl
           growl(err.error.errorString, {title: 'SuperCollider'})
         lastErrorTime = errorTime
 
-    onBoot = () =>
-      @sclang.initInterpreter()
-                  .then(pass, fail)
-
-    @sclang.boot().then(onBoot, fail)
+    return sclang
 
   eval: (expression, noecho=false, nowExecutingPath=null) ->
 

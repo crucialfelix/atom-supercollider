@@ -100,13 +100,16 @@
   .out {
   }
   .error {
-    // color: desaturate(@text-color-error, 0%);
+    &.text {
+      color: desaturate(@text-color-error, 20%);
+      font-size: 1.1em;
+    }
     // border-color: fadeout(@background-color-error, 60%);
     // padding-left: 1em;
     // margin: 1px 0;
     .title {
       strong {
-        color: desaturate(@text-color-error, 10%);
+        color: desaturate(@text-color-error, 20%);
         font-size: 1.1em;
         padding: @vertical-padding 0;
       }
