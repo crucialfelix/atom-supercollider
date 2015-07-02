@@ -1,5 +1,6 @@
 path = require('path')
 moment = require('moment')
+untildify = require('untildify')
 
 
 row = (caption, content) ->
@@ -283,18 +284,22 @@ displayOptions = (options) ->
   rower = (key, value) ->
     rows.push """<tr><th>#{key}:</th><td>#{value}</tr>"""
 
+  fileLink = (p) ->
+    uri = untildify(p)
+    """<a href="#{uri}">#{p}</a>"""
+
   if options.configPath
-    rower "configFile",
-      """<a href="#{options.configPath}">#{options.configPath}</a>"""
-  else
-    rower "config",
-      "default"
+    rower("configPath", fileLink(options.configPath))
+  rower("sclang", options.sclang)
   rower("sclang", options.sclang)
 
-  rowsh = rows.join('')
+  if options.sclang_conf
+    rower("sclang_conf", fileLink(options.sclang_conf))
+
+  body = rows.join('')
   """
     <div>
-      <table>#{rowsh}</table>
+      <table>#{body}</table>
     </div>
   """
 

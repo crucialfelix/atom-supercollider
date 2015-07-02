@@ -7,6 +7,8 @@ supercolliderjs = require('supercolliderjs')
 escape = require('escape-html')
 rendering = require './rendering'
 growl = require 'growl'
+_ = require 'underscore'
+untildify = require 'untildify'
 
 Q.longStackSupport = true;
 
@@ -88,12 +90,13 @@ class Repl
           # initFailure
           # descrepency
           # systemError
-          @bus.push("<div class='error text'>FAILED TO BOOT: state=#{state}</div>")
+          @bus.push("<div class='error text'>FAILED TO BOOT: state=#{@state}</div>")
           errorString = String(error)
           @bus.push("<div class='pre error text'>#{errorString}</div>")
 
     lastErrorTime = null
 
+    options = this.preflight(options)
     @sclang = this.makeSclang(options)
 
     onBoot = () =>
@@ -151,6 +154,26 @@ class Repl
         lastErrorTime = errorTime
 
     return sclang
+
+  preflight: (options) ->
+    # precheck: does sclang, sclang_config exist ?
+    opts = _.clone(options)
+    if options.sclang
+      if !fs.existsSync(options.sclang)
+        @bus.push("<div class='error-label'>Executable not found:#{options.sclang}</div>")
+    if options.sclang_conf
+      conf = untildify(options.sclang_conf)
+      if !fs.existsSync(conf)
+        # if sclang_config.yaml does not exist then warn and remove it from options
+        # so you can still boot
+        @bus.push("<div class='warning-label'>sclang_config does not exist (will use defaults):#{conf}</div>")
+        delete opts.sclang_conf
+      else
+        opts.sclang_conf = conf
+
+    # if no sclang_config was specified and there IS a file in default place
+    # then add that
+    return opts
 
   eval: (expression, noecho=false, nowExecutingPath=null) ->
 

@@ -17,7 +17,8 @@
     "q": "^1.2.0",
     "underscore": "^1.8.2",
     "jquery": "^2",
-    "atom-space-pen-views": "^2.0.3"
+    "atom-space-pen-views": "^2.0.3",
+    "untildify": "2.1.0"
   },
   "main": "./lib/supercollider",
   "activationCommands": {
