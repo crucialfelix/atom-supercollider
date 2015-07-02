@@ -49,11 +49,10 @@ class Repl
       echo: false
       debug: @debug
 
-    # should not be doing this anyway
-    # sclang should have option to have its subprocess in a working dir
     if @projectRoot
-      process.chdir(@projectRoot)
-    dir = process.cwd()
+      opts.cwd = @projectRoot
+    else
+      dir = process.cwd()
 
     supercolliderjs.resolveOptions(null, opts)
       .then (options) =>
@@ -102,7 +101,6 @@ class Repl
     onBoot = () =>
       @sclang.initInterpreter().then(pass, fail)
 
-    process.chdir(dir)
     try
       @sclang.boot().then(onBoot, fail)
     catch error
