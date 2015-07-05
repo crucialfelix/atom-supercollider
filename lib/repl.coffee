@@ -9,6 +9,7 @@ rendering = require './rendering'
 growl = require 'growl'
 _ = require 'underscore'
 untildify = require 'untildify'
+fs = require('fs')
 
 Q.longStackSupport = true;
 
