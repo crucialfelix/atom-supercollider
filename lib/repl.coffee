@@ -52,6 +52,7 @@ class Repl
 
     if @projectRoot
       opts.cwd = @projectRoot
+      process.chdir(@projectRoot)
     else
       dir = process.cwd()
 
