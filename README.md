@@ -2,6 +2,8 @@
 
 A SuperCollider development environment for Atom.io
 
+    apm install supercollider
+
 ---
 
 SuperCollider is a programming language for real time audio synthesis and algorithmic composition.
