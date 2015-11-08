@@ -2,6 +2,8 @@ url = require('url')
 Repl = require('./repl')
 {Range} = require 'atom'
 $ = require 'jquery'
+Q = require('q')
+
 
 module.exports =
 class Controller
@@ -69,10 +71,13 @@ class Controller
       @openToSyntaxError(error.file, error.line, error.char)
 
   openPostWindow: (uri) ->
+    # @returns {Promise}
     repl = @repls[uri]
 
     if repl
       @activateRepl repl
+      # a resolved promise
+      return Q()
     else
       # open links on click
       fileOpener = (event) =>
