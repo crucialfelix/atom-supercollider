@@ -43,5 +43,21 @@ class PostWindow extends ScrollView
   onDidChangeTitle: ->
   onDidChangeModified: ->
 
+  handleEvents: ->
+    @subscribe this, 'core:copy', =>
+      return false if @copyToClipboard()
+
+  copyToClipboard: ->
+    selection = window.getSelection()
+    selectedText = selection.toString()
+    selectedNode = selection.baseNode
+
+    # Use default copy event handler if there is selected text inside this view
+    hasSelection = selectedText and selectedNode? and (@[0] is selectedNode or $.contains(@[0], selectedNode))
+    return false if hasSelection
+
+    atom.clipboard.write(@[0].innerText)
+    true
+
 
 module.exports = PostWindow
