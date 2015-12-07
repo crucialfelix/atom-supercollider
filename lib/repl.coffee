@@ -101,7 +101,7 @@ class Repl
     @sclang = this.makeSclang(options)
 
     onBoot = () =>
-      @sclang.initInterpreter().then(pass, fail)
+      @sclang.storeSclangConf().then(pass, fail)
 
     try
       @sclang.boot().then(onBoot, fail)
@@ -112,7 +112,7 @@ class Repl
 
   makeSclang: (options) ->
     # construct an SCLang interpreter
-    sclang = new supercolliderjs.sclang(options)
+    sclang = new supercolliderjs.lang.SCLang(options)
 
     unlisten = (sclang) ->
       for event in ['exit', 'stdout', 'stderr', 'error', 'state']
