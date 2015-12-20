@@ -9,7 +9,7 @@
     "atom": ">0.200.0"
   },
   "dependencies": {
-    "supercolliderjs": "^0.9.2",
+    "supercolliderjs": "^0.9.3",
     "baconjs": "^0.7.82",
     "escape-html": "~1.0.3",
     "growl": "~1.8.1",
