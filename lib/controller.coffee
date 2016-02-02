@@ -117,12 +117,15 @@ class Controller
               'line',
               'line-highlight')
 
+      currentView = atom.views.getView atom.workspace.getActiveTextEditor()
+
       options =
         split: 'right'
         searchAllPanes: true
       atom.workspace.open(uri, options)
         .then () =>
           @activateRepl @repls[uri]
+          currentView.focus()
           $('.post-window').on 'click', fileOpener
 
   clearPostWindow: ->
