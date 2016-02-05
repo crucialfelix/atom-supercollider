@@ -14,6 +14,7 @@ class Controller
     @repls = {}
     @activeRepl = null
     @markers = []
+    @scScope = 'source.supercollider'
 
   start: ->
     atom.commands.add 'atom-workspace',
@@ -132,6 +133,7 @@ class Controller
     @activeRepl?.clearPostWindow()
 
   recompile: ->
+    @startDefaultSession()
     @destroyMarkers()
     if @activeRepl
       @activeRepl.recompile()
@@ -143,7 +145,7 @@ class Controller
 
   editorIsSC: ->
     editor = atom.workspace.getActiveTextEditor()
-    editor and editor.getGrammar().scopeName is 'source.supercollider'
+    editor and editor.getGrammar().scopeName is @scScope
 
   currentExpression: ->
     editor = atom.workspace.getActiveTextEditor()
@@ -298,3 +300,10 @@ class Controller
       destroy = ->
         marker.destroy()
       setTimeout(destroy, 100)
+
+  startDefaultSession: () ->
+    return if @editorIsSC()
+    atom.workspace.open()
+      .then (editor) =>
+        grammar = atom.grammars.grammarForScopeName @scScope
+        editor.setGrammar grammar
