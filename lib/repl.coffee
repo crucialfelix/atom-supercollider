@@ -97,7 +97,13 @@ class Repl
 
     lastErrorTime = null
 
+    sclangPath = atom.config.get 'supercollider.sclangPath'
+    if sclangPath
+      options.sclang = sclangPath
+
     options = this.preflight(options)
+    if options is false
+      return
     @sclang = this.makeSclang(options)
 
     onBoot = () =>
@@ -160,13 +166,17 @@ class Repl
     opts = _.clone(options)
     if options.sclang
       if !fs.existsSync(options.sclang)
-        @bus.push("<div class='error-label'>Executable not found:#{options.sclang}</div>")
+        @bus.push("<div class='error-label'>Executable not found: #{options.sclang}</div>
+          <div class='help'>Set the path to sclang in the atom-supercollider package settings.</div>
+        ")
+        # halt preflight here
+        return false
     if options.sclang_conf
       conf = untildify(options.sclang_conf)
       if !fs.existsSync(conf)
         # if sclang_config.yaml does not exist then warn and remove it from options
         # so you can still boot
-        @bus.push("<div class='warning-label'>sclang_config does not exist (will use defaults):#{conf}</div>")
+        @bus.push("<div class='warning-label'>#{options.sclang_conf} does not exist (will use defaults): #{conf}</div>")
         delete opts.sclang_conf
       else
         opts.sclang_conf = conf

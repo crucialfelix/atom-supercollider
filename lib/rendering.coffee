@@ -291,7 +291,6 @@ displayOptions = (options) ->
   if options.configPath
     rower("configPath", fileLink(options.configPath))
   rower("sclang", options.sclang)
-  rower("sclang", options.sclang)
 
   if options.sclang_conf
     rower("sclang_conf", fileLink(options.sclang_conf))
