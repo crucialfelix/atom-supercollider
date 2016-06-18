@@ -217,6 +217,7 @@ class Repl
 
   recompile: ->
     @recompiling = true
+    @ready = Q.defer()
     if @sclang?
       @sclang.quit()
         .then () =>
