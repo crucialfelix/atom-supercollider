@@ -289,7 +289,7 @@ displayOptions = (options) ->
     """<a href="#{uri}">#{p}</a>"""
 
   if options.configPath
-    rower("configPath", fileLink(options.configPath))
+    rower("supercolliderjs config", fileLink(options.configPath))
   rower("sclang", options.sclang)
 
   if options.sclang_conf

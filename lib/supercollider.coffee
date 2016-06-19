@@ -6,8 +6,13 @@ module.exports =
     sclangPath:
       type: 'string'
       default: ''
-      title: 'Path to sclang(.exe) executable'
-      description: 'Set this if you have installed SuperCollider in an unusual place or if it fails to find sclang by default. If you have created a .supercollider.yaml config file in your project directory that will take precedence over this setting.'
+      title: '(Optional) Path to sclang(.exe) executable'
+      description: 'It should just work. Set this if you have installed SuperCollider in an unusual place or if it fails to find sclang by default. If you have created a .supercollider.yaml config file in your project directory that will take precedence over this setting.'
+    sclangConf:
+      type: 'string'
+      default: ''
+      title: '(Optional) Path to sclang_conf.yaml'
+      description: 'It should just work. This is the config file that sets the include paths for supercollider. It is updated when using the Quarks.gui to add or remove packages. Example: ~/Library/Application Support/SuperCollider/sclang_conf.yaml'
     growlOnError:
       type: 'boolean'
       default: false

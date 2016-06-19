@@ -58,6 +58,14 @@ class Repl
 
     supercolliderjs.resolveOptions(null, opts)
       .then (options) =>
+        sclangPath = atom.config.get 'supercollider.sclangPath'
+        if sclangPath
+          options.sclang = sclangPath
+
+        sclangConf = atom.config.get 'supercollider.sclangConf'
+        if sclangConf
+          options.sclang_conf = sclangConf
+
         if @debug
           console.log 'resolvedOptions:', options
         @bus.push rendering.displayOptions(options)
@@ -97,13 +105,11 @@ class Repl
 
     lastErrorTime = null
 
-    sclangPath = atom.config.get 'supercollider.sclangPath'
-    if sclangPath
-      options.sclang = sclangPath
-
     options = this.preflight(options)
+
     if options is false
       return
+
     @sclang = this.makeSclang(options)
 
     onBoot = () =>
@@ -162,7 +168,7 @@ class Repl
     return sclang
 
   preflight: (options) ->
-    # precheck: does sclang, sclang_config exist ?
+    # precheck: does sclang and sclang_conf.yaml exist ?
     opts = _.clone(options)
     if options.sclang
       if !fs.existsSync(options.sclang)
@@ -171,18 +177,14 @@ class Repl
         ")
         # halt preflight here
         return false
-    if options.sclang_conf
-      conf = untildify(options.sclang_conf)
-      if !fs.existsSync(conf)
-        # if sclang_config.yaml does not exist then warn and remove it from options
-        # so you can still boot
-        @bus.push("<div class='warning-label'>#{options.sclang_conf} does not exist (will use defaults): #{conf}</div>")
-        delete opts.sclang_conf
-      else
-        opts.sclang_conf = conf
 
-    # if no sclang_config was specified and there IS a file in default place
-    # then add that
+    if opts.sclang_conf
+      conf = untildify(opts.sclang_conf)
+      if !fs.existsSync(conf)
+        @bus.push("<div class='warning-label'>#{opts.sclang_conf} does not yet exist</div>
+          <div class='warning-label'>It will be created when you add Quarks</div>
+        ")
+
     return opts
 
   eval: (expression, noecho=false, nowExecutingPath=null) ->
