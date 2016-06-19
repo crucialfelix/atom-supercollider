@@ -6,19 +6,19 @@
   "homepage": "https://github.com/crucialfelix/atom-supercollider",
   "license": "MIT",
   "engines": {
-    "atom": ">0.200.0"
+    "atom": ">1.0.0"
   },
   "dependencies": {
-    "supercolliderjs": "^0.9.3",
-    "baconjs": "^0.7.82",
+    "atom-space-pen-views": "^2.2.0",
+    "baconjs": "^0.7.84",
     "escape-html": "~1.0.3",
-    "growl": "~1.8.1",
-    "moment": "~2.10.6",
-    "q": "^1.2.0",
-    "underscore": "^1.8.2",
+    "growl": "^1.9.2",
     "jquery": "^2",
-    "atom-space-pen-views": "^2.1.0",
-    "untildify": "2.1.0"
+    "moment": "^2.13.0",
+    "q": "^1.2.0",
+    "supercolliderjs": "^0.9.3",
+    "underscore": "^1.8.2",
+    "untildify": "^3.0.2"
   },
   "main": "./lib/supercollider",
   "activationCommands": {
