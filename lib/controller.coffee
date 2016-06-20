@@ -57,9 +57,10 @@ class Controller
     @repls = {}
 
   activateRepl: (repl) ->
-    @activeRepl = repl
-    @activeRepl.unsubscriber = repl.emit.subscribe (event) =>
-      @handleReplEvent(event)
+    if repl != @activeRepl
+      @activeRepl = repl
+      @activeRepl.unsubscriber = repl.emit.subscribe (event) =>
+        @handleReplEvent(event)
 
   destroyRepl: () ->
     @activeRepl?.unsubscriber()
