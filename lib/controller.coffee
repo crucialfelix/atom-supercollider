@@ -3,6 +3,7 @@ Repl = require('./repl')
 {Range} = require 'atom'
 $ = require 'jquery'
 Q = require('q')
+_ = require 'underscore'
 
 
 module.exports =
@@ -67,10 +68,13 @@ class Controller
     @activeRepl = null
 
   handleReplEvent: (event) ->
-    error = event.value()
-    # only expecting compile errors for now
-    if error.index == 0
-      @openToSyntaxError(error.file, error.line, error.char)
+    e = event.value()
+    switch e.type
+      when 'error'
+        if e.error.index == 0
+          @openToSyntaxError(e.error.file, e.error.line, e.error.char)
+      when 'paths'
+        @updateProjectFolders(e.paths)
 
   openPostWindow: (uri) ->
     # @returns {Promise}
@@ -308,3 +312,22 @@ class Controller
       .then (editor) =>
         grammar = atom.grammars.grammarForScopeName @scScope
         editor.setGrammar grammar
+
+  _shouldManageFolder: (dir) ->
+    if dir.realPath == @projectRoot
+      return false
+    # if downloaded-quarks or SCClassLibrary or Extensions
+    return true
+
+  updateProjectFolders: (dirs) ->
+    included = []
+    if atom.config.get 'supercollider.updateProjectFolders'
+      for dir in dirs
+        atom.project.addPath dir
+        included.push(dir)
+
+      for dir in atom.project.getDirectories()
+        if @_shouldManageFolder(dir)
+          # TODO: or does root already .contains(dir.realPath) ?
+          if (!_.contains(included, dir.realPath))
+            atom.project.removePath dir.realPath

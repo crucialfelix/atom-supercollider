@@ -82,18 +82,16 @@ class Repl
       @ready.resolve()
 
     fail = (error) =>
-      @ready.reject(error)
-
-      # state = @sclang.state
+      # dirs
+      # stdout
+      # errors
       switch @state
         when 'compileError'
-          # stdout
-          # dirs
           i = 0
           for error in error.errors
             @bus.push rendering.renderParseError(error)
             error.index = i
-            @emit.push(error)
+            @emit.push({type: 'error', error: error})
             i += 1
         else
           # initFailure
@@ -102,6 +100,15 @@ class Repl
           @bus.push("<div class='error text'>FAILED TO BOOT: state=#{@state}</div>")
           errorString = String(error)
           @bus.push("<div class='pre error text'>#{errorString}</div>")
+
+      @emit.push({type: 'paths', paths: error.dirs})
+
+      # unhandled rejection.
+      # bluebird is now complaining
+      # that nothing is watching @ready
+      # but this is an internal promise
+      # could add my own fail handler to it that just logs
+      @ready.reject(error)
 
     lastErrorTime = null
 
@@ -112,7 +119,8 @@ class Repl
 
     @sclang = this.makeSclang(options)
 
-    onBoot = () =>
+    onBoot = (response) =>
+      @emit.push({type: 'paths', paths: response.dirs})
       @sclang.storeSclangConf().then(pass, fail)
 
     try
@@ -134,6 +142,9 @@ class Repl
       @state = state
       if state
         @bus.push("<div class='state #{state}'>#{state}</div>")
+        if state is 'ready'
+          # if ready then emit that paths changed in case it's a programatic recompile
+          @emit.push({type: 'paths', paths: @sclang.compilePaths()})
 
     sclang.on 'exit', () =>
       @bus.push("<div class='state dead'>sclang exited</div>")
@@ -229,7 +240,6 @@ class Repl
 
   isCompiled: ->
     @state is 'ready'
-    # @sclang?.state is 'ready'
 
   warnIsNotCompiled: ->
     @bus.push "<div class='error stderr'>Library is not compiled</div>"

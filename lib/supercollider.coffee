@@ -13,6 +13,10 @@ module.exports =
       default: ''
       title: '(Optional) Path to sclang_conf.yaml'
       description: 'It should just work. This is the config file that sets the include paths for supercollider. It is updated when using the Quarks.gui to add or remove packages. Example: ~/Library/Application Support/SuperCollider/sclang_conf.yaml'
+    updateProjectFolders:
+      type: 'boolean'
+      default: true
+      description: 'Automatically add installed Quarks and the class library to your project.'
     growlOnError:
       type: 'boolean'
       default: false
