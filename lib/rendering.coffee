@@ -85,7 +85,7 @@ formatClass = (className) ->
 formatMethod = (obj) ->
   klass = formatClass(obj.class)
   star = if isMetaClass(obj.class) then '*' else ''
-  """#{klass}:<span class="method">#{star}#{obj.method}</span>"""
+  """#{klass}<span class="class-method">:</span><span class="method">#{star}#{obj.method}</span>"""
 
 formatFile = (obj) ->
   if obj.file
@@ -286,6 +286,7 @@ displayOptions = (options) ->
 
   fileLink = (p) ->
     uri = untildify(p)
+    # url escape ?
     """<a href="#{uri}">#{p}</a>"""
 
   if options.configPath

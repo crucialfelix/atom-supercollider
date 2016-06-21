@@ -1,22 +1,29 @@
-// The ui-variables file is provided by base themes provided by Atom.
-//
+// The ui-variables and syntax-variables are set by the currently selected
+// ui and syntax theme
 // See https://github.com/atom/atom-dark-ui
 // for an example of what variables are available.
 @import "ui-variables";
+// https://github.com/atom/template-syntax/blob/master/stylesheets/syntax-variables.less
+@import "syntax-variables";
 
-@bt-background:  fadeout(@tool-panel-background-color, 80%);
 @bt-border-color: @base-border-color;
 @vertical-padding: @component-line-height/4;
+@sc-error: desaturate(#ff0000, 30%);
 
-// @pane-item-border-color;
-// fadeout(#eee, 70%);
-// @base-background-color; // @pane-item-background-color;
+@f1: 3rem;
+@f2: 2.25rem;
+@f3: 1.5rem;
+@f4: 1.25rem;
+@f5: 1rem;
+@f6: 0.875rem;
 
 .post-window {
   overflow-y: scroll;
   box-sizing: border-box;
-  background: @tool-panel-background-color;
-  color: @text-color;
+  background: @syntax-background-color;
+  color: @syntax-text-color;
+  font-size: @f5;
+  line-height: 1.3;
   atom-text-editor::shadow {
     // I'm claiming its an atom-text-editor
     // for styling purposes
@@ -28,51 +35,52 @@
       min-height: 100%;
     }
   }
-
   .clearfix {
-    zoom:1;
-    &:before, &:after{ content:""; display:table; }
-    &:after{ clear: both; }
+    zoom: 1;
+    &:after,
+    &:before {
+      content: "";
+      display: table;
+    }
+    &:after {
+      clear: both;
+    }
   }
-
   .lines {
     min-height: 100%;
     padding: @component-padding;
     width: 100%;
   }
-
   .pre {
     white-space: pre-wrap;
   }
   .stderr {
-    color: @text-color-error;
+    color: @sc-error;
   }
-
-  font-size: @font-size;
-  font-family: @font-family;
-
+  // font-size: @font-size;
+  // font-family: @font-family;
   .state {
     font-weight: bold;
-    font-size: 1.1em;
-    // background: #888;
-    border-bottom: 1px solid fadeout(@background-color-info, 40%);
-    border-color: @panel-heading-border-color;
-    // background: @panel-heading-background-color;
+    font-variant: small-caps;
+    font-size: @f3;
+    letter-spacing: 0.08em;
+    border-bottom: 1px solid fadeout(@background-color-info, 90%);
+    // border-color: @panel-heading-border-color;
     // color: #fff;
     padding: 1px;
-    margin:  @vertical-padding auto;
+    margin: @vertical-padding auto;
     // width: 100%;
     &.config {
       color: fadeout(@background-color-info, 40%);
-      border-bottom: 1px solid fadeout(@background-color-info, 80%);
+      // border-bottom: 1px solid fadeout(@background-color-info, 80%);
     }
     &.booting {
       color: fadeout(@background-color-info, 40%);
-      border-bottom: 1px solid fadeout(@background-color-info, 80%);
+      // border-bottom: 1px solid fadeout(@background-color-info, 80%);
     }
     &.ready {
       color: @background-color-success;
-      border-bottom: 1px solid fadeout(@background-color-success, 80%);
+      border-bottom: 1px solid fadeout(@background-color-success, 90%);
     }
     &.compileError {
       color: fadeout(@background-color-error, 40%);
@@ -88,29 +96,29 @@
       display: none;
     }
   }
-  .in, .out, .error {
+  .error,
+  .in,
+  .out {
     // padding-left: 1em;
     border-left: 2px solid transparent;
   }
-
   .in {
     color: @text-color-info;
     // border-color: fadeout(@text-color-info, 80%);
   }
-  .out {
-  }
+  .out {}
   .error {
     &.text {
-      color: desaturate(@text-color-error, 20%);
-      font-size: 1.1em;
+      color: @sc-error;
+      font-size: @f4;
     }
     // border-color: fadeout(@background-color-error, 60%);
     // padding-left: 1em;
     // margin: 1px 0;
     .title {
       strong {
-        color: desaturate(@text-color-error, 20%);
-        font-size: 1.1em;
+        color: @sc-error;
+        font-size: @f4;
         padding: @vertical-padding 0;
       }
       .time {
@@ -119,39 +127,37 @@
     }
   }
   .error-label {
-    color: @text-color-error;
+    color: @sc-error;
   }
   .warning-label {
     color: @text-color-warning;
   }
   .time {
     color: fadeout(@text-color-subtle, 30%);
-    font-size: 0.8em;
+    font-size: @f6;
   }
-
   .error-Error,
-  .error-SyntaxError,
-  .error-ParseError {
+  .error-ParseError,
+  .error-SyntaxError {
     margin-top: @vertical-padding;
     // border: 1px solid fadeout(@background-color-error, 80%);
   }
   .object-vars {
     opacity: 0.8;
-    margin-left: 1em;
+    margin-left: 1rem;
     th {
       white-space: nowrap;
     }
   }
   .debug {
     clear: both;
-    font-size: 11px;
+    font-size: @f5;
   }
-
   .tr {
     display: table;
   }
-  .th,
-  .td {
+  .td,
+  .th {
     vertical-align: top;
     display: table-cell;
   }
@@ -161,37 +167,37 @@
   .config {
     a {
       text-decoration: underline;
+      color: @syntax-color-import;
     }
     td,
     th {
-      padding: .25rem;
+      padding: 0.25rem;
     }
   }
-
   // backtrace
   .bt {
-    margin: @vertical-padding 1em @vertical-padding 0;
-    font-size: @font-size;
-
+    margin: @vertical-padding 1rem @vertical-padding 0;
+    font-size: @f5;
     // background: @bt-background;
     // box-shadow: inset 0px 0px 2px 0px fadeout(@bt-border-color, 80%);
     word-break: break-all;
-
     h5 {
-      font-size: @font-size - 2;
-      color: @text-color-subtle;
-      margin: 2px;
-      font-style: italic;
+      font-size: @f6;
+      color: @syntax-text-color;
+      letter-spacing: 0.08em;
+      margin: 1rem 0 0.25rem;
+      // font-style: italic;
+      font-variant: small-caps;
     }
     .source {
-      background: lighten(@bt-background, 10%);
+      // background: lighten(@bt-background, 10%);
       // border: 1px solid fadeout(@inset-panel-border-color, 80%);
-      box-shadow: inset 0px 0px 2px 0px fadeout(@bt-border-color, 80%);
-      padding: @vertical-padding/2 1em;
-      margin: @vertical-padding/2 0.5em;
+      box-shadow: inset 0 0 2px 0 fadeout(@bt-border-color, 80%);
+      padding: @vertical-padding 1em;
+      margin: @vertical-padding .5em;
       display: inline-block;
       min-width: 50%;
-      font-size: 12px;
+      font-size: @f5;
       word-break: normal;
       white-space: pre-wrap;
       overflow: auto;
@@ -199,46 +205,49 @@
   }
   .bt-line {
     padding: @vertical-padding 0.5em;
-    border-bottom: 1px solid fadeout(@text-color-subtle, 80%);
+    border-bottom: 1px solid fadeout(@syntax-text-color, 90%);
     &:hover {
       background: fadeout(desaturate(@ui-site-color-2, 80%), 98%);
-      box-shadow: 0px 0px 2px 2px fadeout(@bt-border-color, 90%);
-
+      box-shadow: 0 0 2px 2px fadeout(@bt-border-color, 90%);
+      a {
+        border-bottom: 1px solid @syntax-text-color;
+      }
       .bt-link,
       .frame-address {
-        color: @text-color-subtle;
+        color: @syntax-text-color;
       }
+    }
+    a {
+      color: @syntax-text-color;
     }
     .tr,
     h5 {
-      margin-left: 4px;
+      margin-left: 0.25rem;
     }
   }
   .bt-name {
     font-weight: bold;
-    font-size: 1.2em;
+    font-size: @f4;
+    color: @syntax-text-color;
   }
   .bt-link {
     display: none;
-    font-size: 9px;
+    font-size: @f6;
     color: transparent;
   }
   .bt-line:last-child {
     border-bottom: 0;
   }
   .frame-address {
-    font-size: 9px;
+    font-size: @f6;
     color: transparent;
     display: none;
   }
 }
-
 // gutter
-
-
 atom-text-editor .line {
-  transition:  background-color, color .8s ease-out;
-  -webkit-transition: background-color, color .8s ease-out;
+  transition: background-color, color 0.8s ease-out;
+  -webkit-transition: background-color, color 0.8s ease-out;
   // &.line-green {
   //   background-color: @green-color;
   // }
@@ -246,7 +255,6 @@ atom-text-editor .line {
   // &.line-blue {
   //   background-color: @blue-color;
   // }
-
   &.line-error {
     background-color: fadeout(@background-color-error, 95%);
     border: 1px solid fadeout(@background-color-error, 50%);
@@ -254,10 +262,9 @@ atom-text-editor .line {
   &.line-highlight {
     background-color: @background-color-highlight;
   }
-
   &.eval-flash {
-    color: @text-color-selected;
-    background-color: @background-color-selected;
+    color: @syntax-selection-flash-color;
+    background-color: @syntax-background-color;
   }
   &.eval-success {
     color: @text-color-success;
@@ -269,25 +276,25 @@ atom-text-editor .line {
     background-color: @background-color-error;
   }
 }
-
-
 // unfolding in the stack trace
-.unfolder { display: none; }
-
-.toggle-label {
-	display: inline-block;
-	cursor: pointer;
-	font-size: 11px;
-	// border-radius: 5px;
-	// padding: 5px;
+.unfolder {
+  display: none;
 }
-.unfold-icon,
-.fold-icon {
-  color: fadeout(@text-color-subtle, 50%);
-  font-size: 9px;
-  width: 6px;
+.toggle-label {
   display: inline-block;
-
+  cursor: pointer;
+  font-size: @f5;
+  // border-radius: 5px;
+  // padding: 5px;
+}
+.class-method {
+  margin: 0 0.25em;
+}
+.fold-icon,
+.unfold-icon {
+  color: fadeout(@text-color-subtle, 50%);
+  font-size: @f6;
+  display: inline-block;
   &:hover {
     color: @text-color-subtle;
   }
@@ -307,13 +314,9 @@ atom-text-editor .line {
 .unfolder:checked ~ label .unfold-icon {
   display: none;
 }
-
-
-
-
 // a hack for the syntax colors
 // because most syntax themes do not
 // specify a color for symbol
 span.entity.name.symbol {
-  color: #090;
+  color: @syntax-color-tag;
 }
