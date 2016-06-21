@@ -36,11 +36,11 @@ class Repl
       @sclang?.quit()
       @onClose()
 
-    @postWindow = new PostWindow(@uri, @bus, onClose)
+    @postWindow = new PostWindow(@uri, @postBus, onClose)
 
   makeBus: ->
-    @bus = new Bacon.Bus()
-    @emit = new Bacon.Bus()
+    @postBus = new Bacon.Bus()
+    @controllerBus = new Bacon.Bus()
 
   startSCLang: () ->
     @recompiling = false
@@ -68,7 +68,7 @@ class Repl
 
         if @debug
           console.log 'resolvedOptions:', options
-        @bus.push rendering.displayOptions(options)
+        @postBus.push rendering.displayOptions(options)
         options.errorsAsJSON = true
         @bootProcess(dir, options)
 
@@ -89,19 +89,19 @@ class Repl
         when 'compileError'
           i = 0
           for error in error.errors
-            @bus.push rendering.renderParseError(error)
+            @postBus.push rendering.renderParseError(error)
             error.index = i
-            @emit.push({type: 'error', error: error})
+            @controllerBus.push({type: 'error', error: error})
             i += 1
         else
           # initFailure
           # descrepency
           # systemError
-          @bus.push("<div class='error text'>FAILED TO BOOT: state=#{@state}</div>")
+          @postBus.push("<div class='error text'>FAILED TO BOOT: state=#{@state}</div>")
           errorString = String(error)
-          @bus.push("<div class='pre error text'>#{errorString}</div>")
+          @postBus.push("<div class='pre error text'>#{errorString}</div>")
 
-      @emit.push({type: 'paths', paths: error.dirs})
+      @controllerBus.push({type: 'paths', paths: error.dirs})
 
       # unhandled rejection.
       # bluebird is now complaining
@@ -120,7 +120,7 @@ class Repl
     @sclang = this.makeSclang(options)
 
     onBoot = (response) =>
-      @emit.push({type: 'paths', paths: response.dirs})
+      @controllerBus.push({type: 'paths', paths: response.dirs})
       @sclang.storeSclangConf().then(pass, fail)
 
     try
@@ -141,13 +141,13 @@ class Repl
     sclang.on 'state', (state) =>
       @state = state
       if state
-        @bus.push("<div class='state #{state}'>#{state}</div>")
+        @postBus.push("<div class='state #{state}'>#{state}</div>")
         if state is 'ready'
           # if ready then emit that paths changed in case it's a programatic recompile
-          @emit.push({type: 'paths', paths: @sclang.compilePaths()})
+          @controllerBus.push({type: 'paths', paths: @sclang.compilePaths()})
 
     sclang.on 'exit', () =>
-      @bus.push("<div class='state dead'>sclang exited</div>")
+      @postBus.push("<div class='state dead'>sclang exited</div>")
       unless @recompiling
         if atom.config.get 'supercollider.growlOnError'
           growl("sclang exited", {title: "SuperCollider"})
@@ -157,17 +157,17 @@ class Repl
     sclang.on 'stdout', (d) =>
       d = rendering.cleanStdout(d)
       d = rendering.stylizeErrors(d)
-      @bus.push("<div class='pre stdout'>#{d}</div>")
+      @postBus.push("<div class='pre stdout'>#{d}</div>")
 
     sclang.on 'stderr', (d) =>
       d = rendering.cleanStdout(d)
       d = rendering.stylizeErrors(d)
-      @bus.push("<div class='pre stderr'>#{d}</div>")
+      @postBus.push("<div class='pre stderr'>#{d}</div>")
 
     sclang.on 'error', (err) =>
       errorTime = new Date()
       err.errorTime = errorTime
-      @bus.push rendering.renderError(err, null)
+      @postBus.push rendering.renderError(err, null)
       if atom.config.get 'supercollider.growlOnError'
         show = true
         if lastErrorTime?
@@ -183,7 +183,7 @@ class Repl
     opts = _.clone(options)
     if options.sclang
       if !fs.existsSync(options.sclang)
-        @bus.push("<div class='error-label'>Executable not found: #{options.sclang}</div>
+        @postBus.push("<div class='error-label'>Executable not found: #{options.sclang}</div>
           <div class='help'>Set the path to sclang in the atom-supercollider package settings.</div>
         ")
         # halt preflight here
@@ -192,7 +192,7 @@ class Repl
     if opts.sclang_conf
       conf = untildify(opts.sclang_conf)
       if !fs.existsSync(conf)
-        @bus.push("<div class='warning-label'>#{opts.sclang_conf} does not yet exist</div>
+        @postBus.push("<div class='warning-label'>#{opts.sclang_conf} does not yet exist</div>
           <div class='warning-label'>It will be created when you add Quarks</div>
         ")
 
@@ -203,15 +203,15 @@ class Repl
     deferred = Q.defer()
 
     ok = (result) =>
-      @bus.push "<div class='pre out'>#{result}</div>"
+      @postBus.push "<div class='pre out'>#{result}</div>"
       deferred.resolve(result)
 
     err = (error) =>
       deferred.reject(error)
       error.errorTime = new Date()
-      @bus.push rendering.renderError(error, expression)
+      @postBus.push rendering.renderError(error, expression)
       # dbug = JSON.stringify(error, undefined, 2)
-      # @bus.push "<div class='pre debug'>#{dbug}</div>"
+      # @postBus.push "<div class='pre debug'>#{dbug}</div>"
 
     @ready.promise.then =>
       noecho = true
@@ -220,7 +220,7 @@ class Repl
           echo = expression.substr(0, 80) + '...'
         else
           echo = expression
-        @bus.push "<div class='pre in'>#{echo}</div>"
+        @postBus.push "<div class='pre in'>#{echo}</div>"
 
       # expression path asString postErrors getBacktrace
       @sclang.interpret(expression, nowExecutingPath, true, false, true)
@@ -242,7 +242,7 @@ class Repl
     @state is 'ready'
 
   warnIsNotCompiled: ->
-    @bus.push "<div class='error stderr'>Library is not compiled</div>"
+    @postBus.push "<div class='error stderr'>Library is not compiled</div>"
 
   cmdPeriod: ->
     @eval("CmdPeriod.run;", true)
