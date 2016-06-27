@@ -316,7 +316,7 @@ class Controller
   _shouldManageFolder: (dir) ->
     if dir.realPath == @projectRoot
       return false
-    # if downloaded-quarks or SCClassLibrary or Extensions
+    # TODO: only if in downloaded-quarks or SCClassLibrary or Extensions
     return true
 
   updateProjectFolders: (dirs) ->
