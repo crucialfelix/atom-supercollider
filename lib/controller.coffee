@@ -30,6 +30,8 @@ class Controller
       'supercollider:eval', => @eval()
     atom.commands.add 'atom-workspace',
       'supercollider:open-help-file', => @openHelpFile()
+    atom.commands.add 'atom-workspace',
+      'supercollider:manage-quarks', => @manageQuarks()
 
     # open a REPL for sclang on this host/port
     atom.workspace.addOpener (uri, options) =>
@@ -331,3 +333,6 @@ class Controller
           # TODO: or does root already .contains(dir.realPath) ?
           if (!_.contains(included, dir.realPath))
             atom.project.removePath dir.realPath
+
+  manageQuarks: () ->
+    @evalWithRepl('Quarks.gui;')

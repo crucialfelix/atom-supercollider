@@ -28,7 +28,8 @@
       "supercollider:clear-post-window",
       "supercollider:open-help-file",
       "supercollider:recompile",
-      "supercollider:cmd-period"
+      "supercollider:cmd-period",
+      "supercollider:manage-quarks"
     ]
   }
 }
