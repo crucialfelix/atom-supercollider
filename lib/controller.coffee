@@ -329,10 +329,12 @@ class Controller
         included.push(dir)
 
       for dir in atom.project.getDirectories()
-        if @_shouldManageFolder(dir)
-          # TODO: or does root already .contains(dir.realPath) ?
-          if (!_.contains(included, dir.realPath))
-            atom.project.removePath dir.realPath
+        # for some reason atom is returning undefined dirs in rare cases
+        if dir
+          if @_shouldManageFolder(dir)
+            # TODO: or does root already .contains(dir.realPath) ?
+            if (!_.contains(included, dir.realPath))
+              atom.project.removePath dir.realPath
 
   manageQuarks: () ->
     @evalWithRepl('Quarks.gui;')
