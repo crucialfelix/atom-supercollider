@@ -11,7 +11,8 @@ class Controller
 
   constructor: (directory) ->
     @defaultURI = "sclang://localhost:57120"
-    @projectRoot = if directory then directory.path else ''
+    paths = atom.project.getPaths()
+    @projectRoot = if paths.length then paths[0] else null
     @repls = {}
     @activeRepl = null
     @markers = []
@@ -76,7 +77,8 @@ class Controller
         if e.error.index == 0
           @openToSyntaxError(e.error.file, e.error.line, e.error.char)
       when 'paths'
-        @updateProjectFolders(e.paths)
+        if atom.config.get 'supercollider.updateProjectFolders'
+          @updateProjectFolders(e.paths)
 
   openPostWindow: (uri) ->
     # @returns {Promise}
@@ -315,26 +317,10 @@ class Controller
         grammar = atom.grammars.grammarForScopeName @scScope
         editor.setGrammar grammar
 
-  _shouldManageFolder: (dir) ->
-    if dir.realPath == @projectRoot
-      return false
-    # TODO: only if in downloaded-quarks or SCClassLibrary or Extensions
-    return true
-
   updateProjectFolders: (dirs) ->
-    included = []
-    if atom.config.get 'supercollider.updateProjectFolders'
-      for dir in dirs
-        atom.project.addPath dir
-        included.push(dir)
-
-      for dir in atom.project.getDirectories()
-        # for some reason atom is returning undefined dirs in rare cases
-        if dir
-          if @_shouldManageFolder(dir)
-            # TODO: or does root already .contains(dir.realPath) ?
-            if (!_.contains(included, dir.realPath))
-              atom.project.removePath dir.realPath
+    personalPaths = atom.project.getPaths().filter((path) -> !path.match(/downloaded\-quarks|SCClassLibrary|Extensions|supercollider\-js/))
+    newPaths = personalPaths.concat(dirs)
+    atom.project.setPaths(newPaths)
 
   manageQuarks: () ->
     @evalWithRepl('Quarks.gui;')

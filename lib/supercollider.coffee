@@ -29,7 +29,7 @@ module.exports =
   activate: (state) ->
     if @controller
       return
-    @controller = new Controller(atom.project.getDirectories()[0])
+    @controller = new Controller()
     @controller.start()
 
   deactivate: ->
