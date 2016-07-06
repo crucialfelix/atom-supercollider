@@ -167,7 +167,7 @@ class Controller
     else
       # execute the line you are on
       pos = editor.getCursorBufferPosition()
-      row = editor.getCursorScreenPosition().row
+      row = pos.row
       if row?
         range = new Range([row, 0], [row + 1, 0])
         expression = editor.lineTextForBufferRow(row)
