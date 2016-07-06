@@ -302,13 +302,13 @@ class Controller
     marker = editor.markBufferRange(range, invalidate: 'touch')
     decoration = editor.decorateMarker(marker,
                     type: 'line',
-                    class: "eval-flash")
+                    class: 'eval-flash')
     # return fn to flash error/success and destroy the flash
     (cssClass) ->
       decoration.setProperties(type: 'line', class: cssClass)
       destroy = ->
         marker.destroy()
-      setTimeout(destroy, 100)
+      setTimeout(destroy, 607)
 
   startDefaultSession: () ->
     return if @editorIsSC()

@@ -245,9 +245,12 @@
   }
 }
 
-atom-text-editor::shadow .line {
-  transition: background-color, color 0.8s ease-out;
-  -webkit-transition: background-color, color 0.8s ease-out;
+atom-text-editor::shadow .line,
+atom-text-editor::shadow .line.cursor-line,
+atom-text-editor.is-focused.insert-mode::shadow .line.cursor-line
+ {
+  transition: background-color, color 1.2s ease-out;
+  -webkit-transition: background-color, color 1.2s ease-out;
   // &.line-green {
   //   background-color: @green-color;
   // }
