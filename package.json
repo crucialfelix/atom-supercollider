@@ -14,9 +14,9 @@
     "escape-html": "~1.0.3",
     "growl": "^1.9.2",
     "jquery": "^2",
-    "moment": "^2.13.0",
+    "moment": "^2.14.1",
     "q": "^1.2.0",
-    "supercolliderjs": "^0.11.2",
+    "supercolliderjs": "^0.11.3",
     "underscore": "^1.8.2",
     "untildify": "^3.0.2"
   },
