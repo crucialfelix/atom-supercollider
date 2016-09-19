@@ -6,10 +6,22 @@
 # the root workspace element.
 
 # For more detailed documentation see
-# https://atom.io/docs/latest/advanced/keymaps
+# http://flight-manual.atom.io/behind-atom/sections/keymaps-in-depth/
+
+# Windows and Linux
+'atom-workspace':
+  'ctrl-alt-k': 'supercollider:clear-post-window'
+"atom-workspace atom-text-editor[data-grammar~='supercollider']":
+  'ctrl-alt-l': 'supercollider:open-post-window'
+  'shift-enter': 'supercollider:eval'
+  'alt-.': 'supercollider:cmd-period'
+  'ctrl-alt-k': 'supercollider:clear-post-window'
+  'ctrl-shift-h': 'supercollider:open-help-file'
+
+# OS X
 '.platform-darwin atom-workspace':
   'shift-cmd-C': 'supercollider:clear-post-window'
-"atom-workspace atom-text-editor[data-grammar~='supercollider']":
+".platform-darwin atom-workspace atom-text-editor[data-grammar~='supercollider']":
   'cmd-\\': 'supercollider:open-post-window'
   'shift-enter': 'supercollider:eval'
   'shift-cmd-k': 'supercollider:recompile'
