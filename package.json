@@ -10,13 +10,13 @@
   },
   "dependencies": {
     "atom-space-pen-views": "^2.2.0",
-    "baconjs": "^0.7.84",
+    "baconjs": "^0.7.89",
     "escape-html": "~1.0.3",
     "growl": "^1.9.2",
     "jquery": "^2",
-    "moment": "^2.14.1",
+    "moment": "^2.17.1",
     "q": "^1.2.0",
-    "supercolliderjs": "^0.11.3",
+    "supercolliderjs": "^0.14.0",
     "underscore": "^1.8.2",
     "untildify": "^3.0.2"
   },
