@@ -38,11 +38,6 @@ class PostWindow extends ScrollView
   clearPostWindow: ->
     @posts.empty()
 
-  # these are just to satisfy atom's deprecation checkers
-  # that are worried that this ScrollView subclass still has 'on'
-  onDidChangeTitle: ->
-  onDidChangeModified: ->
-
   handleEvents: ->
     @subscribe this, 'core:copy', =>
       return false if @copyToClipboard()
