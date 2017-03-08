@@ -16,7 +16,7 @@
     "jquery": "^2",
     "moment": "^2.17.1",
     "q": "^1.2.0",
-    "supercolliderjs": "^0.14.0",
+    "supercolliderjs": "^0.14.1",
     "underscore": "^1.8.2",
     "untildify": "^3.0.2"
   },
