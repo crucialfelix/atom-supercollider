@@ -70,7 +70,7 @@
     'match': '^\\s*(\\**[a-z]{1}[a-zA-Z0-9_]+)\\s*\\{'
   }
   {
-    'match': '\\~[a-zA-Z0-9]+'
+    'match': '\\~[a-z][a-zA-Z0-9_]*',
     'name': 'variable.language.supercollider'
   }
   {
