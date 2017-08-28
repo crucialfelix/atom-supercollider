@@ -28,6 +28,14 @@ class Controller
     atom.commands.add 'atom-workspace',
       'supercollider:cmd-period', => @cmdPeriod()
     atom.commands.add 'atom-workspace',
+      'supercollider:boot-server', => @bootServer()
+    atom.commands.add 'atom-workspace',
+      'supercollider:quit-server', => @quitServer()
+    atom.commands.add 'atom-workspace',
+      'supercollider:reboot-server', => @rebootServer()
+    atom.commands.add 'atom-workspace',
+      'supercollider:kill-all-servers', => @killAllServers()
+    atom.commands.add 'atom-workspace',
       'supercollider:eval', => @eval()
     atom.commands.add 'atom-workspace',
       'supercollider:open-help-file', => @openHelpFile()
@@ -151,6 +159,18 @@ class Controller
 
   cmdPeriod: ->
     @activeRepl?.cmdPeriod()
+
+  bootServer: ->
+    @activeRepl?.bootServer()
+
+  quitServer: ->
+    @activeRepl?.quitServer()
+
+  rebootServer: ->
+    @activeRepl?.rebootServer()
+
+  killAllServers: ->
+    @activeRepl?.killAllServers()
 
   editorIsSC: ->
     editor = atom.workspace.getActiveTextEditor()

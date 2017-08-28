@@ -1,5 +1,5 @@
-PostWindow = require('./post-window')
 Bacon = require('baconjs')
+PostWindow = require('./post-window')
 url = require('url')
 os = require('os')
 Q = require('q')
@@ -246,6 +246,18 @@ class Repl
 
   cmdPeriod: ->
     @eval("CmdPeriod.run;", true)
+
+  bootServer: ->
+    @eval("Server.default.boot;", true)
+
+  quitServer: ->
+    @eval("Server.default.quit;", true)
+
+  rebootServer: ->
+    @eval("Server.default.reboot;", true)
+
+  killAllServers: ->
+    @eval("Server.killAll;", true)
 
   clearPostWindow: ->
     @postWindow.clearPostWindow()

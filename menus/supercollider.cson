@@ -21,6 +21,10 @@
         { 'label': 'Open post window', 'command': 'supercollider:open-post-window' }
         { 'label': 'Clear post window', 'command': 'supercollider:clear-post-window' }
         { 'label': 'Stop everything', 'command': 'supercollider:cmd-period' }
+        { 'label': 'Boot server', 'command': 'supercollider:boot-server' }
+        { 'label': 'Quit server', 'command': 'supercollider:quit-server' }
+        { 'label': 'Reboot server', 'command': 'supercollider:reboot-server' }
+        { 'label': 'Kill all servers', 'command': 'supercollider:kill-all-servers ' }
       ]
     ]
   }
