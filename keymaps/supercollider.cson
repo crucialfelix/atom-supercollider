@@ -10,12 +10,12 @@
 
 # Windows and Linux
 'atom-workspace':
-  'shift-alt-c': 'supercollider:clear-post-window'
+  'shift-alt-k': 'supercollider:clear-post-window'
 "atom-workspace atom-text-editor[data-grammar~='supercollider']":
   'ctrl-alt-l': 'supercollider:open-post-window'
   'shift-enter': 'supercollider:eval'
   'alt-.': 'supercollider:cmd-period'
-  'shift-alt-c': 'supercollider:clear-post-window'
+  'shift-alt-k': 'supercollider:clear-post-window'
   'ctrl-shift-h': 'supercollider:open-help-file'
   'alt-shift-b': 'supercollider:boot-server'
   'alt-shift-q': 'supercollider:quit-server'
