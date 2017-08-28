@@ -10,12 +10,12 @@
 
 # Windows and Linux
 'atom-workspace':
-  'shift-alt-k': 'supercollider:clear-post-window'
+  'shift-alt-c': 'supercollider:clear-post-window'
 "atom-workspace atom-text-editor[data-grammar~='supercollider']":
   'ctrl-alt-l': 'supercollider:open-post-window'
   'shift-enter': 'supercollider:eval'
   'alt-.': 'supercollider:cmd-period'
-  'shift-alt-k': 'supercollider:clear-post-window'
+  'shift-alt-c': 'supercollider:clear-post-window'
   'ctrl-shift-h': 'supercollider:open-help-file'
   'alt-shift-b': 'supercollider:boot-server'
   'alt-shift-q': 'supercollider:quit-server'
@@ -29,6 +29,8 @@
   'shift-cmd-k': 'supercollider:recompile'
   'cmd-.': 'supercollider:cmd-period'
   'shift-cmd-C': 'supercollider:clear-post-window'
+  'shift-cmd-B': 'supercollider:boot-server'
+  'shift-cmd-Q': 'supercollider:quit-server'
   # you may add these to your personal keymaps
   # scope dependant keymaps are an upcoming atom feature
   # cmd-D is far too popular
