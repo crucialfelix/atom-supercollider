@@ -247,17 +247,5 @@ class Repl
   cmdPeriod: ->
     @eval("CmdPeriod.run;", true)
 
-  bootServer: ->
-    @eval("Server.default.boot;", true)
-
-  quitServer: ->
-    @eval("Server.default.quit;", true)
-
-  rebootServer: ->
-    @eval("Server.default.reboot;", true)
-
-  killAllServers: ->
-    @eval("Server.killAll;", true)
-
   clearPostWindow: ->
     @postWindow.clearPostWindow()

@@ -138,7 +138,7 @@ class Controller
       currentView = atom.views.getView atom.workspace.getActiveTextEditor()
 
       options =
-        split: 'right'
+        split: 'down' # custom: split pane down (my preference)
         searchAllPanes: true
       atom.workspace.open(uri, options)
         .then () =>
@@ -160,17 +160,17 @@ class Controller
   cmdPeriod: ->
     @activeRepl?.cmdPeriod()
 
-  bootServer: ->
-    @activeRepl?.bootServer()
+  bootServer: () ->
+    @evalWithRepl('Server.default.boot;')
 
-  quitServer: ->
-    @activeRepl?.quitServer()
+  quitServer: () ->
+    @evalWithRepl('Server.default.quit;')
 
-  rebootServer: ->
-    @activeRepl?.rebootServer()
+  rebootServer: () ->
+    @evalWithRepl('Server.default.reboot;')
 
-  killAllServers: ->
-    @activeRepl?.killAllServers()
+  killAllServers: () ->
+    @evalWithRepl('Server.killAll;')
 
   editorIsSC: ->
     editor = atom.workspace.getActiveTextEditor()
