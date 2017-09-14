@@ -8,7 +8,7 @@
 'name': 'SuperCollider'
 'patterns': [
   {
-    'match': '\\b(arg|var|classvar|this|thisThread|thisMethod|thisFunction|thisProcess|true|false|inf|nil)\\b'
+    'match': '\\b(arg|var|classvar|const|this|thisThread|thisMethod|thisFunction|thisProcess|true|false|inf|nil)\\b'
     'name': 'keyword.control.supercollider'
   }
   {
