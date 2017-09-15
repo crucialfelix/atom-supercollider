@@ -1,6 +1,6 @@
 # See https://atom.io/docs/latest/creating-a-package#menus for more details
 'context-menu':
-  'atom-workspace': [
+  'atom-text-editor[data-grammar~=\'supercollider\']': [
     {
       label: 'SuperCollider: Evaluate selection',
       command: 'supercollider:eval'
