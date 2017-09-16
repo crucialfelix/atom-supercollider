@@ -17,6 +17,14 @@ class Controller
     @activeRepl = null
     @markers = []
     @scScope = 'source.supercollider'
+    @provider =
+      selector: '.source.supercollider'
+      inclusionPriority: 1
+      # excludeLowerPriority: true
+      filterSuggestions: true
+      getSuggestions: (options) =>
+        @activeRepl.getSuggestions(options)
+
 
   start: ->
     atom.commands.add 'atom-workspace',

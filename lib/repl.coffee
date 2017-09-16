@@ -1,4 +1,5 @@
 PostWindow = require('./post-window')
+AutoCompleter = require('./autocomplete')
 Bacon = require('baconjs')
 url = require('url')
 os = require('os')
@@ -23,6 +24,7 @@ class Repl
     @makeBus()
     @state = null
     @debug = atom.config.get 'supercollider.debug'
+    @autocompleter = new AutoCompleter()
     if @debug
       console.log 'Supercollider REPL [DEBUG=true]'
 
@@ -37,6 +39,14 @@ class Repl
       @onClose()
 
     @postWindow = new PostWindow(@uri, @postBus, onClose)
+
+  updateClassList: () ->
+    @eval('Class.allClasses', false, null, false)
+      .then (result) =>
+        @autocompleter.setClasses(result)
+
+  getSuggestions: (options) ->
+    @autocompleter.getSuggestions(options)
 
   makeBus: ->
     @postBus = new Bacon.Bus()
@@ -80,6 +90,7 @@ class Repl
       if @debug
         console.log 'booted'
       @ready.resolve()
+      @updateClassList()
 
     fail = (error) =>
       # dirs
@@ -198,12 +209,14 @@ class Repl
 
     return opts
 
-  eval: (expression, noecho=false, nowExecutingPath=null) ->
+  eval: (expression, noecho=false, nowExecutingPath=null, returnString=true) ->
 
     deferred = Q.defer()
 
     ok = (result) =>
-      @postBus.push "<div class='pre out'>#{result}</div>"
+      # we need to convert to string for printing if our output is a JSON object
+      printable = if returnString then result else JSON.stringify(result)
+      @postBus.push "<div class='pre out'>#{printable}</div>"
       deferred.resolve(result)
 
     err = (error) =>
@@ -223,7 +236,7 @@ class Repl
         @postBus.push "<div class='pre in'>#{echo}</div>"
 
       # expression path asString postErrors getBacktrace
-      @sclang.interpret(expression, nowExecutingPath, true, false, true)
+      @sclang.interpret(expression, nowExecutingPath, returnString, false, true)
         .then(ok, err)
 
     deferred.promise

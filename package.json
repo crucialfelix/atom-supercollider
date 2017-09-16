@@ -31,5 +31,12 @@
       "supercollider:cmd-period",
       "supercollider:manage-quarks"
     ]
+  },
+  "providedServices": {
+    "autocomplete.provider": {
+      "versions": {
+        "2.0.0": "provide"
+      }
+    }
   }
 }

@@ -38,3 +38,6 @@ module.exports =
 
   serialize: ->
     {}
+
+  provide: () ->
+    @controller.provider
