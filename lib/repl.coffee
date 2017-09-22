@@ -24,7 +24,7 @@ class Repl
     @makeBus()
     @state = null
     @debug = atom.config.get 'supercollider.debug'
-    @autocompleter = new AutoCompleter()
+    @autocompleter = new AutoCompleter(@)
     if @debug
       console.log 'Supercollider REPL [DEBUG=true]'
 
@@ -39,11 +39,6 @@ class Repl
       @onClose()
 
     @postWindow = new PostWindow(@uri, @postBus, onClose)
-
-  updateClassList: () ->
-    @eval('Class.allClasses', false, null, false)
-      .then (result) =>
-        @autocompleter.setClasses(result)
 
   getSuggestions: (options) ->
     @autocompleter.getSuggestions(options)
@@ -90,7 +85,7 @@ class Repl
       if @debug
         console.log 'booted'
       @ready.resolve()
-      @updateClassList()
+      @autocompleter.updateClassList()
 
     fail = (error) =>
       # dirs
