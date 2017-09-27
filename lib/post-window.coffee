@@ -13,8 +13,12 @@ class PostWindow extends ScrollView
       if @destroyed
         Bacon.NoMore
       else
-        @addMessage(msg)
-        @scrollToBottom()
+        # only scroll to the bottom if we're already at the bottom
+        if @scrollBottom() >= @element.scrollHeight - 50
+          @addMessage(msg)
+          @scrollToBottom()
+        else
+          @addMessage(msg)
 
   serialize: ->
 
