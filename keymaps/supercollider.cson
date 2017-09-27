@@ -22,15 +22,15 @@
 
 # OS X
 '.platform-darwin atom-workspace':
-  'shift-cmd-C': 'supercollider:clear-post-window'
-".platform-darwin atom-workspace atom-text-editor[data-grammar~='supercollider']":
+  'shift-cmd-c': 'supercollider:clear-post-window'
+".platform-darwin atom-text-editor[data-grammar~='supercollider']":
   'cmd-\\': 'supercollider:open-post-window'
   'shift-enter': 'supercollider:eval'
   'shift-cmd-k': 'supercollider:recompile'
   'cmd-.': 'supercollider:cmd-period'
-  'shift-cmd-C': 'supercollider:clear-post-window'
-  'shift-cmd-B': 'supercollider:boot-server'
-  'shift-cmd-Q': 'supercollider:quit-server'
+  'shift-cmd-c': 'supercollider:clear-post-window'
+  'alt-shift-b': 'supercollider:boot-server'
+  'alt-shift-q': 'supercollider:quit-server'
   # you may add these to your personal keymaps
   # scope dependant keymaps are an upcoming atom feature
   # cmd-D is far too popular
