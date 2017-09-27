@@ -25,6 +25,10 @@ module.exports =
       type: 'boolean'
       default: false
       description: 'Post additional debugging information to the Atom console'
+    openPostWindowOn:
+      type: 'string'
+      default: 'right'
+      description: 'Open post window by default on right | down'
 
   activate: (state) ->
     if @controller

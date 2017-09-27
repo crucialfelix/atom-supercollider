@@ -138,7 +138,7 @@ class Controller
       currentView = atom.views.getView atom.workspace.getActiveTextEditor()
 
       options =
-        split: 'down' # custom: split pane down (my preference)
+        split: (atom.config.get 'openPostWindowOn') || 'right'
         searchAllPanes: true
       atom.workspace.open(uri, options)
         .then () =>
