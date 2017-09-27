@@ -10,23 +10,27 @@
 
 # Windows and Linux
 'atom-workspace':
-  'ctrl-alt-k': 'supercollider:clear-post-window'
+  'shift-alt-k': 'supercollider:clear-post-window'
 "atom-workspace atom-text-editor[data-grammar~='supercollider']":
   'ctrl-alt-l': 'supercollider:open-post-window'
   'shift-enter': 'supercollider:eval'
   'alt-.': 'supercollider:cmd-period'
-  'ctrl-alt-k': 'supercollider:clear-post-window'
+  'shift-alt-k': 'supercollider:clear-post-window'
   'ctrl-shift-h': 'supercollider:open-help-file'
+  'alt-shift-b': 'supercollider:boot-server'
+  'alt-shift-q': 'supercollider:quit-server'
 
 # OS X
 '.platform-darwin atom-workspace':
-  'shift-cmd-C': 'supercollider:clear-post-window'
-".platform-darwin atom-workspace atom-text-editor[data-grammar~='supercollider']":
+  'shift-cmd-c': 'supercollider:clear-post-window'
+".platform-darwin atom-text-editor[data-grammar~='supercollider']":
   'cmd-\\': 'supercollider:open-post-window'
   'shift-enter': 'supercollider:eval'
   'shift-cmd-k': 'supercollider:recompile'
   'cmd-.': 'supercollider:cmd-period'
-  'shift-cmd-C': 'supercollider:clear-post-window'
+  'shift-cmd-c': 'supercollider:clear-post-window'
+  'alt-shift-b': 'supercollider:boot-server'
+  'alt-shift-q': 'supercollider:quit-server'
   # you may add these to your personal keymaps
   # scope dependant keymaps are an upcoming atom feature
   # cmd-D is far too popular

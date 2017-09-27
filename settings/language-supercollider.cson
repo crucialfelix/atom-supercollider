@@ -1,0 +1,6 @@
+'.source.supercollider':
+  'editor':
+    'autoIndentOnPaste': true
+    'softTabs': false
+    'tabLength': 4
+    'commentStart': '// '

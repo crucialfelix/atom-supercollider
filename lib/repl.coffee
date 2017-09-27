@@ -1,5 +1,5 @@
-PostWindow = require('./post-window')
 Bacon = require('baconjs')
+PostWindow = require('./post-window')
 url = require('url')
 os = require('os')
 Q = require('q')

@@ -99,6 +99,9 @@ Open commands in Atom with `command-shift-P` and type `superc` to filter by supe
 - 'supercollider:clear-post-window'
 - 'supercollider:cmd-period'
 - 'supercollider:eval'
+- 'supercollider:boot-server'
+- 'supercollider:quit-server'
+- 'supercollider:kill-all-servers'
 - 'supercollider:open-help-file'
 - 'supercollider:manage-quarks'
 
@@ -111,6 +114,8 @@ Some commands are also available if you right-click on a word and check the cont
 | `shift-cmd-K`    | Compile library (open window if needed)         |
 | `shift-enter`    | Evaluate selection or current line              |
 | `shift-cmd-C`    | Clear post window                               |
+| `shift-alt-b`    | Boot the default server                         |
+| `shift-alt-q`    | Quit the default server                         |
 | `cmd-.`          | Panic ! Stop all music                          |
 
 
