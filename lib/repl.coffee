@@ -172,7 +172,7 @@ class Repl
         show = true
         if lastErrorTime?
           show = (errorTime - lastErrorTime) > 1000
-        if show
+        if show and err.error.errorString
           growl(err.error.errorString, {title: 'SuperCollider'})
         lastErrorTime = errorTime
 
