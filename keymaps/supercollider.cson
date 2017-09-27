@@ -23,7 +23,7 @@
 # OS X
 '.platform-darwin atom-workspace':
   'shift-cmd-c': 'supercollider:clear-post-window'
-".platform-darwin atom-text-editor[data-grammar~='supercollider']":
+".platform-darwin atom-workspace atom-text-editor[data-grammar~='supercollider']":
   'cmd-\\': 'supercollider:open-post-window'
   'shift-enter': 'supercollider:eval'
   'shift-cmd-k': 'supercollider:recompile'
@@ -31,9 +31,4 @@
   'shift-cmd-c': 'supercollider:clear-post-window'
   'alt-shift-b': 'supercollider:boot-server'
   'alt-shift-q': 'supercollider:quit-server'
-  # you may add these to your personal keymaps
-  # scope dependant keymaps are an upcoming atom feature
-  # cmd-D is far too popular
-  # cmd-shift-h conflicts with git-plus
-  # cmd-? would be great but cuts off atom's own help system
-  # 'cmd-shift-h': 'supercollider:open-help-file'
+  'ctrl-shift-h': 'supercollider:open-help-file'

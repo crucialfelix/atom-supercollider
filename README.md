@@ -117,6 +117,7 @@ Some commands are also available if you right-click on a word and check the cont
 | `shift-alt-b`    | Boot the default server                         |
 | `shift-alt-q`    | Quit the default server                         |
 | `cmd-.`          | Panic ! Stop all music                          |
+| `ctrl-shift-h`   | Open SuperCollider help file for selected text  |
 
 
 You may customize these in your own Keymap file.
