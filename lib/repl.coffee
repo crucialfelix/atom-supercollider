@@ -204,14 +204,16 @@ class Repl
 
     return opts
 
-  eval: (expression, noecho=false, nowExecutingPath=null, returnString=true) ->
+  eval: (expression, noecho=false, nowExecutingPath=null,
+         returnString=true, printResult=true) ->
 
     deferred = Q.defer()
 
     ok = (result) =>
-      # we need to convert to string for printing if our output is a JSON object
-      printable = if returnString then result else JSON.stringify(result)
-      @postBus.push "<div class='pre out'>#{printable}</div>"
+      if printResult
+        # we need to convert to string for printing if our output is a JSON object
+        printable = if returnString then result else JSON.stringify(result)
+        @postBus.push "<div class='pre out'>#{printable}</div>"
       deferred.resolve(result)
 
     err = (error) =>
