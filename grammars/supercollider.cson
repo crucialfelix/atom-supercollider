@@ -59,6 +59,11 @@
         'name': 'entity.name.class.supercollider'
     'match': '[^a-zA-Z0-9\\\\]([A-Z_]{1}[a-zA-Z0-9_]*)[^a-zA-Z0-9_]'
   }
+    # attempting to get arguments in the form *: to highlight...
+  {
+    'match': '([a-zA-Z\d])+:'
+    'name': 'entity.name.argument.supercollider'
+  }
   {
     'match': '\\\\[a-zA-Z0-9\\_]+'
     'name': 'entity.name.symbol.supercollider'

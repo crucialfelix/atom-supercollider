@@ -30,6 +30,8 @@ class Controller
     atom.commands.add 'atom-workspace',
       'supercollider:boot-server', => @bootServer()
     atom.commands.add 'atom-workspace',
+      'supercollider:quit-lang', => @quitLang()
+    atom.commands.add 'atom-workspace',
       'supercollider:quit-server', => @quitServer()
     atom.commands.add 'atom-workspace',
       'supercollider:reboot-server', => @rebootServer()
@@ -138,7 +140,7 @@ class Controller
       currentView = atom.views.getView atom.workspace.getActiveTextEditor()
 
       options =
-        split: (atom.config.get 'openPostWindowOn') || 'right'
+        split: (atom.config.get 'openPostWindowOn') || 'down'
         searchAllPanes: true
       atom.workspace.open(uri, options)
         .then () =>
@@ -165,6 +167,9 @@ class Controller
 
   quitServer: () ->
     @evalWithRepl('Server.default.quit;')
+
+  quitLang: () ->
+    @evalWithRepl('0.exit;')
 
   rebootServer: () ->
     @evalWithRepl('Server.default.reboot;')

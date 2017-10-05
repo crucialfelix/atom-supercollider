@@ -10,15 +10,17 @@
 
 # Windows and Linux
 'atom-workspace':
-  'shift-alt-k': 'supercollider:clear-post-window'
+  'shift-alt-c': 'supercollider:clear-post-window'
 "atom-workspace atom-text-editor[data-grammar~='supercollider']":
+  'shift-alt-k': 'supercollider:recompile'
   'ctrl-alt-l': 'supercollider:open-post-window'
   'shift-enter': 'supercollider:eval'
   'alt-.': 'supercollider:cmd-period'
-  'shift-alt-k': 'supercollider:clear-post-window'
+  'shift-alt-c': 'supercollider:clear-post-window'
   'ctrl-shift-h': 'supercollider:open-help-file'
   'alt-shift-b': 'supercollider:boot-server'
   'alt-shift-q': 'supercollider:quit-server'
+  'alt-shift-q-l': 'supercollider:quit-lang'
 
 # OS X
 '.platform-darwin atom-workspace':
