@@ -2,5 +2,5 @@
   'editor':
     'autoIndentOnPaste': true
     'softTabs': false
-    'tabLength': 4
+    'tabLength': 2
     'commentStart': '// '
