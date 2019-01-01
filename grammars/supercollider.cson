@@ -8,7 +8,7 @@
 'name': 'SuperCollider'
 'patterns': [
   {
-    'match': '\\b(arg|var|classvar|const|this|thisThread|thisMethod|thisFunction|thisProcess|true|false|inf|nil|for|forBy|if|switch|which|case|pi)\\b'
+    'match': '\\b(arg|var|classvar|const|this|thisThread|thisMethod|thisFunction|thisProcess|true|false|inf|nil|for|forBy|if|switch|which|case|pi|while)\\b'
     'name': 'keyword.control.supercollider'
   }
   {
@@ -59,11 +59,6 @@
         'name': 'entity.name.class.supercollider'
     'match': '[^a-zA-Z0-9\\\\]([A-Z_]{1}[a-zA-Z0-9_]*)[^a-zA-Z0-9_]'
   }
-    # attempting to get arguments in the form *: to highlight... (Note: hack fix in syntax files. See woolgathering-light/dark-syntax)
-  {
-    'match': '([a-zA-Z\d])+:'
-    'name': 'entity.name.argument.supercollider'
-  }
   # find *pi as keyword
   {
     'match': '([0-9\d])+pi'
@@ -91,6 +86,10 @@
     'begin': '\\/\\*'
     'end': '\\*\\/'
     'name': 'comment.multiline.supercollider'
+  }
+  {
+    'match': '(^[a-z]{1}\\w+)(?=\\()'
+    'name': 'entity.name.functional-name.supercollider'
   }
   {
     'comment': 'source: ruby bundle'
