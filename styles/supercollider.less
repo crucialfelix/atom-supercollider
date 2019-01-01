@@ -317,14 +317,3 @@ atom-text-editor.editor.is-focused.insert-mode .line.cursor-line
 .unfolder:checked ~ label .unfold-icon {
   display: none;
 }
-// a hack for the syntax colors
-// because most syntax themes do not
-// specify a color for symbol
-span.entity.name.symbol {
-  color: @syntax-color-tag;
-}
-
-// trying to get arguments in the form *: to highlight...
-span.entity.name.argument {
-  color: @syntax-color-tag;
-}
