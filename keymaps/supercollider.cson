@@ -20,7 +20,7 @@
   'ctrl-shift-h': 'supercollider:open-help-file'
   'alt-shift-b': 'supercollider:boot-server'
   'alt-shift-q': 'supercollider:quit-server'
-  'shift-alt-x': 'supercollider:quit-lang'
+  'shift-alt-ctrl-x': 'supercollider:quit-lang'
 
 # OS X
 '.platform-darwin atom-workspace':
