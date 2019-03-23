@@ -24,6 +24,7 @@
   "activationCommands": {
     "atom-workspace": [
       "supercollider:eval",
+      "supercollider:evalBlock",
       "supercollider:open-post-window",
       "supercollider:clear-post-window",
       "supercollider:open-help-file",
