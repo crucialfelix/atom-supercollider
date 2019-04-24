@@ -38,6 +38,8 @@ class Controller
     atom.commands.add 'atom-workspace',
       'supercollider:eval', => @eval()
     atom.commands.add 'atom-workspace',
+      'supercollider:evalBlock', => @evalBlock()
+    atom.commands.add 'atom-workspace',
       'supercollider:open-help-file', => @openHelpFile()
     atom.commands.add 'atom-workspace',
       'supercollider:manage-quarks', => @manageQuarks()
@@ -205,6 +207,59 @@ class Controller
     return unless @editorIsSC()
     [expression, range] = @currentExpression()
     @evalWithRepl(expression, @currentPath(), range)
+
+  # Takes an editor and the position of a brace found in scanning and Determines
+  # if the brace found at that position can be ignored. If the brace is in a
+  # comment or inside a string it can be ignored.
+  isIgnorableBrace: (editor, pos)->
+    scopes = editor.scopeDescriptorForBufferPosition(pos).scopes
+    scopes.indexOf("string.quoted.double.supercollider") >= 0 ||
+      scopes.indexOf("comment.single.supercollider") >= 0 ||
+      scopes.indexOf("comment.multiline.supercollider") >= 0 ||
+      scopes.indexOf("entity.name.symbol.supercollider") >= 0
+
+  # Constructs a list of `Range`s, one for each top level form.
+  getTopLevelRanges:  (editor) ->
+    ranges = []
+    braceOpened = 0
+    inTopLevelComment = false
+    rex = /[\{\}\[\]\(\)]/g
+    editor.scan rex, (result) =>
+      if !(@isIgnorableBrace(editor, result.range.start))
+        matchesComment = result.matchText.match(/^\(comment\s/)
+        if matchesComment and braceOpened == 0
+          inTopLevelComment = true
+        c = ""+result.match[0]
+        if ["(","{","["].indexOf(c) >= 0 or matchesComment
+          if (braceOpened == 1 and inTopLevelComment == true) or
+             (braceOpened == 0 and inTopLevelComment == false)
+            ranges.push([result.range.start])
+          braceOpened++
+        else if [")","}","]"].indexOf(c) >= 0
+          braceOpened--
+          if (braceOpened == 1 and inTopLevelComment == true) or
+             (braceOpened == 0 and inTopLevelComment == false)
+            ranges[ranges.length - 1].push(result.range.end)
+          if braceOpened == 0 and inTopLevelComment == true
+            inTopLevelComment = false
+    ranges
+      .filter((range) -> range.length == 2)
+      .map((range) -> Range.fromObject(range))
+
+  getCursorInTopBlockRange: (editor)->
+    pos = editor.getCursorBufferPosition()
+    topLevelRanges = @getTopLevelRanges(editor)
+    topLevelRanges.find (range) -> range.containsPoint(pos)
+
+  evalBlock: ->
+    return unless @editorIsSC()
+    editor = atom.workspace.getActiveTextEditor()
+    try
+      range = @getCursorInTopBlockRange(editor)
+      expression = editor.getTextInBufferRange(range).trim()
+      @evalWithRepl(expression, @currentPath(), range)
+    catch e
+      @eval()
 
   evalWithRepl: (expression, path, range) ->
     @destroyMarkers()
