@@ -200,6 +200,9 @@ See the [supercollider.js configuration documentation](http://supercolliderjs.re
 
 `"C:\Program Files\SuperCollider\sclang.exe"`
 
+## Themes
+
+A couple SuperCollider-specific themes have been created to add symbol colorization, argument tags, argument parameters in pipes, and function names when using functional notation: [Woolgathering Light Syntax](https://atom.io/themes/woolgathering-light-syntax) and [Woolgathering Dark Syntax](https://atom.io/themes/woolgathering-dark-syntax).
 
 ## Missing Features
 
