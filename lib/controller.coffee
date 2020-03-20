@@ -30,6 +30,8 @@ class Controller
     atom.commands.add 'atom-workspace',
       'supercollider:boot-server', => @bootServer()
     atom.commands.add 'atom-workspace',
+      'supercollider:quit-lang', => @quitLang()
+    atom.commands.add 'atom-workspace',
       'supercollider:quit-server', => @quitServer()
     atom.commands.add 'atom-workspace',
       'supercollider:reboot-server', => @rebootServer()
@@ -167,6 +169,9 @@ class Controller
 
   quitServer: () ->
     @evalWithRepl('Server.default.quit;')
+
+  quitLang: () ->
+    @evalWithRepl('0.exit;')
 
   rebootServer: () ->
     @evalWithRepl('Server.default.reboot;')
