@@ -8,7 +8,7 @@
 'name': 'SuperCollider'
 'patterns': [
   {
-    'match': '\\b(arg|var|classvar|const|this|thisThread|thisMethod|thisFunction|thisProcess|true|false|inf|nil|for|forBy|if|switch|which|case|pi|while)\\b'
+    'match': '\\b(arg|var|classvar|const|this|thisThread|thisMethod|thisFunction|thisProcess|true|false|inf|nil|for|forBy|if|switch|which|case|pi|super|const)\\b'
     'name': 'keyword.control.supercollider'
   }
   {
@@ -59,10 +59,18 @@
         'name': 'entity.name.class.supercollider'
     'match': '[^a-zA-Z0-9\\\\]([A-Z_]{1}[a-zA-Z0-9_]*)[^a-zA-Z0-9_]'
   }
+  {
+    'match': '([a-zA-Z\d])+:'
+    'name': 'entity.name.argument.supercollider'
+  }
   # find *pi as keyword
   {
     'match': '([0-9\d])+pi'
     'name': 'keyword.control.supercollider'
+  }
+  {
+    'match': '^(?<=\s)([a-zA-Z\d])+(?=\(.\))'
+    'name': 'entity.name.functionname.supercollider'
   }
   {
     'match': '\\\\[a-zA-Z0-9\\_]+'
