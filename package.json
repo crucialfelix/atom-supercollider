@@ -13,7 +13,7 @@
     "baconjs": "^0.7.95",
     "escape-html": "~1.0.3",
     "growl": "^1.10.2",
-    "jquery": "^2",
+    "jquery": "^3",
     "moment": "^2.18.1",
     "q": "^1.5.0",
     "supercolliderjs": "^0.14.2",
