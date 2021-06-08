@@ -142,7 +142,7 @@ class Controller
       currentView = atom.views.getView atom.workspace.getActiveTextEditor()
 
       options =
-        split: (atom.config.get 'openPostWindowOn') || 'right'
+        location: (atom.config.get 'openPostWindowOn') || 'right'
         searchAllPanes: true
       atom.workspace.open(uri, options)
         .then () =>
